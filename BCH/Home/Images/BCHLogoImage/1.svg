@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Bike Car Hub"><title>Bike Car Hub</title><g>
+<circle cx="60" cy="60" r="48" fill="none" stroke="#FFFFFF" stroke-width="10"/>
+<path d="M8 58 Q24 46 42 56 L78 56 Q96 46 112 58" fill="none" stroke="#FFC300" stroke-width="6" stroke-linecap="round"/>
+<line x1="4" y1="58" x2="16" y2="53" stroke="#FFC300" stroke-width="11" stroke-linecap="round"/>
+<line x1="104" y1="53" x2="116" y2="58" stroke="#FFC300" stroke-width="11" stroke-linecap="round"/>
+<line x1="60" y1="70" x2="60" y2="106" stroke="#FFFFFF" stroke-width="7"/>
+<circle cx="60" cy="60" r="12" fill="#FFC300"/>
+</g></svg>

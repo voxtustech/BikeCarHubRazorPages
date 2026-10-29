@@ -1,0 +1,5 @@
+Prerequisite:
+1.In home Page there is navbar having logo on left side and BCH text and then with even space we have links to Home,Blogs,Compare,EMi Calculator, Ask a Question ando right side of this navbar we have sign in button.
+2.In Home Page we have first Header, Hero Section then Blog Section, then Value for Money section, Upcomming Bike and then Latest News section,and then all Brand Section and then Compare Bikes section and then footer
+3.In all of these 4 sections :Blog Section, then Value for Money section, Upcomming Bike and then Latest News section we are fetching latest 5 articles from database in descending order of Date.
+4.In Hero Section, we have images and text over it coming fron database and on right side there is a card having In this search  card either we can select only i)Brand or ii)Brand and model or iii)Brand and budget and then only search button enabled and then navigate to the corresponding bike detail page selected accordingly to the filters.
