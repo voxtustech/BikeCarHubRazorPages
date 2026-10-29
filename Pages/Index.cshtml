@@ -1,0 +1,425 @@
+@page
+@model IndexModel
+@{
+    Layout = "_HomeLayout";
+    var slides = Model.Editorial.HeroSlides;
+    var today = DateTime.Today;
+}
+
+<section class="hero">
+    <div class="wrap hero-grid">
+        <div class="hero-copy">
+            <p class="eyebrow">India's two-wheeler guide</p>
+            <h1>Find the ride that fits <span class="hl">your road.</span></h1>
+            <p class="hero-sub">Prices, specifications and side-by-side comparisons for every new bike and scooter on sale in India.</p>
+
+            <form class="finder" method="get" action="/search" data-bike-search aria-label="Find a bike">
+                <div class="finder-field">
+                    <label for="find-brand">Brand</label>
+                    <select id="find-brand" name="brand" required data-brand-select>
+                        <option value="">Choose a brand</option>
+                        @foreach (var brand in Model.Catalog.Brands)
+                        {
+                            <option value="@brand.Slug">@brand.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="finder-field">
+                    <label for="find-model">Model</label>
+                    <select id="find-model" name="model" data-model-select>
+                        <option value="">Any model</option>
+                        @foreach (var brand in Model.Catalog.Brands)
+                        {
+                            <optgroup label="@brand.Name" data-brand="@brand.Slug">
+                                @foreach (var bike in brand.Bikes)
+                                {
+                                    <option value="@bike.Slug" data-brand="@brand.Slug">@bike.Name</option>
+                                }
+                            </optgroup>
+                        }
+                    </select>
+                </div>
+                <div class="finder-field">
+                    <label for="find-budget">Budget</label>
+                    <select id="find-budget" name="budget" data-budget-select>
+                        <option value="">Any budget</option>
+                        @foreach (var (value, label) in IndexModel.Budgets)
+                        {
+                            <option value="@value">@label</option>
+                        }
+                    </select>
+                </div>
+                <button class="btn btn-go" type="submit" data-search-button>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                    Search
+                </button>
+                <p class="finder-hint">Pick a brand, then narrow it by model or by budget.</p>
+            </form>
+
+            <dl class="stats">
+                <div><dt>Models</dt><dd>@Model.Catalog.Bikes.Count</dd></div>
+                <div><dt>Brands</dt><dd>@Model.Catalog.Brands.Count</dd></div>
+                <div><dt>Variants</dt><dd>@Model.VariantCount</dd></div>
+            </dl>
+        </div>
+
+        @if (slides.Count > 0)
+        {
+            <div class="showcase" aria-label="Featured">
+                @for (var i = 0; i < slides.Count; i++)
+                {
+                    var slide = slides[i];
+                    <figure class="shot @(i == 0 ? "is-active" : null)" data-hero-slide>
+                        @Html.Img(slide.ImagePath, slide.Featured ?? slide.Title, 900, 620, eager: true, highPriority: i == 0)
+                        <figcaption>
+                            @if (slide.Badge is not null)
+                            {
+                                <span class="tag">@slide.Badge</span>
+                            }
+                            <p class="shot-title">@slide.Title</p>
+                            @if (slide.Featured is not null)
+                            {
+                                <p class="shot-meta">@slide.Featured@(slide.Price is not null ? $" · {slide.Price}" : "")</p>
+                            }
+                        </figcaption>
+                    </figure>
+                }
+                @if (slides.Count > 1)
+                {
+                    <div class="shot-dots">
+                        @for (var i = 0; i < slides.Count; i++)
+                        {
+                            <button type="button" class="@(i == 0 ? "is-active" : null)" data-hero-dot aria-label="Show feature @(i + 1)"></button>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</section>
+
+@if (Model.LeadStory is not null || Model.News.Count > 0)
+{
+    <section class="band band-tint" aria-labelledby="stories-heading">
+        <div class="wrap">
+            <div class="head">
+                <div>
+                    <p class="eyebrow dark">Read before you ride</p>
+                    <h2 id="stories-heading">Stories and news</h2>
+                </div>
+                <div class="head-actions">
+                    <a class="more" href="/blog">All blogs</a>
+                    <a class="more" href="/news">All news</a>
+                </div>
+            </div>
+            <div class="bento">
+                @if (Model.LeadStory is { } lead)
+                {
+                    <a class="lead" href="@lead.Url">
+                        @Html.Img(lead.ImagePath, lead.Title, 820, 520)
+                        <span class="lead-text">
+                            <span class="tag">Blog</span>
+                            <span class="lead-title">@lead.Title</span>
+                            <span class="lead-date">@Html.DateText(lead.Date)</span>
+                        </span>
+                    </a>
+                }
+                <div class="bento-side">
+                    @foreach (var story in Model.MoreStories)
+                    {
+                        <a class="story" href="@story.Url">
+                            <span class="story-media">@Html.Img(story.ImagePath, story.Title, 160, 110)</span>
+                            <span>
+                                <span class="story-kind">Blog · @Html.DateText(story.Date)</span>
+                                <span class="story-title">@story.Title</span>
+                            </span>
+                        </a>
+                    }
+                    @foreach (var story in Model.News)
+                    {
+                        <a class="story" href="@story.Url">
+                            <span class="story-media">@Html.Img(story.ImagePath, story.Title, 160, 110)</span>
+                            <span>
+                                <span class="story-kind">News · @Html.DateText(story.Date)</span>
+                                <span class="story-title">@story.Title</span>
+                            </span>
+                        </a>
+                    }
+                </div>
+            </div>
+
+            @if (Model.SmartBuys.Count > 0)
+            {
+                <div class="head head-sub">
+                    <h3>Smart buys: the value-for-money variant</h3>
+                    <a class="more" href="/value-for-money">All picks</a>
+                </div>
+                <ul class="smart-grid">
+                    @foreach (var pick in Model.SmartBuys)
+                    {
+                        <li>
+                            <a class="smart" href="@pick.Url">
+                                <span class="smart-media">@Html.Img(pick.ImagePath, pick.Title, 360, 200)</span>
+                                <span class="smart-title">@pick.Title</span>
+                                <span class="smart-date">@Html.DateText(pick.Date)</span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </section>
+}
+
+<section class="band" aria-labelledby="budget-heading">
+    <div class="wrap">
+        <div class="head">
+            <div>
+                <p class="eyebrow dark">Start here</p>
+                <h2 id="budget-heading">What's your budget?</h2>
+            </div>
+            <a class="more" href="/new-bikes?sort=price-asc">See all by price</a>
+        </div>
+        <ul class="budget-grid">
+            @for (var i = 0; i < Model.BudgetTiles.Count; i++)
+            {
+                var tile = Model.BudgetTiles[i];
+                <li>
+                    <a class="budget budget-@(i + 1)" href="@tile.Href">
+                        <span class="budget-step">0@(i + 1)</span>
+                        <span class="budget-label">@tile.Label</span>
+                        <span class="budget-note">@tile.Note</span>
+                        <span class="budget-count">@tile.Count models <span aria-hidden="true">→</span></span>
+                    </a>
+                </li>
+            }
+        </ul>
+
+        <ul class="style-row">
+            @foreach (var tile in Model.StyleTiles)
+            {
+                <li>
+                    <a class="style" href="@tile.Href">
+                        <span class="style-count">@tile.Count</span>
+                        <span>
+                            <span class="style-label">@tile.Label</span>
+                            <span class="style-note">@tile.Note</span>
+                        </span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</section>
+
+@if (Model.LatestLaunches.Count > 0)
+{
+    <section class="band band-tint" aria-labelledby="launch-heading">
+        <div class="wrap">
+            <div class="head">
+                <div>
+                    <p class="eyebrow dark">Fresh on the road</p>
+                    <h2 id="launch-heading">Latest launches</h2>
+                </div>
+                <div class="head-actions">
+                    <a class="more" href="/new-bikes?sort=newest">All new bikes</a>
+                    <div class="rail-buttons" data-rail-buttons="launch-rail">
+                        <button type="button" data-rail-prev aria-label="Scroll back">‹</button>
+                        <button type="button" data-rail-next aria-label="Scroll forward">›</button>
+                    </div>
+                </div>
+            </div>
+            <ul class="rail" id="launch-rail">
+                @foreach (var bike in Model.LatestLaunches)
+                {
+                    <li class="rail-item">
+                        <a class="bike" href="@bike.Url">
+                            <span class="bike-media">@Html.Img(bike.ImagePath, bike.Name, 300, 200)</span>
+                            <span class="bike-brand">@bike.Brand.Name</span>
+                            <span class="bike-name">@bike.ShortName</span>
+                            <span class="bike-price">@Formatting.PriceRange(bike.MinPrice, bike.MaxPrice)</span>
+                            <span class="bike-facts">
+                                @if (bike.IsEv)
+                                {
+                                    <span>Electric</span>
+                                }
+                                else if (bike.DisplacementCc is { } cc)
+                                {
+                                    <span>@Formatting.Number(cc) cc</span>
+                                }
+                                @if (bike.LaunchText is not null)
+                                {
+                                    <span>@bike.LaunchText</span>
+                                }
+                            </span>
+                        </a>
+                        <partial name="_WishButton" model="(bike, true)" />
+                    </li>
+                }
+            </ul>
+        </div>
+    </section>
+}
+
+<section class="band" aria-labelledby="brands-heading">
+    <div class="wrap">
+        <div class="head">
+            <div>
+                <p class="eyebrow dark">@Model.Catalog.Brands.Count brands</p>
+                <h2 id="brands-heading">Shop by brand</h2>
+            </div>
+        </div>
+        <ul class="brands">
+            @foreach (var brand in Model.TopBrands)
+            {
+                <li>
+                    <a href="@brand.Url">
+                        @Html.Img(brand.LogoPath, $"{brand.Name} logo", 110, 56)
+                        <span class="brand-name">@brand.Name</span>
+                        <span class="brand-count">@brand.Bikes.Count @(brand.Bikes.Count == 1 ? "model" : "models")</span>
+                    </a>
+                </li>
+            }
+        </ul>
+        @if (Model.OtherBrands.Count > 0)
+        {
+            <details class="all-brands">
+                <summary>Show @Model.OtherBrands.Count more brands</summary>
+                <ul>
+                    @foreach (var brand in Model.OtherBrands)
+                    {
+                        <li><a href="@brand.Url">@brand.Name <span>@brand.Bikes.Count</span></a></li>
+                    }
+                </ul>
+            </details>
+        }
+    </div>
+</section>
+
+@if (Model.ComparePicks.Count > 0)
+{
+    <section class="band band-dark" aria-labelledby="versus-heading">
+        <div class="wrap">
+            <div class="head">
+                <div>
+                    <p class="eyebrow">Can't decide?</p>
+                    <h2 id="versus-heading">Head to head</h2>
+                </div>
+                <a class="btn btn-go" href="/compare">Compare any bikes</a>
+            </div>
+            <ul class="versus-grid">
+                @foreach (var pick in Model.ComparePicks)
+                {
+                    <li>
+                        <a class="versus" href="@pick.Href">
+                            <span class="versus-media">@Html.Img(pick.ImagePath, $"{pick.A.Name} vs {pick.B.Name}", 420, 200)</span>
+                            <span class="versus-row">
+                                <span class="versus-side">
+                                    <span class="versus-name">@pick.A.Name</span>
+                                    <span class="versus-price">@Formatting.PriceRange(pick.A.MinPrice, pick.A.MaxPrice)</span>
+                                </span>
+                                <span class="versus-vs" aria-hidden="true">VS</span>
+                                <span class="versus-side versus-right">
+                                    <span class="versus-name">@pick.B.Name</span>
+                                    <span class="versus-price">@Formatting.PriceRange(pick.B.MinPrice, pick.B.MaxPrice)</span>
+                                </span>
+                            </span>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </section>
+}
+
+<section class="band" aria-labelledby="emi-heading">
+    <div class="wrap emi">
+        <div class="emi-copy">
+            <p class="eyebrow dark">Plan the payment</p>
+            <h2 id="emi-heading">What would the EMI be?</h2>
+            <p>Move the sliders to see the monthly instalment. It is an estimate; your lender's figures may differ.</p>
+            <a class="more" href="/emi-calculator">Open the full calculator</a>
+        </div>
+        <form class="emi-card" method="get" action="/emi-calculator" data-emi-form>
+            <div class="emi-field">
+                <label for="mini-amount">Loan amount <output data-emi-amount>@Formatting.Rupees(100_000)</output></label>
+                <input id="mini-amount" name="amount" type="range" min="@EmiCalculator.MinPrincipal" max="1000000" step="5000" value="100000">
+            </div>
+            <div class="emi-field">
+                <label for="mini-rate">Interest rate <output data-emi-rate>10%</output></label>
+                <input id="mini-rate" name="rate" type="range" min="1" max="18" step="0.25" value="10">
+            </div>
+            <fieldset class="emi-years">
+                <legend>Loan period</legend>
+                @for (var years = EmiCalculator.MinYears; years <= 5; years++)
+                {
+                    <label><input type="radio" name="years" value="@years" checked="@(years == 3)"><span>@years yr</span></label>
+                }
+            </fieldset>
+            <div class="emi-result" aria-live="polite">
+                <span>Monthly EMI</span>
+                <strong data-emi="monthly">@Formatting.Rupees((long)Model.EmiExample.MonthlyEmi)</strong>
+                <span class="emi-small">Total interest <b data-emi="interest">@Formatting.Rupees((long)Model.EmiExample.TotalInterest)</b></span>
+            </div>
+            <button class="btn btn-ink" type="submit">See full breakdown</button>
+        </form>
+    </div>
+</section>
+
+@if (Model.Radar.Count > 0)
+{
+    <section class="band band-tint" aria-labelledby="radar-heading">
+        <div class="wrap">
+            <div class="head">
+                <div>
+                    <p class="eyebrow dark">On our watch list</p>
+                    <h2 id="radar-heading">Launch radar</h2>
+                </div>
+                <a class="more" href="/upcoming-bikes">Full list</a>
+            </div>
+            <ol class="radar">
+                @foreach (var bike in Model.Radar)
+                {
+                    var status = bike.StatusOn(today);
+                    <li>
+                        <a href="@(status == LaunchStatus.Released ? bike.ReleasedAs!.Url : bike.Url)">
+                            <span class="radar-media">@Html.Img(bike.ImagePath, bike.Name, 200, 130)</span>
+                            <span class="radar-body">
+                                <span class="radar-name">@bike.Name</span>
+                                @switch (status)
+                                {
+                                    case LaunchStatus.Upcoming:
+                                        <span class="chip chip-go">Expected @bike.ExpectedText</span>
+                                        break;
+                                    case LaunchStatus.Released:
+                                        <span class="chip chip-ok">Now launched</span>
+                                        break;
+                                    default:
+                                        <span class="chip">Awaited · was expected @(bike.ExpectedText ?? "earlier")</span>
+                                        break;
+                                }
+                            </span>
+                        </a>
+                    </li>
+                }
+            </ol>
+        </div>
+    </section>
+}
+
+<section class="band band-accent" aria-labelledby="ask-heading">
+    <div class="wrap cta">
+        <div>
+            <h2 id="ask-heading">Still not sure which one to buy?</h2>
+            <p>Send us your question and we will reply by email.</p>
+            <a class="btn btn-ink" href="/ask-a-question">Ask a question</a>
+        </div>
+        <form class="news-form" method="get" action="/newsletter">
+            <label for="home-email">Get launches and price changes by email</label>
+            <div>
+                <input id="home-email" name="email" type="email" required maxlength="150" autocomplete="email" placeholder="you@example.com">
+                <button class="btn btn-ink" type="submit">Subscribe</button>
+            </div>
+        </form>
+    </div>
+</section>

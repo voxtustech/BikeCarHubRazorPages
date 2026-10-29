@@ -1,0 +1,32 @@
+@page "/about"
+@inject SiteSettings Site
+@{
+    ViewData["Meta"] = new PageMeta
+    {
+        Title = "About BikeCarHub",
+        Description = "BikeCarHub is a one-stop destination for Indian vehicle shoppers: prices, specifications, comparisons, launch calendars and news.",
+        CanonicalPath = "/about"
+    }.Crumbs(("About", "/about"));
+}
+
+<div class="container section prose">
+    <h1>About BikeCarHub</h1>
+    <p>BikeCarHub is a one-stop destination for Indian vehicle shoppers, combining pricing tools, informative reviews, comparison features, launch calendars, and news - all maintained by an established tech firm in Dehradun.</p>
+    <h2>What you can do here</h2>
+    <ul>
+        <li><a href="/new-bikes">Browse new bikes and scooters</a> by brand, type, fuel and price.</li>
+        <li><a href="/compare">Compare two or three models</a> side by side.</li>
+        <li><a href="/emi-calculator">Estimate a loan EMI</a>.</li>
+        <li>Read <a href="/news">news</a> and <a href="/blog">blogs</a>.</li>
+    </ul>
+    <h2>Contact</h2>
+    @if (!string.IsNullOrWhiteSpace(Site.Phone))
+    {
+        <p>Phone: <a href="tel:@Site.Phone.Replace(" ", "")">@Site.Phone</a></p>
+    }
+    @if (!string.IsNullOrWhiteSpace(Site.Email))
+    {
+        <p>Email: <a href="mailto:@Site.Email">@Site.Email</a></p>
+    }
+    <p>You can also <a href="/ask-a-question">ask us a question</a>.</p>
+</div>

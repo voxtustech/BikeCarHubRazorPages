@@ -1,0 +1,20 @@
+@page "/news"
+@model ListModel
+
+<div class="container section">
+    <h1>@Model.Heading</h1>
+    @if (Model.Articles.Count == 0)
+    {
+        <p class="notice">Nothing has been published here yet.</p>
+    }
+    else
+    {
+        <div class="grid grid-articles">
+            @foreach (var article in Model.Articles)
+            {
+                <partial name="_ArticleCard" model="article" />
+            }
+        </div>
+        <partial name="_Pager" model="(Model.PageNumber, Model.TotalPages)" />
+    }
+</div>

@@ -1,0 +1,72 @@
+@page "/electric-bikes"
+@model IndexModel
+
+<section class="ec-hero">
+    <div class="container">
+        <p class="ec-eyebrow">Electric</p>
+        <h1>Electric bikes and scooters</h1>
+        <p class="ec-lead">Range, charging time and what an electric two-wheeler really costs to run each month, worked out from the manufacturer's figures and your own riding.</p>
+    </div>
+</section>
+
+<div class="container ec-shell">
+    <section class="ec-card" aria-labelledby="ev-featured">
+        <div class="ec-card-head">
+            <h2 id="ev-featured">Running cost calculators</h2>
+            <span class="ec-hint">@Model.ModelCount models with a known battery size and range</span>
+        </div>
+        <nav aria-label="Jump to a brand">
+            <ul class="chip-row ev-brands">
+                @foreach (var group in Model.ByBrand)
+                {
+                    <li><a class="chip" href="#brand-@group.Key.Slug">@group.Key.Name <span class="ec-hint">@group.Count()</span></a></li>
+                }
+            </ul>
+        </nav>
+        @foreach (var group in Model.ByBrand)
+        {
+            <section class="ev-brand" id="brand-@group.Key.Slug" aria-labelledby="brand-@group.Key.Slug-heading">
+                <h3 id="brand-@group.Key.Slug-heading">@group.Key.Name</h3>
+                <div class="grid grid-bikes">
+                    @foreach (var (bike, facts) in group)
+                    {
+                        <article class="card ev-card">
+                            <partial name="_WishButton" model="(bike, true)" />
+                            <a class="card-media" href="@bike.Url" tabindex="-1" aria-hidden="true">
+                                @Html.Img(bike.ImagePath, bike.Name, 320, 213)
+                            </a>
+                            <div class="card-body">
+                                <h4 class="card-title"><a href="@bike.Url">@bike.Name</a></h4>
+                                <p class="price">@Formatting.PriceRange(bike.MinPrice, bike.MaxPrice)</p>
+                                <ul class="facts">
+                                    <li>@Formatting.Number(facts.ClaimedRangeKm!.Value) km range</li>
+                                    <li>@Formatting.Number(facts.BatteryKwh!.Value) kWh</li>
+                                    @if (bike.Type is not null) { <li>@bike.Type</li> }
+                                </ul>
+                                <a class="btn btn-accent ev-card-btn" href="@ElectricSection.UrlFor(bike)">Running cost<span class="sr-only"> of the @bike.Name</span></a>
+                            </div>
+                        </article>
+                    }
+                </div>
+            </section>
+        }
+    </section>
+
+    <div class="ec-info">
+        <section class="ec-card" aria-labelledby="ev-all">
+            <h2 id="ev-all">Browse every electric model</h2>
+            <p>We list @Model.ElectricCount electric two-wheelers with their specifications. Filter them by brand, type and price in the main listing.</p>
+            <a class="btn btn-ghost" href="/new-bikes?fuel=electric">See all @Model.ElectricCount electric models</a>
+        </section>
+
+        <section class="ec-card" aria-labelledby="ev-check">
+            <h2 id="ev-check">Before you buy an electric two-wheeler</h2>
+            <ul class="ec-tips">
+                <li><strong>Range:</strong> claimed figures come from test conditions. Plan on getting less in daily riding.</li>
+                <li><strong>Charging:</strong> check where you will charge every night, and how long 0–80% takes on the supplied charger.</li>
+                <li><strong>Battery warranty:</strong> compare the years and kilometres covered, as the battery is the most expensive part.</li>
+                <li><strong>Price:</strong> prices here are ex-showroom. Ask the dealer whether a charger and any subsidy are included.</li>
+            </ul>
+        </section>
+    </div>
+</div>

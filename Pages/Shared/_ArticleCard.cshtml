@@ -1,0 +1,17 @@
+@model Article
+<article class="card article-card">
+    <a class="card-media" href="@Model.Url" tabindex="-1" aria-hidden="true">
+        @Html.Img(Model.ImagePath, Model.Title, 400, 225)
+    </a>
+    <div class="card-body">
+        @if (Model.Date is not null)
+        {
+            <p class="meta"><time datetime="@Model.Date.Value.ToString("yyyy-MM-dd")">@Html.DateText(Model.Date)</time></p>
+        }
+        <h3><a href="@Model.Url">@Model.Title</a></h3>
+        @if (Model.Summary is not null)
+        {
+            <p>@Formatting.Truncate(Model.Summary, 140)</p>
+        }
+    </div>
+</article>

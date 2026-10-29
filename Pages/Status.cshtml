@@ -1,0 +1,24 @@
+@page "/status/{code:int}"
+@using Microsoft.AspNetCore.Mvc
+@attribute [IgnoreAntiforgeryToken]
+@{
+    var code = int.TryParse(RouteData.Values["code"]?.ToString(), out var parsed) ? parsed : 404;
+    var (heading, message) = code switch
+    {
+        404 => ("Page not found", "The page you are looking for does not exist or has moved."),
+        410 => ("This page has been removed", "This model is no longer listed on BikeCarHub."),
+        429 => ("Too many requests", "Please wait a minute and try again."),
+        _ => ("Something went wrong", "We could not load this page. Please try again shortly.")
+    };
+    ViewData["Meta"] = new PageMeta { Title = $"{heading} | BikeCarHub", Description = message, NoIndex = true };
+}
+
+<div class="container section narrow">
+    <h1>@heading</h1>
+    <p class="lead">@message</p>
+    <ul class="link-list">
+        <li><a href="/">Go to the home page</a></li>
+        <li><a href="/new-bikes">Browse new bikes</a></li>
+        <li><a href="/compare">Compare bikes</a></li>
+    </ul>
+</div>

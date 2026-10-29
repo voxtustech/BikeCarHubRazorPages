@@ -1,0 +1,105 @@
+@page "/new-bikes/{brand}/{model}/{variant?}"
+@model DetailModel
+@{
+    var bike = Model.Bike;
+    var heading = Model.IsVariantPage ? Model.Selected!.Name : bike.Name;
+    var alt = Model.IsVariantPage ? $"{bike.Brand.Name} {bike.ShortName} {Model.Selected!.ShortName}" : bike.Name;
+}
+
+<article class="container section">
+    <div class="detail-head">
+        <div class="detail-media">
+            @Html.Img(bike.ImagePath, alt, 640, 427, eager: true)
+        </div>
+        <div>
+            <h1>@heading</h1>
+            <p class="price price-large">@Formatting.PriceRange(bike.MinPrice, bike.MaxPrice)</p>
+            @if (bike.MinPrice is not null)
+            {
+                <p class="meta">Ex-showroom price for the @bike.Name range. Indicative only; confirm with your dealer.</p>
+            }
+            <dl class="key-facts">
+                <div><dt>Brand</dt><dd><a href="@bike.Brand.Url">@bike.Brand.Name</a></dd></div>
+                <div><dt>Type</dt><dd>@(bike.Type ?? Formatting.NotAvailable)</dd></div>
+                <div><dt>Fuel</dt><dd>@(bike.IsEv ? "Electric" : "Petrol")</dd></div>
+                @if (!bike.IsEv)
+                {
+                    <div><dt>Engine</dt><dd>@(bike.DisplacementCc is { } cc ? $"{Formatting.Number(cc)} cc" : Formatting.NotAvailable)</dd></div>
+                    <div><dt>Mileage</dt><dd>@(bike.MileageKmpl is { } kmpl ? $"{Formatting.Number(kmpl)} km/l" : Formatting.NotAvailable)</dd></div>
+                }
+                <div><dt>Launched</dt><dd>@(bike.LaunchText ?? Formatting.NotAvailable)</dd></div>
+            </dl>
+            <div class="detail-actions">
+                <partial name="_WishButton" model="(bike, false)" />
+                <a class="btn btn-ghost" href="/compare?a=@bike.FullSlug">Compare this bike</a>
+            </div>
+            @if (Model.RunningCostUrl is { } runningCost)
+            {
+                <p><a class="btn btn-accent" href="@runningCost">Running cost and charging</a></p>
+            }
+        </div>
+    </div>
+
+    @if (bike.Description is not null)
+    {
+        <section aria-labelledby="about-heading">
+            <h2 id="about-heading">About the @bike.Name</h2>
+            <p>@bike.Description</p>
+        </section>
+    }
+
+    @if (bike.Variants.Count > 0)
+    {
+        <section aria-labelledby="variants-heading">
+            <h2 id="variants-heading">@bike.Name variants</h2>
+            <ul class="chip-row">
+                @foreach (var variant in bike.Variants)
+                {
+                    <li><a class="chip" href="@variant.Url" aria-current="@(Model.IsVariantPage && variant == Model.Selected ? "page" : null)">@variant.ShortName</a></li>
+                }
+            </ul>
+        </section>
+    }
+
+    @if (Model.Sections.Count > 0)
+    {
+        <section aria-labelledby="specs-heading">
+            <h2 id="specs-heading">@Model.Selected!.Name specifications</h2>
+            <div class="spec-grid">
+                @foreach (var specs in Model.Sections)
+                {
+                    <div class="table-wrap">
+                        <table class="spec">
+                            <caption>@specs.Title</caption>
+                            <tbody>
+                                @foreach (var item in specs.Items)
+                                {
+                                    <tr><th scope="row">@item.Label</th><td>@item.Value</td></tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </section>
+    }
+    else
+    {
+        <p class="notice">Specifications for this model are not available yet.</p>
+    }
+
+    @if (Model.Similar.Count > 0)
+    {
+        <section aria-labelledby="similar-heading">
+            <h2 id="similar-heading">Similar bikes</h2>
+            <div class="grid grid-bikes">
+                @foreach (var other in Model.Similar)
+                {
+                    <partial name="_BikeCard" model="other" />
+                }
+            </div>
+        </section>
+    }
+
+    <p><a href="@bike.Brand.Url">All @bike.Brand.Name bikes</a></p>
+</article>

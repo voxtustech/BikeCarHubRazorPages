@@ -1,0 +1,12 @@
+/* Development-only logo comparison page (/dev/logos). Colours match home.css. */
+body { margin: 0; padding: 24px 16px; font-family: "Segoe UI", system-ui, sans-serif; background: #f7f4ee; color: #1a1d23; }
+h1 { margin: 0 0 8px; }
+p { margin: 0 0 24px; max-width: 70ch; }
+.grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.card { background: #fff; border: 1px solid #e4dfd5; border-radius: 16px; padding: 14px; display: grid; gap: 10px; }
+.card h2 { margin: 0; font-size: 1rem; }
+.on-dark, .on-light { display: flex; align-items: center; min-height: 64px; padding: 8px 14px; border-radius: 10px; }
+.on-dark { background: #0e1116; }
+.on-light { background: #f7f4ee; border: 1px solid #e4dfd5; }
+.h42 { height: 42px; width: auto; max-width: 100%; }
+.h48 { height: 48px; width: auto; max-width: 100%; }

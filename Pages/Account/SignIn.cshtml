@@ -1,0 +1,28 @@
+@page "/account/sign-in"
+@model SignInModel
+
+<div class="container section narrow">
+    <h1>Sign in</h1>
+    @if (Model.Notice is not null)
+    {
+        <p class="notice notice-ok" role="status">@Model.Notice</p>
+    }
+    <form class="panel" method="post" novalidate>
+        <div asp-validation-summary="ModelOnly" class="field-error" role="alert"></div>
+        <input type="hidden" asp-for="ReturnUrl">
+
+        <label asp-for="Email">Email</label>
+        <input asp-for="Email" type="email" autocomplete="username" required>
+        <span asp-validation-for="Email" class="field-error"></span>
+
+        <label asp-for="Password">Password</label>
+        <input asp-for="Password" type="password" autocomplete="current-password" required>
+        <span asp-validation-for="Password" class="field-error"></span>
+
+        <label class="check"><input asp-for="RememberMe"> Keep me signed in</label>
+
+        <button class="btn btn-accent" type="submit">Sign in</button>
+    </form>
+    <p><a href="/account/forgot-password">Forgot your password?</a></p>
+    <p>New to BikeCarHub? <a href="/account/sign-up">Create an account</a></p>
+</div>

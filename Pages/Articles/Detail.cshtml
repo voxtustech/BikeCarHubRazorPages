@@ -1,0 +1,54 @@
+@page "/news/{slug}"
+@model DetailModel
+@{
+    var article = Model.Article;
+}
+
+<article class="container section prose">
+    <h1>@article.Title</h1>
+    @if (article.Date is not null)
+    {
+        <p class="meta">Published <time datetime="@article.Date.Value.ToString("yyyy-MM-dd")">@Html.DateText(article.Date)</time></p>
+    }
+    <div class="article-cover">
+        @Html.Img(article.ImagePath, article.Title, 960, 540, eager: true)
+    </div>
+    @if (article.Summary is not null)
+    {
+        <p class="lead">@article.Summary</p>
+    }
+    @if (article.BodyHtml is not null)
+    {
+        @Html.Raw(article.BodyHtml)
+    }
+    else if (article.Summary is null)
+    {
+        <p class="notice">The full text of this article is not available.</p>
+    }
+
+    @if (article.GalleryPaths.Count > 0)
+    {
+        <section aria-labelledby="photos-heading">
+            <h2 id="photos-heading">Photos</h2>
+            <div class="gallery">
+                @for (var i = 0; i < article.GalleryPaths.Count; i++)
+                {
+                    @Html.Img(article.GalleryPaths[i], $"{article.Title} – photo {i + 1}", 480, 320)
+                }
+            </div>
+        </section>
+    }
+</article>
+
+@if (Model.Related.Count > 0)
+{
+    <section class="container section" aria-labelledby="related-heading">
+        <h2 id="related-heading">More to read</h2>
+        <div class="grid grid-articles">
+            @foreach (var other in Model.Related)
+            {
+                <partial name="_ArticleCard" model="other" />
+            }
+        </div>
+    </section>
+}

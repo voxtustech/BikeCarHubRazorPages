@@ -1,0 +1,89 @@
+@page "/wishlist"
+@model BikeCarHub.Pages.Wishlist.IndexModel
+@using BikeCarHub.Pages.Wishlist
+@{
+    var shared = Model.Mode == WishlistMode.Shared;
+}
+
+<section class="ec-hero wl-hero">
+    <div class="container wl-hero-row">
+        <div>
+            <p class="ec-eyebrow">@(shared ? "Shared shortlist" : "Your garage")</p>
+            <h1>@(shared ? "A bike shortlist shared with you" : "Your wishlist")</h1>
+            <p class="ec-lead">
+                @if (shared)
+                {
+                    <text>Someone picked these bikes for you to look at. Save any of them to your own wishlist with the heart.</text>
+                }
+                else
+                {
+                    <text>Every bike and scooter you've saved, in one place. Compare up to three, check the EMI, and share the list with someone who's helping you decide.</text>
+                }
+            </p>
+        </div>
+        <div class="wl-hero-actions js-only">
+            @if (shared)
+            {
+                <button type="button" class="btn btn-accent" data-wl-save-all>Save all to my wishlist</button>
+            }
+            else
+            {
+                <button type="button" class="btn wl-btn-light" data-wl-share>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4M18 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM6 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm12 7a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" /></svg>
+                    Share list
+                </button>
+                <button type="button" class="btn wl-btn-quiet" data-wl-clear>Clear all</button>
+            }
+        </div>
+    </div>
+</section>
+
+<div class="container ec-shell">
+    <p class="wl-where">
+        @switch (Model.Mode)
+        {
+            case WishlistMode.Account:
+                <text><span class="wl-dot wl-dot-ok"></span>Saved to your account, so it's on every device you sign in on.</text>
+                break;
+            case WishlistMode.Browser when Model.AccountsCanSave:
+                <text><span class="wl-dot"></span>Saved in this browser. <a href="/account/sign-in?returnUrl=/wishlist">Sign in</a> to keep it on every device.</text>
+                break;
+            case WishlistMode.Browser:
+                <text><span class="wl-dot"></span>Saved in this browser on this device. Clearing your browser data removes it.</text>
+                break;
+            default:
+                <text><span class="wl-dot"></span>This is a read-only copy. Changes here don't affect the person who shared it.</text>
+                break;
+        }
+    </p>
+
+    <section class="ec-card wl-panel" aria-labelledby="wl-heading" aria-live="polite">
+        <h2 id="wl-heading" class="sr-only">Saved bikes</h2>
+        <div data-wl-list data-wl-mode="@Model.Mode.ToString().ToLowerInvariant()">
+            @if (Model.Mode == WishlistMode.Browser)
+            {
+                <p class="wl-loading js-only">Loading your saved bikes…</p>
+                <noscript><p class="notice">Your wishlist is kept in your browser, so it needs JavaScript to show.</p></noscript>
+            }
+            else
+            {
+                <partial name="_WishlistItems" model="new WishlistView(Model.Items, Model.Mode)" />
+            }
+        </div>
+    </section>
+</div>
+
+<div class="wl-comparebar" data-wl-comparebar hidden>
+    <div class="container wl-comparebar-row">
+        <p><strong data-wl-compare-count>0</strong> selected <span class="wl-hint">Pick 2 or 3 to compare</span></p>
+        <div>
+            <button type="button" class="btn wl-btn-quiet" data-wl-compare-clear>Clear</button>
+            <a class="btn btn-accent" href="/compare" data-wl-compare-go aria-disabled="true">Compare</a>
+        </div>
+    </div>
+</div>
+
+<div class="wl-toast" role="status" aria-live="polite" data-wl-toast hidden>
+    <span data-wl-toast-text></span>
+    <button type="button" data-wl-undo hidden>Undo</button>
+</div>

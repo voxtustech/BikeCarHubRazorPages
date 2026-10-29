@@ -1,0 +1,25 @@
+@model (int Page, int TotalPages)
+@if (Model.TotalPages > 1)
+{
+    <nav class="pager" aria-label="Pagination">
+        @if (Model.Page > 1)
+        {
+            <a rel="prev" href="@Context.Request.WithQuery("page", Model.Page == 2 ? null : (Model.Page - 1).ToString())">Previous</a>
+        }
+        @for (var i = 1; i <= Model.TotalPages; i++)
+        {
+            if (i == Model.Page)
+            {
+                <span aria-current="page">@i</span>
+            }
+            else
+            {
+                <a href="@Context.Request.WithQuery("page", i == 1 ? null : i.ToString())">@i</a>
+            }
+        }
+        @if (Model.Page < Model.TotalPages)
+        {
+            <a rel="next" href="@Context.Request.WithQuery("page", (Model.Page + 1).ToString())">Next</a>
+        }
+    </nav>
+}

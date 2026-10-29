@@ -1,0 +1,29 @@
+@model Bike
+<article class="card bike-card">
+    <partial name="_WishButton" model="(Model, true)" />
+    <a class="card-media" href="@Model.Url" tabindex="-1" aria-hidden="true">
+        @Html.Img(Model.ImagePath, Model.Name, 320, 213)
+    </a>
+    <div class="card-body">
+        <h3><a href="@Model.Url">@Model.Name</a></h3>
+        <p class="price">@Formatting.PriceRange(Model.MinPrice, Model.MaxPrice)</p>
+        <ul class="facts">
+            @if (Model.IsEv)
+            {
+                <li>Electric</li>
+            }
+            else if (Model.DisplacementCc is { } cc)
+            {
+                <li>@Formatting.Number(cc) cc</li>
+            }
+            @if (Model.MileageKmpl is { } kmpl)
+            {
+                <li>@Formatting.Number(kmpl) km/l</li>
+            }
+            @if (Model.Type is not null)
+            {
+                <li>@Model.Type</li>
+            }
+        </ul>
+    </div>
+</article>

@@ -1,0 +1,30 @@
+@page "/dev/logos"
+@model BikeCarHub.Pages.Dev.LogosModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex,nofollow">
+    <title>Logo preview</title>
+    <link rel="stylesheet" href="~/css/logo-preview.css" asp-append-version="true">
+</head>
+<body>
+    <h1>Logo candidates</h1>
+    <p>Each logo is shown at header size (42px high) on the dark header, at footer size (48px) and on the light page colour. To use one, set its number in <code>Pages/Shared/_HomeLayout.cshtml</code>.</p>
+    <ul class="grid">
+        @foreach (var (name, url) in Model.Logos)
+        {
+            <li class="card">
+                <h2>@name</h2>
+                <div class="on-dark"><img src="@url" alt="@name on dark header" class="h42"></div>
+                <div class="on-dark"><img src="@url" alt="@name at footer size" class="h48"></div>
+                <div class="on-light"><img src="@url" alt="@name on light background" class="h42"></div>
+            </li>
+        }
+    </ul>
+</body>
+</html>

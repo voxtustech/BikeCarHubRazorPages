@@ -1,0 +1,62 @@
+@page "/new-bikes/{brand}/{facet:facet?}"
+@model BrandModel
+
+<div class="container section">
+    <div class="brand-head">
+        @Html.Img(Model.Brand.LogoPath, $"{Model.Brand.Name} logo", 96, 64, eager: true)
+        <h1>@Model.Heading</h1>
+    </div>
+    @if (Model.Facet is null && Model.Brand.Description is not null)
+    {
+        <p class="lead">@Model.Brand.Description</p>
+    }
+
+    @if (Model.AvailableFacets.Count > 0)
+    {
+        <ul class="chip-row" aria-label="@Model.Brand.Name categories">
+            <li><a class="chip" href="@Model.Brand.Url" aria-current="@(Model.Facet is null ? "page" : null)">All</a></li>
+            @foreach (var facet in Model.AvailableFacets)
+            {
+                <li><a class="chip" href="@Model.Brand.Url/@facet" aria-current="@(Model.Facet == facet ? "page" : null)">@BrandModel.FacetLabel(facet)</a></li>
+            }
+        </ul>
+    }
+
+    <form class="filters" method="get" aria-label="Filter @Model.Brand.Name bikes">
+        <div>
+            <label for="b-min">Min price (₹)</label>
+            <input id="b-min" name="min" type="number" min="0" step="1000" inputmode="numeric" value="@Model.Filter.Min">
+        </div>
+        <div>
+            <label for="b-max">Max price (₹)</label>
+            <input id="b-max" name="max" type="number" min="0" step="1000" inputmode="numeric" value="@Model.Filter.Max">
+        </div>
+        <div>
+            <label for="b-sort">Sort by</label>
+            <select id="b-sort" name="sort">
+                @foreach (var (key, label) in BikeQuery.SortOptions)
+                {
+                    <option value="@key" selected="@((Model.Filter.Sort ?? "name") == key)">@label</option>
+                }
+            </select>
+        </div>
+        <div class="filter-actions">
+            <button class="btn btn-accent" type="submit">Apply</button>
+        </div>
+    </form>
+
+    @if (Model.Results.Count == 0)
+    {
+        <p class="notice">No @Model.Brand.Name models match this price range. <a href="@Model.Brand.Url">See all @Model.Brand.Name models</a>.</p>
+    }
+    else
+    {
+        <div class="grid grid-bikes">
+            @foreach (var bike in Model.Results)
+            {
+                <partial name="_BikeCard" model="bike" />
+            }
+        </div>
+        <partial name="_Pager" model="(Model.PageNumber, Model.TotalPages)" />
+    }
+</div>

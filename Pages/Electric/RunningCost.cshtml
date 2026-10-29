@@ -1,0 +1,252 @@
+@page "/electric-bikes/{brand}/{model}"
+@model RunningCostModel
+@{
+    var bike = Model.Bike;
+    var facts = Model.Facts;
+    var result = Model.Result;
+    var input = Model.Input;
+    var vehicle = bike.IsScooter ? "scooter" : "bike";
+    string Signed(decimal value) => value < 0 ? "−" + Formatting.Rupees((long)-value) : Formatting.Rupees((long)value);
+    string PerKm(decimal? value) => value is { } v ? "₹" + v.ToString("0.00") : "Not available";
+    string Payback(int? months) => months switch
+    {
+        null => "Does not pay back at these numbers",
+        0 => "Costs no more to buy",
+        1 => "About 1 month",
+        < 12 => $"About {months} months",
+        _ => $"About {months / 12} yr {months % 12} mo"
+    };
+    var fiveYearEv = result is null ? 0 : result.EvMonthly * 60;
+    var fiveYearPetrol = result?.PetrolMonthly * 60 ?? 0;
+    var barMax = Math.Max(1, Math.Max(fiveYearEv, fiveYearPetrol));
+}
+
+<section class="ec-hero ev-hero">
+    <div class="container ev-hero-grid">
+        <div>
+            <p class="ec-eyebrow">Electric running cost</p>
+            <h1>@bike.Name running cost, range and charging</h1>
+            <p class="ec-lead">Work out what it costs to charge and ride the @bike.ShortName every month, and how that compares with a petrol @vehicle. Change any number to match how you ride.</p>
+            <partial name="_WishButton" model="(bike, false)" />
+        </div>
+        <div class="ev-hero-media">
+            @Html.Img(bike.ImagePath, bike.Name, 480, 320, eager: true)
+        </div>
+    </div>
+</section>
+
+<div class="container ec-shell">
+    <ul class="ev-facts" aria-label="Key electric figures">
+        @if (facts.BatteryKwh is { } kwh) { <li><span>Battery</span><strong>@Formatting.Number(kwh) kWh</strong></li> }
+        @if (facts.ClaimedRangeKm is { } claimed) { <li><span>Claimed range</span><strong>@Formatting.Number(claimed) km</strong></li> }
+        @if (facts.ChargeTo80 is { } c80) { <li><span>Charging 0–80%</span><strong>@c80</strong></li> }
+        @if (facts.TopSpeedKmh is { } top) { <li><span>Top speed</span><strong>@Formatting.Number(top) km/h</strong></li> }
+        @if (bike.MinPrice is not null) { <li><span>Ex-showroom</span><strong>@Formatting.PriceRange(bike.MinPrice, bike.MaxPrice)</strong></li> }
+    </ul>
+
+    @if (Model.OutOfRange)
+    {
+        <p class="notice" role="alert">Some of those values are outside the allowed range, so the defaults are shown.</p>
+    }
+
+    @if (result is null)
+    {
+        <p class="notice">The battery size or range for this model is not available yet, so the running cost cannot be worked out.</p>
+    }
+    else
+    {
+        <div class="ec-layout">
+            <form class="ec-controls" method="get" action="@ElectricSection.UrlFor(bike)" data-ev-calculator
+                  data-battery="@Formatting.Number(facts.BatteryKwh!.Value)" data-ev-price="@bike.MinPrice" data-vehicle="@vehicle">
+                <h2>How you ride</h2>
+
+                <div class="ec-field">
+                    <div class="ec-label-row">
+                        <label for="ev-km">Distance a day</label>
+                        <span class="ec-hint">1 to @RunningCost.MaxKmPerDay km</span>
+                    </div>
+                    <div class="ec-input ec-suffix">
+                        <input id="ev-km" name="km" type="number" required inputmode="numeric" min="@RunningCost.MinKmPerDay" max="@RunningCost.MaxKmPerDay" step="1" value="@Formatting.Number(input.KmPerDay)">
+                        <span aria-hidden="true">km</span>
+                    </div>
+                    <input class="ec-range" type="range" min="1" max="150" step="1" aria-label="Distance a day slider" tabindex="-1" data-ev-slider="km">
+                </div>
+
+                <div class="ec-field">
+                    <div class="ec-label-row">
+                        <label for="ev-days">Riding days a month</label>
+                        <span class="ec-hint">1 to 31</span>
+                    </div>
+                    <div class="ec-input ec-suffix">
+                        <input id="ev-days" name="days" type="number" required inputmode="numeric" min="@RunningCost.MinDays" max="@RunningCost.MaxDays" step="1" value="@input.DaysPerMonth">
+                        <span aria-hidden="true">days</span>
+                    </div>
+                    <input class="ec-range" type="range" min="1" max="31" step="1" aria-label="Riding days slider" tabindex="-1" data-ev-slider="days">
+                </div>
+
+                <div class="ec-field">
+                    <div class="ec-label-row">
+                        <label for="ev-range">Range you expect per charge</label>
+                        <span class="ec-hint">@RunningCost.MinRange to @RunningCost.MaxRange km</span>
+                    </div>
+                    <div class="ec-input ec-suffix">
+                        <input id="ev-range" name="range" type="number" required inputmode="numeric" min="@RunningCost.MinRange" max="@RunningCost.MaxRange" step="1" value="@Formatting.Number(input.RangeKm)">
+                        <span aria-hidden="true">km</span>
+                    </div>
+                    <div class="ev-presets" data-ev-presets>
+                        @foreach (var (label, km) in facts.RangeOptions)
+                        {
+                            <button type="button" class="ev-preset" data-ev-range="@Formatting.Number(km)">@label @Formatting.Number(km) km</button>
+                        }
+                    </div>
+                    <p class="ec-hint ev-note">Claimed ranges are measured in test conditions. Traffic, speed, load and weather usually bring it down, so use your own figure if you know it.</p>
+                </div>
+
+                <h2 class="ev-subhead">Charging</h2>
+                <div class="ec-field">
+                    <div class="ec-label-row">
+                        <label for="ev-tariff">Electricity price</label>
+                        <span class="ec-hint">from your bill</span>
+                    </div>
+                    <div class="ec-input ec-prefix ec-suffix">
+                        <span aria-hidden="true">₹</span>
+                        <input id="ev-tariff" name="tariff" type="number" required inputmode="decimal" min="@Formatting.Number(RunningCost.MinTariff)" max="@Formatting.Number(RunningCost.MaxTariff)" step="0.1" value="@Formatting.Number(input.TariffPerKwh)">
+                        <span aria-hidden="true">per kWh</span>
+                    </div>
+                    <p class="ec-hint ev-note">Home tariffs differ by state and slab. ₹@Formatting.Number(RunningCostModel.DefaultTariff) is only a starting example.</p>
+                </div>
+
+                <div class="ec-field">
+                    <div class="ec-label-row">
+                        <label for="ev-loss">Charging loss</label>
+                        <span class="ec-hint">0% to @Formatting.Number(RunningCost.MaxLoss)%</span>
+                    </div>
+                    <div class="ec-input ec-suffix">
+                        <input id="ev-loss" name="loss" type="number" required inputmode="decimal" min="0" max="@Formatting.Number(RunningCost.MaxLoss)" step="1" value="@Formatting.Number(input.ChargingLossPercent)">
+                        <span aria-hidden="true">%</span>
+                    </div>
+                    <p class="ec-hint ev-note">Some electricity is lost as heat in the charger. @Formatting.Number(RunningCostModel.DefaultLoss)% is our assumption, not a manufacturer figure.</p>
+                </div>
+
+                @if (Model.PetrolOptions.Count > 0)
+                {
+                    <h2 class="ev-subhead">Compare with petrol</h2>
+                    <div class="ec-field">
+                        <label for="ev-vs">Petrol @vehicle</label>
+                        <select id="ev-vs" name="vs" data-ev-vs>
+                            @foreach (var option in Model.PetrolOptions)
+                            {
+                                <option value="@option.FullSlug" selected="@(option == Model.Petrol)"
+                                        data-kmpl="@Formatting.Number(option.MileageKmpl!.Value)" data-price="@option.MinPrice">@option.Name (@Formatting.Number(option.MileageKmpl!.Value) km/l)</option>
+                            }
+                        </select>
+                        <p class="ec-hint ev-note">Uses the claimed mileage. Pre-selected: @Model.DefaultNote</p>
+                    </div>
+                    <div class="ec-field">
+                        <div class="ec-label-row">
+                            <label for="ev-petrol">Petrol price</label>
+                            <span class="ec-hint">today, in your city</span>
+                        </div>
+                        <div class="ec-input ec-prefix ec-suffix">
+                            <span aria-hidden="true">₹</span>
+                            <input id="ev-petrol" name="petrol" type="number" required inputmode="decimal" min="@Formatting.Number(RunningCost.MinPetrol)" max="@Formatting.Number(RunningCost.MaxPetrol)" step="0.01" value="@Formatting.Number(input.PetrolPerLitre)">
+                            <span aria-hidden="true">per litre</span>
+                        </div>
+                        <p class="ec-hint ev-note">₹@Formatting.Number(RunningCostModel.DefaultPetrol) is a round example. We don't track daily fuel prices.</p>
+                    </div>
+                }
+
+                <button class="btn btn-accent ec-submit" type="submit">Calculate</button>
+            </form>
+
+            <section class="ec-summary" aria-labelledby="ev-results">
+                <h2 id="ev-results" class="sr-only">Running cost results</h2>
+                <div class="ec-emi ev-emi" aria-live="polite">
+                    <span class="ec-emi-label">Charging cost a month</span>
+                    <strong class="ec-emi-value" data-ev-out="ev-monthly">@Formatting.Rupees((long)result.EvMonthly)</strong>
+                    <span class="ec-emi-note"><b data-ev-out="ev-km">@PerKm(result.EvCostPerKm)</b> per km over <b data-ev-out="km-month">@Formatting.Number(result.KmPerMonth)</b> km</span>
+                </div>
+
+                @if (result.PetrolMonthly is not null)
+                {
+                    <div class="ev-versus" aria-live="polite">
+                        <p class="ev-saving" data-ev-saving>
+                            @if (result.MonthlySaving >= 0)
+                            {
+                                <text>You save <strong data-ev-out="saving">@Formatting.Rupees((long)result.MonthlySaving!.Value)</strong> a month compared with the petrol @vehicle.</text>
+                            }
+                            else
+                            {
+                                <text>The electric @vehicle costs <strong data-ev-out="saving">@Formatting.Rupees((long)-result.MonthlySaving!.Value)</strong> a month more to run at these numbers.</text>
+                            }
+                        </p>
+                        <p class="ec-hint">Energy cost over 5 years</p>
+                        <dl class="ev-bars">
+                            <div>
+                                <dt>Electric</dt>
+                                <dd>
+                                    <svg viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true" focusable="false"><rect class="ev-bar-ev" x="0" y="0" height="10" width="@Formatting.Number(Math.Round(fiveYearEv * 100 / barMax, 1))" data-ev-bar="ev"></rect></svg>
+                                    <b data-ev-out="ev-5y">@Formatting.Rupees((long)fiveYearEv)</b>
+                                </dd>
+                            </div>
+                            <div>
+                                <dt>Petrol</dt>
+                                <dd>
+                                    <svg viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true" focusable="false"><rect class="ev-bar-petrol" x="0" y="0" height="10" width="@Formatting.Number(Math.Round(fiveYearPetrol * 100 / barMax, 1))" data-ev-bar="petrol"></rect></svg>
+                                    <b data-ev-out="petrol-5y">@Formatting.Rupees((long)fiveYearPetrol)</b>
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+                }
+
+                <dl class="ec-breakdown">
+                    <div><dt>Cost of a full charge</dt><dd data-ev-out="per-charge">@Formatting.Rupees((long)result.EvCostPerCharge)</dd></div>
+                    <div><dt>Full charges a month</dt><dd data-ev-out="charges">@Formatting.Number(result.ChargesPerMonth)</dd></div>
+                    @if (result.PetrolMonthly is not null)
+                    {
+                        <div><dt>Petrol cost a month</dt><dd data-ev-out="petrol-monthly">@Formatting.Rupees((long)result.PetrolMonthly.Value)</dd></div>
+                        <div><dt>Petrol cost per km</dt><dd data-ev-out="petrol-km">@PerKm(result.PetrolCostPerKm)</dd></div>
+                        <div class="ec-total"><dt>Saving a year</dt><dd data-ev-out="saving-year">@Signed(result.MonthlySaving!.Value * 12)</dd></div>
+                    }
+                    @if (bike.MinPrice is not null && Model.Petrol?.MinPrice is not null)
+                    {
+                        <div><dt>Extra price of the electric @vehicle <span class="ec-hint">starting ex-showroom</span></dt><dd data-ev-out="price-gap">@Signed(bike.MinPrice.Value - Model.Petrol.MinPrice.Value)</dd></div>
+                        <div class="ec-total"><dt>Fuel savings cover the extra price in</dt><dd data-ev-out="payback">@Payback(Model.PaybackMonths)</dd></div>
+                    }
+                </dl>
+            </section>
+        </div>
+    }
+
+    <div class="ec-info">
+        <section class="ec-card" aria-labelledby="ev-charging">
+            <h2 id="ev-charging">Battery and charging</h2>
+            <dl class="ec-vars">
+                @if (facts.BatteryKwh is { } battery) { <div><dt>Battery capacity</dt><dd>@Formatting.Number(battery) kWh</dd></div> }
+                @if (facts.ClaimedRangeKm is { } cr) { <div><dt>Claimed range</dt><dd>@Formatting.Number(cr) km</dd></div> }
+                @if (facts.EcoRangeKm is { } eco) { <div><dt>Range in eco mode</dt><dd>@Formatting.Number(eco) km</dd></div> }
+                @if (facts.NormalRangeKm is { } normal) { <div><dt>Range in normal mode</dt><dd>@Formatting.Number(normal) km</dd></div> }
+                @if (facts.SportRangeKm is { } sport) { <div><dt>Range in sport mode</dt><dd>@Formatting.Number(sport) km</dd></div> }
+                @if (facts.ChargeTo80 is { } t80) { <div><dt>Charging time 0–80%</dt><dd>@t80</dd></div> }
+                @if (facts.ChargeTo100 is { } t100) { <div><dt>Charging time 0–100%</dt><dd>@t100</dd></div> }
+                @if (facts.ChargerOutput is { } output) { <div><dt>Charger output</dt><dd>@output</dd></div> }
+                @if (facts.HomeCharging is { } home) { <div><dt>Charging at home</dt><dd>@(home ? "Yes" : "No")</dd></div> }
+                @if (facts.BatteryWarranty is { } warranty) { <div><dt>Battery warranty</dt><dd>@warranty</dd></div> }
+            </dl>
+            <p class="meta">Figures are the manufacturer's claims as listed in our specifications.</p>
+            <a class="btn btn-ghost" href="@bike.Url">Full @bike.ShortName specifications</a>
+        </section>
+
+        <section class="ec-card" aria-labelledby="ev-method">
+            <h2 id="ev-method">How this is worked out</h2>
+            <p class="ec-formula">Cost of a charge = battery kWh ÷ (1 − charging loss) × price per kWh</p>
+            <p class="ec-formula">Cost per km = cost of a charge ÷ range per charge</p>
+            <p>The petrol figure is the petrol price divided by the claimed mileage. These are energy costs only. They leave out insurance, servicing, tyres, a possible battery replacement, any purchase subsidy, and the higher price of public fast charging.</p>
+            @if (bike.MinPrice is { } price)
+            {
+                <a class="btn btn-ghost" href="/emi-calculator?amount=@price">Work out the EMI on @Formatting.PriceShort(price)</a>
+            }
+        </section>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>BikeCarHub</RootNamespace>
+    <UserSecretsId>78c08895-41a1-4dfe-b0a1-8d7edaac7f3d</UserSecretsId>
+    <DefaultItemExcludes>$(DefaultItemExcludes);tests\**;BCH\**;Logs\**;App_Data\**</DefaultItemExcludes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.35" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Image and article source folder; published next to the app so IImageUrlProvider can serve it. -->
+    <None Include="BCH\**" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

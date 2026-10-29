@@ -1,0 +1,186 @@
+@page "/emi-calculator"
+@model EmiModel
+@{
+    var months = Model.Years * 12;
+    var principalShare = 100 - Model.InterestShare;
+}
+
+<section class="ec-hero">
+    <div class="container">
+        <p class="ec-eyebrow">Loan planner</p>
+        <h1>Bike loan EMI calculator</h1>
+        <p class="ec-lead">Set the loan amount, interest rate and tenure to see your monthly instalment, the total interest and how the loan shrinks year by year. The result is an estimate; your lender's figures may differ.</p>
+    </div>
+</section>
+
+<div class="container ec-shell">
+    @if (Model.OutOfRange)
+    {
+        <p class="notice" role="alert">Those values are outside the allowed range, so the default example is shown.</p>
+    }
+
+    <div class="ec-layout">
+        <form class="ec-controls" method="get" action="/emi-calculator" data-emi-calculator>
+            <h2>Your loan</h2>
+
+            <div class="ec-field">
+                <div class="ec-label-row">
+                    <label for="emi-amount">Loan amount</label>
+                    <span class="ec-hint">₹50,000 to ₹1 crore</span>
+                </div>
+                <div class="ec-input ec-prefix">
+                    <span aria-hidden="true">₹</span>
+                    <input id="emi-amount" name="amount" type="number" required inputmode="numeric"
+                           min="@EmiCalculator.MinPrincipal" max="@EmiCalculator.MaxPrincipal" step="1" value="@Model.Amount.ToString("0")">
+                </div>
+                <input class="ec-range" type="range" min="0" max="1000" step="1" aria-label="Loan amount slider" tabindex="-1" data-emi-slider="amount" data-scale="log">
+                <div class="ec-scale" aria-hidden="true"><span>₹50K</span><span>₹1 Cr</span></div>
+            </div>
+
+            <div class="ec-field">
+                <div class="ec-label-row">
+                    <label for="emi-rate">Interest rate</label>
+                    <span class="ec-hint">1% to 18% a year</span>
+                </div>
+                <div class="ec-input ec-suffix">
+                    <input id="emi-rate" name="rate" type="number" required inputmode="decimal"
+                           min="@EmiCalculator.MinRate.ToString("0")" max="@EmiCalculator.MaxRate.ToString("0")" step="0.05" value="@Model.Rate.ToString("0.##")">
+                    <span aria-hidden="true">% p.a.</span>
+                </div>
+                <input class="ec-range" type="range" min="@EmiCalculator.MinRate.ToString("0")" max="@EmiCalculator.MaxRate.ToString("0")" step="0.05" aria-label="Interest rate slider" tabindex="-1" data-emi-slider="rate">
+                <div class="ec-scale" aria-hidden="true"><span>1%</span><span>18%</span></div>
+            </div>
+
+            <fieldset class="ec-field ec-tenure">
+                <legend>Loan tenure <span class="ec-hint">in years</span></legend>
+                <div class="ec-chips">
+                    @for (var years = EmiCalculator.MinYears; years <= EmiCalculator.MaxYears; years++)
+                    {
+                        <label class="ec-chip">
+                            <input type="radio" name="years" value="@years" required checked="@(years == Model.Years)">
+                            <span>@years</span>
+                        </label>
+                    }
+                </div>
+            </fieldset>
+
+            <div class="ec-field">
+                <div class="ec-label-row">
+                    <label for="emi-fee">Processing fee <span class="optional">(optional)</span></label>
+                    <span class="ec-hint">0% to @Formatting.Number(EmiCalculator.MaxFee)% of the loan</span>
+                </div>
+                <div class="ec-input ec-suffix">
+                    <input id="emi-fee" name="fee" type="number" inputmode="decimal"
+                           min="0" max="@Formatting.Number(EmiCalculator.MaxFee)" step="0.05" value="@Formatting.Number(Model.Fee)">
+                    <span aria-hidden="true">%</span>
+                </div>
+                <input class="ec-range" type="range" min="0" max="@Formatting.Number(EmiCalculator.MaxFee)" step="0.05" aria-label="Processing fee slider" tabindex="-1" data-emi-slider="fee">
+            </div>
+
+            <button class="btn btn-accent ec-submit" type="submit">Calculate</button>
+        </form>
+
+        <section class="ec-summary" aria-labelledby="emi-results">
+            <h2 id="emi-results" class="sr-only">Calculation results</h2>
+            <div class="ec-emi" aria-live="polite">
+                <span class="ec-emi-label">Monthly EMI</span>
+                <strong class="ec-emi-value" data-emi-out="monthly">@Formatting.Rupees((long)Model.Result.MonthlyEmi)</strong>
+                <span class="ec-emi-note">for <b data-emi-out="months">@months</b> months</span>
+            </div>
+
+            <div class="ec-split">
+                <div class="ec-donut">
+                    <svg viewBox="0 0 42 42" aria-hidden="true" focusable="false">
+                        <circle class="ec-donut-principal" cx="21" cy="21" r="15.9155" pathLength="100"></circle>
+                        <circle class="ec-donut-interest" cx="21" cy="21" r="15.9155" pathLength="100"
+                                stroke-dasharray="@Model.InterestShare 100" data-emi-donut></circle>
+                    </svg>
+                    <div class="ec-donut-centre">
+                        <strong data-emi-out="interest-share">@Model.InterestShare%</strong>
+                        <span>interest</span>
+                    </div>
+                </div>
+                <ul class="ec-legend">
+                    <li><span class="ec-dot ec-dot-principal"></span>Principal <b data-emi-out="principal-share">@principalShare%</b></li>
+                    <li><span class="ec-dot ec-dot-interest"></span>Interest <b data-emi-out="interest-share">@Model.InterestShare%</b></li>
+                </ul>
+            </div>
+
+            <dl class="ec-breakdown">
+                <div><dt>Principal amount</dt><dd data-emi-out="principal">@Formatting.Rupees((long)Model.Result.Principal)</dd></div>
+                <div><dt>Total interest payable</dt><dd data-emi-out="interest">@Formatting.Rupees((long)Model.Result.TotalInterest)</dd></div>
+                <div class="ec-total"><dt>Total amount payable</dt><dd data-emi-out="total">@Formatting.Rupees((long)Model.Result.TotalPayable)</dd></div>
+                <div><dt>Processing fee</dt><dd data-emi-out="fee">@Formatting.Rupees((long)Model.FeeAmount)</dd></div>
+                <div class="ec-total"><dt>Total cost of the loan <span class="ec-hint">interest + fee</span></dt><dd data-emi-out="cost">@Formatting.Rupees((long)(Model.Result.TotalInterest + Model.FeeAmount))</dd></div>
+            </dl>
+        </section>
+    </div>
+
+    <section class="ec-card" aria-labelledby="emi-schedule">
+        <div class="ec-card-head">
+            <h2 id="emi-schedule">Year-by-year repayment</h2>
+            <ul class="ec-legend ec-legend-inline" aria-hidden="true">
+                <li><span class="ec-dot ec-dot-principal"></span>Principal</li>
+                <li><span class="ec-dot ec-dot-interest"></span>Interest</li>
+            </ul>
+        </div>
+        <p class="meta">Each instalment stays the same, but early payments are mostly interest. As the balance falls, more of every EMI goes towards the principal.</p>
+        <div class="table-wrap">
+            <table class="ec-table">
+                <caption class="sr-only">Principal and interest paid in each year of the loan, with the balance left at year end</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Year</th>
+                        <th scope="col">Principal paid</th>
+                        <th scope="col">Interest paid</th>
+                        <th scope="col">Balance at year end</th>
+                        <th scope="col" class="ec-bar-col"><span class="sr-only">Split</span></th>
+                    </tr>
+                </thead>
+                <tbody data-emi-schedule>
+                    @foreach (var row in Model.Schedule)
+                    {
+                        var paid = row.PrincipalPaid + row.InterestPaid;
+                        var principalWidth = paid == 0 ? 0 : Math.Round(row.PrincipalPaid * 100 / paid, 1);
+                        <tr>
+                            <th scope="row">Year @row.Year</th>
+                            <td>@Formatting.Rupees((long)row.PrincipalPaid)</td>
+                            <td>@Formatting.Rupees((long)row.InterestPaid)</td>
+                            <td>@Formatting.Rupees((long)row.Balance)</td>
+                            <td class="ec-bar-col">
+                                <svg class="ec-bar" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                                    <rect class="ec-bar-principal" x="0" y="0" height="10" width="@Formatting.Number(principalWidth)"></rect>
+                                    <rect class="ec-bar-interest" y="0" height="10" x="@Formatting.Number(principalWidth)" width="@Formatting.Number(100 - principalWidth)"></rect>
+                                </svg>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <div class="ec-info">
+        <section class="ec-card" aria-labelledby="emi-formula">
+            <h2 id="emi-formula">How the EMI is worked out</h2>
+            <p class="ec-formula">EMI = P × r × (1 + r)<sup>n</sup> ÷ ((1 + r)<sup>n</sup> − 1)</p>
+            <dl class="ec-vars">
+                <div><dt>P, the loan amount</dt><dd data-emi-out="principal">@Formatting.Rupees((long)Model.Amount)</dd></div>
+                <div><dt>r, the monthly rate</dt><dd><span data-emi-out="rate">@Formatting.Number(Model.Rate)</span>% ÷ 12 ÷ 100</dd></div>
+                <div><dt>n, the number of months</dt><dd data-emi-out="months">@months</dd></div>
+            </dl>
+            <p class="meta">This is the standard reducing-balance method used for vehicle loans. Interest is charged each month on the balance still owed.</p>
+        </section>
+
+        <section class="ec-card" aria-labelledby="emi-tips">
+            <h2 id="emi-tips">Reading the numbers</h2>
+            <ul class="ec-tips">
+                <li><strong>A longer tenure</strong> lowers the EMI but raises the total interest you pay.</li>
+                <li><strong>A larger down payment</strong> means a smaller loan, so both the EMI and the interest fall.</li>
+                <li><strong>The processing fee</strong> is usually paid once, up front. It is not part of the EMI, so check it when comparing lenders.</li>
+                <li><strong>Prices on BikeCarHub are ex-showroom.</strong> Your loan may also cover registration and insurance, so confirm the on-road price with your dealer.</li>
+            </ul>
+            <a class="btn btn-ghost" href="/new-bikes">Browse new bikes</a>
+        </section>
+    </div>
+</div>

@@ -1,0 +1,56 @@
+@page "/upcoming-bikes"
+@model IndexModel
+
+<div class="container section">
+    <h1>Upcoming bikes in India</h1>
+
+    @if (Model.Upcoming.Count == 0)
+    {
+        <p class="notice">No upcoming launches are listed right now.</p>
+    }
+    else
+    {
+        <div class="grid grid-bikes">
+            @foreach (var bike in Model.Upcoming)
+            {
+                <article class="card">
+                    @if (bike.ImagePath is not null)
+                    {
+                        <a class="card-media" href="@bike.Url" tabindex="-1" aria-hidden="true">@Html.Img(bike.ImagePath, bike.Name, 320, 213)</a>
+                    }
+                    <div class="card-body">
+                        <h2 class="card-title"><a href="@bike.Url">@bike.Name</a></h2>
+                        <p class="meta">Expected @(bike.ExpectedText ?? Formatting.NotAvailable)</p>
+                    </div>
+                </article>
+            }
+        </div>
+    }
+
+    @if (Model.Released.Count > 0)
+    {
+        <section aria-labelledby="released-heading">
+            <h2 id="released-heading">Now launched</h2>
+            <ul class="link-list two-col">
+                @foreach (var bike in Model.Released)
+                {
+                    <li><a href="@bike.ReleasedAs!.Url">@bike.Name</a> <span class="meta">See price and specifications</span></li>
+                }
+            </ul>
+        </section>
+    }
+
+    @if (Model.DatePassed.Count > 0)
+    {
+        <section aria-labelledby="passed-heading">
+            <h2 id="passed-heading">Expected date has passed</h2>
+            <p class="meta">These models were expected on the dates shown and are not yet listed on BikeCarHub as launched.</p>
+            <ul class="link-list two-col">
+                @foreach (var bike in Model.DatePassed)
+                {
+                    <li><a href="@bike.Url">@bike.Name</a> <span class="meta">Was expected @(bike.ExpectedText ?? Formatting.NotAvailable)</span></li>
+                }
+            </ul>
+        </section>
+    }
+</div>

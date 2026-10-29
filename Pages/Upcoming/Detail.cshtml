@@ -1,0 +1,39 @@
+@page "/upcoming-bikes/{slug}"
+@model DetailModel
+@{
+    var bike = Model.Bike;
+}
+
+<article class="container section prose">
+    <h1>@bike.Name</h1>
+    @switch (Model.Status)
+    {
+        case LaunchStatus.Upcoming:
+            <p class="status status-upcoming">Upcoming · expected @(bike.ExpectedText ?? Formatting.NotAvailable)</p>
+            break;
+        case LaunchStatus.Released:
+            <p class="status status-released">Launched · <a href="@bike.ReleasedAs!.Url">see @bike.ReleasedAs.Name price and specifications</a></p>
+            break;
+        default:
+            <p class="status status-passed">Was expected @(bike.ExpectedText ?? Formatting.NotAvailable) · that date has passed</p>
+            break;
+    }
+
+    @if (bike.ImagePath is not null)
+    {
+        <div class="article-cover">
+            @Html.Img(bike.ImagePath, bike.Name, 960, 540, eager: true)
+        </div>
+    }
+
+    @if (bike.BodyHtml is not null)
+    {
+        @Html.Raw(bike.BodyHtml)
+    }
+    else
+    {
+        <p class="notice">Details for this model are not available.</p>
+    }
+
+    <p><a href="/upcoming-bikes">All upcoming bikes</a></p>
+</article>

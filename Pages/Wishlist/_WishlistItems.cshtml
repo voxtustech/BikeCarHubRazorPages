@@ -1,0 +1,144 @@
+@model BikeCarHub.Pages.Wishlist.WishlistView
+@using BikeCarHub.Pages.Wishlist
+@{
+    var items = Model.Items;
+    var own = Model.Mode != WishlistMode.Shared;
+    var priced = items.Where(i => i.Bike.MinPrice is not null).ToList();
+    var cheapest = priced.MinBy(i => i.Bike.MinPrice);
+    var thriftiest = items.Where(i => i.Bike.MileageKmpl > 0).MaxBy(i => i.Bike.MileageKmpl);
+    var furthest = items.Where(i => i.Ev?.ClaimedRangeKm is not null).MaxBy(i => i.Ev!.ClaimedRangeKm);
+    var kinds = new List<(string Key, string Label, int Count)>
+    {
+        ("petrol", "Petrol", items.Count(i => !i.Bike.IsEv)),
+        ("electric", "Electric", items.Count(i => i.Bike.IsEv)),
+        ("scooter", "Scooters", items.Count(i => i.Bike.IsScooter)),
+        ("bike", "Motorcycles", items.Count(i => !i.Bike.IsScooter))
+    };
+}
+
+@if (items.Count == 0)
+{
+    <div class="wl-empty" data-wl-count="0">
+        <svg class="wl-empty-art" viewBox="0 0 120 80" aria-hidden="true" focusable="false">
+            <circle cx="30" cy="58" r="14" />
+            <circle cx="92" cy="58" r="14" />
+            <path d="M30 58 L50 30 H74 L92 58 M50 30 L44 20 H34 M74 30 L80 20 H88" />
+            <path class="wl-empty-heart" d="M61 50 c-7-5-12-9-12-14 a5.5 5.5 0 0 1 12-2 a5.5 5.5 0 0 1 12 2 c0 5-5 9-12 14z" />
+        </svg>
+        @if (own)
+        {
+            <h2>Your garage is empty</h2>
+            <p>Tap the heart on any bike or scooter to save it here. Then compare your favourites, work out EMIs and share the shortlist.</p>
+        }
+        else
+        {
+            <h2>This shortlist is empty</h2>
+            <p>The link may be old, or the bikes in it are no longer listed.</p>
+        }
+        <div class="wl-empty-actions">
+            <a class="btn btn-accent" href="/new-bikes">Browse new bikes</a>
+            <a class="btn btn-ghost" href="/electric-bikes">Electric bikes</a>
+        </div>
+    </div>
+}
+else
+{
+    <div data-wl-count="@items.Count">
+        <ul class="wl-insights" aria-label="About this list">
+            <li><span>Saved</span><strong>@items.Count @(items.Count == 1 ? "model" : "models")</strong></li>
+            @if (priced.Count > 1)
+            {
+                <li><span>Price spread</span><strong>@Formatting.PriceShort(priced.Min(i => i.Bike.MinPrice!.Value)) – @Formatting.PriceShort(priced.Max(i => i.Bike.MaxPrice ?? i.Bike.MinPrice!.Value))</strong></li>
+            }
+            @if (cheapest is not null)
+            {
+                <li><span>Lowest price</span><strong>@cheapest.Bike.Name</strong></li>
+            }
+            @if (thriftiest is not null)
+            {
+                <li><span>Best mileage</span><strong>@thriftiest.Bike.Name <small>@Formatting.Number(thriftiest.Bike.MileageKmpl!.Value) km/l</small></strong></li>
+            }
+            @if (furthest is not null)
+            {
+                <li><span>Longest range</span><strong>@furthest.Bike.Name <small>@Formatting.Number(furthest.Ev!.ClaimedRangeKm!.Value) km</small></strong></li>
+            }
+        </ul>
+
+        <div class="wl-toolbar">
+            <div class="wl-filters" role="group" aria-label="Show">
+                <button type="button" class="wl-filter" data-wl-filter="all" aria-pressed="true">All <span>@items.Count</span></button>
+                @foreach (var (key, label, count) in kinds.Where(k => k.Count > 0 && k.Count < items.Count))
+                {
+                    <button type="button" class="wl-filter" data-wl-filter="@key" aria-pressed="false">@label <span>@count</span></button>
+                }
+            </div>
+            <label class="wl-sort">
+                <span>Sort</span>
+                <select data-wl-sort>
+                    <option value="saved">@(own ? "Recently saved" : "As shared")</option>
+                    <option value="price-asc">Price: low to high</option>
+                    <option value="price-desc">Price: high to low</option>
+                    <option value="name">Name</option>
+                </select>
+            </label>
+        </div>
+
+        <ul class="wl-grid" data-wl-grid>
+            @for (var i = 0; i < items.Count; i++)
+            {
+                var item = items[i];
+                var bike = item.Bike;
+                var ev = item.Ev;
+                <li class="wl-item" data-wl-item data-slug="@bike.FullSlug" data-order="@i" data-price="@bike.MinPrice" data-name="@bike.Name"
+                    data-fuel="@(bike.IsEv ? "electric" : "petrol")" data-type="@(bike.IsScooter ? "scooter" : "bike")">
+                    <article class="wl-card">
+                        <a class="wl-media" href="@bike.Url" tabindex="-1" aria-hidden="true">
+                            @Html.Img(bike.ImagePath, bike.Name, 320, 213)
+                            @if (bike.IsEv) { <span class="wl-badge">Electric</span> }
+                        </a>
+                        @if (own)
+                        {
+                            <button type="button" class="wl-remove" data-wl-remove aria-label="Remove @bike.Name from your wishlist">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" /></svg>
+                            </button>
+                        }
+                        else
+                        {
+                            <partial name="_WishButton" model="(bike, true)" />
+                        }
+                        <div class="wl-body">
+                            <p class="wl-brand">@bike.Brand.Name</p>
+                            <h3><a href="@bike.Url">@bike.Name</a></h3>
+                            <p class="price">@Formatting.PriceRange(bike.MinPrice, bike.MaxPrice)</p>
+                            <ul class="facts">
+                                @if (ev?.ClaimedRangeKm is { } range) { <li>@Formatting.Number(range) km range</li> }
+                                @if (ev?.BatteryKwh is { } kwh) { <li>@Formatting.Number(kwh) kWh</li> }
+                                @if (!bike.IsEv && bike.DisplacementCc is { } cc) { <li>@Formatting.Number(cc) cc</li> }
+                                @if (!bike.IsEv && bike.MileageKmpl is { } kmpl) { <li>@Formatting.Number(kmpl) km/l</li> }
+                                @if (bike.Type is not null) { <li>@bike.Type</li> }
+                            </ul>
+                            @if (own)
+                            {
+                                <p class="wl-added" data-wl-added>@(item.Added is { } added ? $"Saved {added:d MMM yyyy}" : "")</p>
+                            }
+                            <div class="wl-actions">
+                                @if (bike.MinPrice is { } price && price >= EmiCalculator.MinPrincipal)
+                                {
+                                    <a class="wl-action" href="/emi-calculator?amount=@price">EMI</a>
+                                }
+                                @if (ev is not null)
+                                {
+                                    <a class="wl-action" href="@BikeCarHub.Pages.Electric.ElectricSection.UrlFor(bike)">Running cost</a>
+                                }
+                                <label class="wl-compare">
+                                    <input type="checkbox" data-wl-compare value="@bike.FullSlug">
+                                    <span>Compare</span>
+                                </label>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+            }
+        </ul>
+    </div>
+}

@@ -1,0 +1,24 @@
+@page "/newsletter"
+@model NewsletterModel
+
+<div class="container section narrow">
+    <h1>Subscribe to BikeCarHub</h1>
+    @if (Model.Outcome is not null)
+    {
+        <p class="notice @(Model.IsDemo ? "notice-demo" : "notice-ok")" role="status">@Model.Outcome</p>
+    }
+    else
+    {
+        <p class="lead">Confirm your email address to receive our newsletter.</p>
+        <form class="panel" method="post" novalidate>
+            <label asp-for="Email">Email address</label>
+            <input asp-for="Email" type="email" autocomplete="email" maxlength="150" required>
+            <span asp-validation-for="Email" class="field-error"></span>
+            <div class="hp" aria-hidden="true">
+                <label asp-for="Website">Leave this field empty</label>
+                <input asp-for="Website" tabindex="-1" autocomplete="off">
+            </div>
+            <button class="btn btn-accent" type="submit">Subscribe</button>
+        </form>
+    }
+</div>

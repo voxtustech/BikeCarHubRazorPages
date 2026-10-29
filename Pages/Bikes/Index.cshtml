@@ -1,0 +1,76 @@
+@page "/new-bikes"
+@model IndexModel
+
+<div class="container section">
+    <h1>New bikes in India</h1>
+    <p class="lead">@Model.Total @(Model.Total == 1 ? "model" : "models") found. Prices are ex-showroom and indicative.</p>
+    <p class="ev-link"><a href="/electric-bikes">Looking for an electric bike? See electric bikes and their running costs</a></p>
+
+    <form class="filters" method="get" action="/new-bikes" aria-label="Filter bikes">
+        <div>
+            <label for="f-brand">Brand</label>
+            <select id="f-brand" name="brand">
+                <option value="">All brands</option>
+                @foreach (var brand in Model.Catalog.Brands)
+                {
+                    <option value="@brand.Slug" selected="@(Model.Filter.Brand == brand.Slug)">@brand.Name</option>
+                }
+            </select>
+        </div>
+        <div>
+            <label for="f-type">Type</label>
+            <select id="f-type" name="type">
+                <option value="">All types</option>
+                <option value="bike" selected="@(Model.Filter.Type == "bike")">Bikes</option>
+                <option value="scooter" selected="@(Model.Filter.Type == "scooter")">Scooters</option>
+            </select>
+        </div>
+        <div>
+            <label for="f-fuel">Fuel</label>
+            <select id="f-fuel" name="fuel">
+                <option value="">Petrol and electric</option>
+                <option value="petrol" selected="@(Model.Filter.Fuel == "petrol")">Petrol</option>
+                <option value="electric" selected="@(Model.Filter.Fuel == "electric")">Electric</option>
+            </select>
+        </div>
+        <div>
+            <label for="f-min">Min price (₹)</label>
+            <input id="f-min" name="min" type="number" min="0" step="1000" inputmode="numeric" value="@Model.Filter.Min">
+        </div>
+        <div>
+            <label for="f-max">Max price (₹)</label>
+            <input id="f-max" name="max" type="number" min="0" step="1000" inputmode="numeric" value="@Model.Filter.Max">
+        </div>
+        <div>
+            <label for="f-sort">Sort by</label>
+            <select id="f-sort" name="sort">
+                @foreach (var (key, label) in BikeQuery.SortOptions)
+                {
+                    <option value="@key" selected="@((Model.Filter.Sort ?? "name") == key)">@label</option>
+                }
+            </select>
+        </div>
+        <div class="filter-actions">
+            <button class="btn btn-accent" type="submit">Apply</button>
+            @if (Model.Filter.HasFilters)
+            {
+                <a class="btn btn-ghost" href="/new-bikes">Clear</a>
+            }
+        </div>
+    </form>
+
+    @if (Model.Results.Count == 0)
+    {
+        <p class="notice">No bikes match these filters. <a href="/new-bikes">Clear the filters</a> to see every model.</p>
+    }
+    else
+    {
+        <div class="grid grid-bikes">
+            @foreach (var bike in Model.Results)
+            {
+                <partial name="_BikeCard" model="bike" />
+            }
+        </div>
+        <partial name="_Pager" model="(Model.PageNumber, Model.TotalPages)" />
+    }
+</div>

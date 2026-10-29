@@ -1,0 +1,114 @@
+@page "/compare/{slug?}"
+@model IndexModel
+@{
+    string[] slots = ["a", "b", "c"];
+    string[] slotLabels = ["First bike", "Second bike", "Third bike (optional)"];
+}
+
+<div class="container section">
+    @if (Model.Columns.Count == 0)
+    {
+        <h1>Compare bikes</h1>
+        <p class="lead">Choose two or three models to see their prices and specifications side by side.</p>
+    }
+    else
+    {
+        <h1>@string.Join(" vs ", Model.Columns.Select(c => c.Bike.Name))</h1>
+    }
+
+    <form class="compare-form" method="get" action="/compare/go" aria-label="Choose bikes to compare">
+        @for (var i = 0; i < slots.Length; i++)
+        {
+            <fieldset data-bike-picker>
+                <legend>@slotLabels[i]</legend>
+                <label for="cmp-brand-@slots[i]">Brand</label>
+                <select id="cmp-brand-@slots[i]" data-brand-select>
+                    <option value="">All brands</option>
+                    @foreach (var brand in Model.Catalog.Brands)
+                    {
+                        <option value="@brand.Slug">@brand.Name</option>
+                    }
+                </select>
+                <label for="cmp-model-@slots[i]">Model</label>
+                <select id="cmp-model-@slots[i]" name="@slots[i]" required="@(i < 2)" data-model-select>
+                    <option value="">@(i < 2 ? "Select model" : "None")</option>
+                    @foreach (var brand in Model.Catalog.Brands)
+                    {
+                        <optgroup label="@brand.Name" data-brand="@brand.Slug">
+                            @foreach (var bike in brand.Bikes)
+                            {
+                                <option value="@bike.FullSlug" data-brand="@brand.Slug" selected="@(Model.Preselected[i] == bike.FullSlug)">@bike.Name</option>
+                            }
+                        </optgroup>
+                    }
+                </select>
+            </fieldset>
+        }
+        <button class="btn btn-accent" type="submit">Compare</button>
+    </form>
+
+    @if (Model.Columns.Count > 0)
+    {
+        <div class="table-wrap compare-wrap" tabindex="0" role="region" aria-label="Comparison table">
+            <table class="compare">
+                <thead>
+                    <tr>
+                        <td></td>
+                        @foreach (var column in Model.Columns)
+                        {
+                            <th scope="col">
+                                <a href="@column.Bike.Url">
+                                    @Html.Img(column.Bike.ImagePath, column.Bike.Name, 240, 160, eager: true)
+                                    <span>@column.Bike.Name</span>
+                                </a>
+                            </th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Ex-showroom price</th>
+                        @foreach (var column in Model.Columns)
+                        {
+                            <td>@Formatting.PriceRange(column.Bike.MinPrice, column.Bike.MaxPrice)</td>
+                        }
+                    </tr>
+                    <tr>
+                        <th scope="row">Variant compared</th>
+                        @foreach (var column in Model.Columns)
+                        {
+                            <td>@(column.Variant?.ShortName ?? Formatting.NotAvailable)</td>
+                        }
+                    </tr>
+                    @foreach (var group in Model.Groups)
+                    {
+                        <tr class="group-row"><th scope="colgroup" colspan="@(Model.Columns.Count + 1)">@group.Title</th></tr>
+                        foreach (var row in group.Rows)
+                        {
+                            <tr>
+                                <th scope="row">@row.Label</th>
+                                @foreach (var value in row.Values)
+                                {
+                                    <td>@(value ?? Formatting.NotAvailable)</td>
+                                }
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <p class="meta">Prices are ex-showroom and indicative. Each model is compared using its first listed variant.</p>
+    }
+    else if (Model.Popular.Count > 0)
+    {
+        <section aria-labelledby="popular-heading">
+            <h2 id="popular-heading">Popular comparisons</h2>
+            <ul class="link-list two-col">
+                @foreach (var (a, b) in Model.Popular)
+                {
+                    <li><a href="@IndexModel.UrlFor([a, b])">@a.Name vs @b.Name</a></li>
+                }
+            </ul>
+        </section>
+    }
+</div>

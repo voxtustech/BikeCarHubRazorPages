@@ -1,0 +1,38 @@
+@page "/account/sign-up"
+@model SignUpModel
+
+<div class="container section narrow">
+    <h1>Create an account</h1>
+    @if (Model.DemoNotice is not null)
+    {
+        <p class="notice notice-demo" role="status">@Model.DemoNotice</p>
+    }
+    <form class="panel" method="post" novalidate>
+        <div asp-validation-summary="ModelOnly" class="field-error" role="alert"></div>
+
+        <label asp-for="FullName">Full name</label>
+        <input asp-for="FullName" autocomplete="name" maxlength="100" required>
+        <span asp-validation-for="FullName" class="field-error"></span>
+
+        <label asp-for="Email">Email</label>
+        <input asp-for="Email" type="email" autocomplete="email" required>
+        <span asp-validation-for="Email" class="field-error"></span>
+
+        <label asp-for="Password">Password</label>
+        <input asp-for="Password" type="password" autocomplete="new-password" aria-describedby="password-help" required>
+        <span id="password-help" class="meta">At least 8 characters, with a letter and a number.</span>
+        <span asp-validation-for="Password" class="field-error"></span>
+
+        <label asp-for="ConfirmPassword">Confirm password</label>
+        <input asp-for="ConfirmPassword" type="password" autocomplete="new-password" required>
+        <span asp-validation-for="ConfirmPassword" class="field-error"></span>
+
+        <div class="hp" aria-hidden="true">
+            <label asp-for="Website">Leave this field empty</label>
+            <input asp-for="Website" tabindex="-1" autocomplete="off">
+        </div>
+
+        <button class="btn btn-accent" type="submit">Create account</button>
+    </form>
+    <p>Already have an account? <a href="/account/sign-in">Sign in</a></p>
+</div>

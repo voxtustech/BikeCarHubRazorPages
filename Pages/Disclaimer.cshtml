@@ -1,0 +1,20 @@
+@page "/disclaimer"
+@{
+    ViewData["Meta"] = new PageMeta
+    {
+        Title = "Disclaimer | BikeCarHub",
+        Description = "How to read the prices, specifications and launch dates shown on BikeCarHub.",
+        CanonicalPath = "/disclaimer"
+    }.Crumbs(("Disclaimer", "/disclaimer"));
+}
+
+<div class="container section prose">
+    <h1>Disclaimer</h1>
+    <p class="notice notice-demo">Sample text. Replace with your reviewed disclaimer before launch.</p>
+    <h2>Prices</h2>
+    <p>Prices shown on BikeCarHub are ex-showroom and indicative. They are not on-road prices and do not include registration, insurance or other charges. Confirm the final price with an authorised dealer.</p>
+    <h2>Specifications</h2>
+    <p>Specifications and features are compiled from available information and may change without notice. Where a value is not known it is shown as "Not available".</p>
+    <h2>Upcoming models</h2>
+    <p>Expected launch dates are estimates and are not confirmed by the manufacturer unless stated.</p>
+</div>
