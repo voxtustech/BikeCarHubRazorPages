@@ -1,0 +1,1 @@
+1.In ask a question we have 3 fields Name,Email,Question and a submit button and these details are saved in database.

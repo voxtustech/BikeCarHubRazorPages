@@ -1,0 +1,10 @@
+1.In EMI Calculator, design a card on left side having Principal Amount (₹50,000 to ₹1,00,00,000),Rate of Interest (1% to 18%), Loan Period (1 to 7 years)
+2.On right side we have Calculation Results
+Monthly EMI:
+₹3,227
+Principal Amount:
+₹1,00,000
+Total Interest Payable:
+₹16,162
+Total Amount Payable:
+₹1,16,162
