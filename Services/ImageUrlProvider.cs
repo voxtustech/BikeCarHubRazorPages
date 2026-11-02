@@ -10,39 +10,45 @@ public interface IImageUrlProvider
     string Resolve(string? dbPath);
     /// <summary>Physical file for a /images/... path, or null when it is not in the local image root.</summary>
     string? MapToLocalFile(string? dbPath);
-    /// <summary>Physical folder that holds the image, used to find an article's .docx and gallery.</summary>
+    /// <summary>Physical folder that holds the image, used to find an article's gallery and .docx.</summary>
     string? MapToLocalDirectory(string? dbPath);
     string? FindFolder(string virtualPrefix, string folderSlug);
+    /// <summary>The .docx for an article's image folder: same sub-path under the private articles root, or null.</summary>
+    string? FindArticleFile(string imageFolder);
     string ToVirtualPath(string physicalFile);
 }
 
 public sealed class ImageUrlProvider : IImageUrlProvider
 {
-    // Database path prefix -> folder under the local image root (the BCH\Home\Images layout).
+    // Database path prefix -> folder under the local image root (the wwwroot\images layout).
     private static readonly (string Prefix, string Folder)[] Map =
     [
-        ("/images/twowheeler/brand logo/", "06BrandLogo"),
-        ("/images/twowheeler/twowheelerimages/", Path.Combine("07BrandModelLogo", "TwoWheelerImages")),
-        ("/images/blogs/", "02Blogs"),
-        ("/images/latestnews/", "05LatestNews"),
-        ("/images/valueformoney/", "03ValueForMoney"),
-        ("/images/heroslides/", "01Heroslides"),
-        ("/images/twowheeler/upcomming/", Path.Combine("04UpcomingBike", "TwoWheeler", "Upcommming")),
-        ("/images/comparebikes/", "08CompareBikes"),
-        ("/images/upcoming/", Path.Combine("04UpcomingBike", "TwoWheeler", "Upcommming")),
-        ("/images/compare/", "08CompareBikes"),
-        ("/images/bchlogo/", "BCHLogoImage"),
-        ("/images/default.webp", Path.Combine("BCHLogoImage", "default.webp"))
+        ("/images/twowheeler/brand logo/", "brands"),
+        ("/images/twowheeler/twowheelerimages/", "bikes"),
+        ("/images/blogs/", "blogs"),
+        ("/images/latestnews/", "news"),
+        ("/images/valueformoney/", "value-for-money"),
+        ("/images/heroslides/", "hero"),
+        ("/images/twowheeler/upcomming/", "upcoming"),
+        ("/images/comparebikes/", "compare"),
+        ("/images/upcoming/", "upcoming"),
+        ("/images/compare/", "compare"),
+        ("/images/bchlogo/", "site"),
+        ("/images/default.webp", Path.Combine("site", "default.webp")),
+        ("/images/twowheeler/default.webp", Path.Combine("site", "default.webp"))
     ];
 
     private readonly string _root;
+    private readonly string _articlesRoot;
     private readonly string? _remoteBase;
     private readonly ConcurrentDictionary<string, string?> _fileCache = new(StringComparer.OrdinalIgnoreCase);
 
     public ImageUrlProvider(IConfiguration config, IWebHostEnvironment env)
     {
-        var root = config["Images:LocalRoot"] ?? "BCH/Home/Images";
+        var root = config["Images:LocalRoot"] ?? "wwwroot/images";
         _root = Path.GetFullPath(Path.IsPathRooted(root) ? root : Path.Combine(env.ContentRootPath, root));
+        var articlesRoot = config["Images:ArticlesRoot"] ?? "Articles";
+        _articlesRoot = Path.GetFullPath(Path.IsPathRooted(articlesRoot) ? articlesRoot : Path.Combine(env.ContentRootPath, articlesRoot));
         _remoteBase = config["Images:RemoteBaseUrl"]?.TrimEnd('/');
         if (string.IsNullOrWhiteSpace(_remoteBase)) _remoteBase = null;
     }
@@ -87,6 +93,12 @@ public sealed class ImageUrlProvider : IImageUrlProvider
         if (!Directory.Exists(start)) return null;
         return Directory.EnumerateDirectories(start, "*", SearchOption.AllDirectories)
             .FirstOrDefault(d => Slugger.Slugify(Path.GetFileName(d)) == folderSlug);
+    }
+
+    public string? FindArticleFile(string imageFolder)
+    {
+        var folder = Path.Combine(_articlesRoot, Path.GetRelativePath(_root, imageFolder));
+        return Directory.Exists(folder) ? Directory.EnumerateFiles(folder, "*.docx").FirstOrDefault() : null;
     }
 
     public string ToVirtualPath(string physicalFile)

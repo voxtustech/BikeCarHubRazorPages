@@ -21,5 +21,11 @@ namespace BikeCarHub.Models
         public string? TitleTag { get; set; }
         public string? MetaDescription { get; set; }
         public string? MetaKeywords { get; set; }
+        [MaxLength(120)]
+        public string? BrandSlug { get; set; }
+        [MaxLength(100)]
+        public string? CountryOfOrigin { get; set; }
+        [MaxLength(200)]
+        public string? ParentCompany { get; set; }
     }
 }

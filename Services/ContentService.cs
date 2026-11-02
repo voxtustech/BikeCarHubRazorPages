@@ -107,10 +107,10 @@ public sealed class ContentService(IContentRepository repo, ICatalogService cata
 
         (article.BodyHtml, article.BodyTextLength) = Formatting.TextToHtml(body);
 
-        // Longer articles live as a Word file next to their images; prefer it when it has more text.
+        // Longer articles live as a Word file in the Articles folder; prefer it when it has more text.
         if (images.MapToLocalDirectory(imagePath) is { } folder)
         {
-            var docx = Directory.EnumerateFiles(folder, "*.docx").FirstOrDefault();
+            var docx = images.FindArticleFile(folder);
             if (docx is not null)
             {
                 var (html, length) = DocxArticleReader.Read(docx, article.Title);
@@ -153,7 +153,7 @@ public sealed class ContentService(IContentRepository repo, ICatalogService cata
             var files = ImagesIn(folder).ToList();
             var cover = files.FirstOrDefault(f => Path.GetFileName(f).Contains("header", StringComparison.OrdinalIgnoreCase)) ?? files.FirstOrDefault();
             if (cover is not null) bike.ImagePath = images.ToVirtualPath(cover);
-            var docx = Directory.EnumerateFiles(folder, "*.docx").FirstOrDefault();
+            var docx = images.FindArticleFile(folder);
             if (docx is not null)
             {
                 var (html, length) = DocxArticleReader.Read(docx, null);

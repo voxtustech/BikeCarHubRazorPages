@@ -22,7 +22,7 @@
             <fieldset data-bike-picker>
                 <legend>@slotLabels[i]</legend>
                 <label for="cmp-brand-@slots[i]">Brand</label>
-                <select id="cmp-brand-@slots[i]" data-brand-select>
+                <select id="cmp-brand-@slots[i]" data-brand-select data-searchable>
                     <option value="">All brands</option>
                     @foreach (var brand in Model.Catalog.Brands)
                     {
@@ -30,7 +30,7 @@
                     }
                 </select>
                 <label for="cmp-model-@slots[i]">Model</label>
-                <select id="cmp-model-@slots[i]" name="@slots[i]" required="@(i < 2)" data-model-select>
+                <select id="cmp-model-@slots[i]" name="@slots[i]" required="@(i < 2)" data-model-select data-searchable>
                     <option value="">@(i < 2 ? "Select model" : "None")</option>
                     @foreach (var brand in Model.Catalog.Brands)
                     {

@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>BikeCarHub</RootNamespace>
     <UserSecretsId>78c08895-41a1-4dfe-b0a1-8d7edaac7f3d</UserSecretsId>
-    <DefaultItemExcludes>$(DefaultItemExcludes);tests\**;BCH\**;Logs\**;App_Data\**</DefaultItemExcludes>
+    <DefaultItemExcludes>$(DefaultItemExcludes);tests\**;Articles\**;Logs\**;App_Data\**</DefaultItemExcludes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- Image and article source folder; published next to the app so IImageUrlProvider can serve it. -->
-    <None Include="BCH\**" CopyToPublishDirectory="PreserveNewest" />
+    <!-- Article Word files; published next to the app, outside wwwroot, so they are read by the site but never served. -->
+    <None Include="Articles\**" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

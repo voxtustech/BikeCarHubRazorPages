@@ -16,7 +16,7 @@
             <form class="finder" method="get" action="/search" data-bike-search aria-label="Find a bike">
                 <div class="finder-field">
                     <label for="find-brand">Brand</label>
-                    <select id="find-brand" name="brand" required data-brand-select>
+                    <select id="find-brand" name="brand" required data-brand-select data-searchable>
                         <option value="">Choose a brand</option>
                         @foreach (var brand in Model.Catalog.Brands)
                         {
@@ -26,7 +26,7 @@
                 </div>
                 <div class="finder-field">
                     <label for="find-model">Model</label>
-                    <select id="find-model" name="model" data-model-select>
+                    <select id="find-model" name="model" data-model-select data-searchable>
                         <option value="">Any model</option>
                         @foreach (var brand in Model.Catalog.Brands)
                         {

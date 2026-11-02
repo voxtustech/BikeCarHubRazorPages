@@ -9,7 +9,7 @@
     <form class="filters" method="get" action="/new-bikes" aria-label="Filter bikes">
         <div>
             <label for="f-brand">Brand</label>
-            <select id="f-brand" name="brand">
+            <select id="f-brand" name="brand" data-searchable>
                 <option value="">All brands</option>
                 @foreach (var brand in Model.Catalog.Brands)
                 {

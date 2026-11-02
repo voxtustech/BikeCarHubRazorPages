@@ -111,7 +111,8 @@ app.Use(async (context, next) =>
     await next();
 });
 
-app.UseStaticFiles(new StaticFileOptions
+// /images is served only by the endpoint below, which maps database paths to folders, so every image keeps one URL.
+app.UseWhen(context => !context.Request.Path.StartsWithSegments("/images"), branch => branch.UseStaticFiles(new StaticFileOptions
 {
     OnPrepareResponse = context =>
     {
@@ -119,7 +120,7 @@ app.UseStaticFiles(new StaticFileOptions
         var versioned = context.Context.Request.Query.ContainsKey("v");
         context.Context.Response.Headers.CacheControl = versioned ? "public,max-age=31536000,immutable" : "public,max-age=86400";
     }
-});
+}));
 
 // One URL per page: lowercase, no trailing slash.
 app.Use(async (context, next) =>

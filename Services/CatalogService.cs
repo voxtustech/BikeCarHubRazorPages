@@ -93,7 +93,7 @@ public sealed class CatalogService(ICatalogRepository repo, ICacheStore cache, I
                 Slug = slug,
                 Brand = brand,
                 Type = Clean(r.Type),
-                ImagePath = Clean(r.TWImage) ?? FindModelImage(name),
+                ImagePath = PickModelImage(Clean(r.TWImage), name),
                 MinPrice = min,
                 MaxPrice = max,
                 LaunchText = Clean(r.LaunchDate),
@@ -152,8 +152,16 @@ public sealed class CatalogService(ICatalogRepository repo, ICacheStore cache, I
 
     private static readonly string[] ImageExtensions = [".webp", ".avif", ".png", ".jpg", ".jpeg"];
 
-    // Models added without TWImage still get a photo once one is placed in a folder named after the model
-    // (e.g. TwoWheelerImages\Yamaha\Yamaha YZF-R2\racing blue.webp), so no database edit is needed.
+    // Use the stored path only when its file is on this server; otherwise prefer a photo in the model's folder over the remote host.
+    private string? PickModelImage(string? stored, string modelName)
+    {
+        var isRealPhoto = stored is not null && !stored.EndsWith("/default.webp", StringComparison.OrdinalIgnoreCase);
+        if (isRealPhoto && images.MapToLocalFile(stored) is not null) return stored;
+        return FindModelImage(modelName) ?? stored;
+    }
+
+    // Models without a usable TWImage still get a photo once one is placed in a folder named after the model
+    // (e.g. bikes\Yamaha\Yamaha YZF-R2\racing blue.webp), so no database edit is needed.
     private string? FindModelImage(string modelName)
     {
         var folder = images.FindFolder("/images/twowheeler/twowheelerimages/", Slugger.Slugify(modelName));

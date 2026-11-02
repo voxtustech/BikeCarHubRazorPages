@@ -6,7 +6,7 @@ See [Docs/ARCHITECTURE.md](Docs/ARCHITECTURE.md) and [Docs/data-mapping-report.m
 ## Prerequisites
 - .NET SDK 8 or later (built and tested here with SDK 9.0.318 targeting `net8.0`; the .NET 8 runtime must be installed).
 - Network access to the SQL Server.
-- The `BCH\Home\Images` folder (images and article `.docx` files).
+- The `wwwroot\images` folder (images) and the `Articles` folder (article `.docx` files).
 
 ## Connection string
 It is never stored in the repository. `appsettings.json` has an empty placeholder.
@@ -20,8 +20,9 @@ dotnet user-secrets set "ConnectionStrings:Default" "Server=...;Database=...;Use
 |---|---|---|
 | `Site:BaseUrl` | `https://www.bikecarhub.com` | Used for canonical URLs, sitemaps and reset links |
 | `Database:AllowWrites` | `false` | `false`: sign-up, password reset, newsletter and ask-a-question save nothing and say "Demo mode". `true`: they write to `AspNetUsers`, `NewsLetters`, `TWOrFWContactUs` |
-| `Images:LocalRoot` | `BCH/Home/Images` | Folder that holds the images |
-| `Images:RemoteBaseUrl` | `https://api.bikecarhub.com` | Host used for images that are not in the local folder |
+| `Images:LocalRoot` | `wwwroot/images` | Folder that holds the images |
+| `Images:ArticlesRoot` | `Articles` | Private folder that holds the article `.docx` files. Each file sits at the same sub-path as the article's images, for example `wwwroot\images\blogs\2026\Sept\Kia Sorento` and `Articles\blogs\2026\Sept\Kia Sorento` |
+| `Images:RemoteBaseUrl` | empty | Optional host for images that are not in the local folder. Empty: those images show the default picture |
 | `Smtp:*` | empty | Outgoing mail for password-reset links. Empty: forgot-password says no email was sent |
 
 ## Run
@@ -61,7 +62,7 @@ The site runs without them. Using the new columns needs a small code change afte
    dotnet publish BCHRazorPgaesClaude.csproj -c Release -o publish
    ```
    Self-contained alternative: add `-r win-x86 --self-contained true` (or `win-x64`, matching the app pool).
-   The publish output includes a generated `web.config` and the `BCH` image folder.
+   The publish output includes a generated `web.config`, the images in `wwwroot\images` and the `Articles` folder.
 3. Upload the contents of `publish` to the site's `httpdocs` folder.
 4. Set the connection string on the server as an environment variable or in Plesk's ASP.NET settings: name `ConnectionStrings__Default`. Do not put it in `appsettings.json`.
 5. Give the app pool identity write permission on `Logs` and `App_Data` (sign-in cookies and reset links depend on the keys stored in `App_Data\keys`).

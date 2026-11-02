@@ -57,10 +57,10 @@ Joins are by `TwoWBrandId`, `TwoWheelerId` and `TWVarientId`; every spec table h
 | 18 | Model image paths use two prefixes: `/images/twowheeler/twowheelerimages/…` and `/images/twowheelerimages/…` | 206 / 148 | Only the first maps to a folder in `BCH` |
 
 ### Blog text
-`Blogs.BlogDetail` never holds more than 500 characters, and 35 rows have none. The full articles are not in the database. For the five newest blogs the full text was found as a `.docx` beside the images in `BCH\Home\Images\02Blogs` and is shown from there. The other 133 blog pages show only the stored summary and are `noindex`. **If those pages bring search traffic today, their text needs to be supplied** (in `BlogDetail`, or as `.docx` files in the image folder).
+`Blogs.BlogDetail` never holds more than 500 characters, and 35 rows have none. The full articles are not in the database. For the five newest blogs the full text was found as a `.docx` beside the images in `BCH\Home\Images\02Blogs` and is shown from there. The other 133 blog pages show only the stored summary and are `noindex`. **If those pages bring search traffic today, their text needs to be supplied** (in `BlogDetail`, or as `.docx` files in the `Articles` folder).
 
 ## Images
-Every image path in the database was checked against `BCH\Home\Images`.
+Every image path in the database was checked against `BCH\Home\Images`. That folder has since moved: images are now in `wwwroot\images` and `.docx` files in `Articles`. Folder names below are as they were when this report was written.
 
 | Kind | Rows | File present | Missing |
 |---|---|---|---|
@@ -70,6 +70,8 @@ Every image path in the database was checked against `BCH\Home\Images`.
 | Blog images | 138 | 5 | 133 |
 | News images | 63 | 5 | 58 |
 | Value for money | 14 | 5 | 9 |
+
+Update, 31 Oct 2026: the images still in use on `api.bikecarhub.com` were copied into `wwwroot\images` and the site no longer loads anything from that host.
 
 The full list of the 355 missing paths is in [missing-images.txt](missing-images.txt). These files are missing from the local folder only. The previous site loads its images from `https://api.bikecarhub.com/images/...`, and the site now falls back to that host for any file that is not local (found on 13 Oct 2026 by reading the old home page; spot checks of a model, a blog and a compare image returned the image). `www.bikecarhub.com` itself answers every URL with its JavaScript app shell.
 

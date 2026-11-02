@@ -29,13 +29,14 @@
     if (!brand || !model) return;
     var groups = Array.prototype.slice.call(model.querySelectorAll('optgroup'));
     function apply() {
+      // Mobile browsers ignore hidden on optgroup, so other brands' groups are taken out of the list.
+      var current = model.value;
       groups.forEach(function (group) {
-        var show = !brand.value || group.dataset.brand === brand.value;
-        group.hidden = !show;
-        group.disabled = !show;
+        if (group.parentNode) model.removeChild(group);
+        if (!brand.value || group.dataset.brand === brand.value) model.appendChild(group);
       });
-      var selected = model.selectedOptions[0];
-      if (selected && selected.value && brand.value && selected.dataset.brand !== brand.value) model.value = '';
+      model.value = current;
+      if (model.selectedIndex < 0) model.value = '';
     }
     var preset = model.selectedOptions[0];
     if (preset && preset.dataset.brand && !brand.value) brand.value = preset.dataset.brand;
@@ -59,6 +60,211 @@
     [sBrand, sModel, sBudget].forEach(function (el) { el.addEventListener('change', refresh); });
     refresh();
   }
+
+  // Searchable dropdowns: a list with a search box drawn over the real select, which stays the source of truth.
+  var openCombo = null;
+  function wireCombo(select) {
+    var wrap = document.createElement('div');
+    var button = document.createElement('button');
+    var panel = document.createElement('div');
+    var input = document.createElement('input');
+    var list = document.createElement('ul');
+    var empty = document.createElement('p');
+    var label = document.querySelector('label[for="' + select.id + '"]');
+    var name = label ? label.textContent.trim() : '';
+    var items = [];
+    var active = -1;
+    var combo = {};
+
+    wrap.className = 'combo';
+    select.parentNode.insertBefore(wrap, select);
+    select.classList.add('combo-native');
+    button.type = 'button';
+    button.id = select.id + '-combo';
+    button.className = 'combo-btn';
+    button.setAttribute('aria-haspopup', 'listbox');
+    button.setAttribute('aria-expanded', 'false');
+    panel.className = 'combo-panel';
+    panel.hidden = true;
+    input.type = 'search';
+    input.className = 'combo-search';
+    input.placeholder = 'Search ' + name.toLowerCase();
+    input.autocomplete = 'off';
+    input.setAttribute('role', 'combobox');
+    input.setAttribute('aria-label', input.placeholder);
+    input.setAttribute('aria-expanded', 'true');
+    input.setAttribute('aria-autocomplete', 'list');
+    input.setAttribute('aria-controls', select.id + '-combo-list');
+    list.id = select.id + '-combo-list';
+    list.className = 'combo-list';
+    list.setAttribute('role', 'listbox');
+    list.setAttribute('aria-label', name);
+    empty.className = 'combo-empty';
+    empty.setAttribute('role', 'status');
+    empty.hidden = true;
+    panel.appendChild(input);
+    panel.appendChild(list);
+    panel.appendChild(empty);
+    wrap.appendChild(select);
+    wrap.appendChild(button);
+    wrap.appendChild(panel);
+    if (label) label.htmlFor = button.id;
+
+    function sync() {
+      var option = select.options[select.selectedIndex];
+      button.textContent = option ? option.textContent : '';
+      button.classList.toggle('is-placeholder', !select.value);
+      button.disabled = select.disabled;
+      if (select.disabled && openCombo === combo) combo.close();
+    }
+
+    function setActive(index) {
+      if (items[active]) items[active].classList.remove('is-active');
+      active = index;
+      var item = items[active];
+      if (!item) {
+        input.removeAttribute('aria-activedescendant');
+        return;
+      }
+      item.classList.add('is-active');
+      input.setAttribute('aria-activedescendant', item.id);
+      if (item.offsetTop < list.scrollTop) list.scrollTop = item.offsetTop;
+      else if (item.offsetTop + item.offsetHeight > list.scrollTop + list.clientHeight) list.scrollTop = item.offsetTop + item.offsetHeight - list.clientHeight;
+    }
+
+    function render() {
+      var words = input.value.toLowerCase().split(/\s+/).filter(Boolean);
+      var chosen = -1;
+      items = [];
+      active = -1;
+      list.textContent = '';
+      function addOption(option, group) {
+        // The blank choice ("Any model") only makes sense when nothing has been typed.
+        if (!option.value && words.length) return null;
+        var text = ((group ? group.label + ' ' : '') + option.textContent).toLowerCase();
+        if (!words.every(function (word) { return text.indexOf(word) !== -1; })) return null;
+        var item = document.createElement('li');
+        item.id = select.id + '-combo-' + items.length;
+        item.className = 'combo-option';
+        item.textContent = option.textContent;
+        item.setAttribute('role', 'option');
+        item.setAttribute('aria-selected', option.selected ? 'true' : 'false');
+        item.option = option;
+        if (option.selected) chosen = items.length;
+        items.push(item);
+        return item;
+      }
+      Array.prototype.forEach.call(select.children, function (child) {
+        if (child.tagName === 'OPTGROUP') {
+          var found = Array.prototype.map.call(child.children, function (option) { return addOption(option, child); }).filter(Boolean);
+          if (found.length) {
+            var heading = document.createElement('li');
+            heading.className = 'combo-group';
+            heading.textContent = child.label;
+            heading.setAttribute('role', 'presentation');
+            list.appendChild(heading);
+            found.forEach(function (item) { list.appendChild(item); });
+          }
+        } else {
+          var item = addOption(child, null);
+          if (item) list.appendChild(item);
+        }
+      });
+      empty.hidden = items.length > 0;
+      empty.textContent = items.length ? '' : 'No matches found';
+      list.hidden = items.length === 0;
+      list.scrollTop = 0;
+      setActive(words.length ? (items.length ? 0 : -1) : chosen);
+    }
+
+    function choose(item) {
+      item.option.selected = true;
+      wrap.classList.remove('is-invalid');
+      select.dispatchEvent(new Event('change', { bubbles: true }));
+      combo.close();
+      button.focus();
+    }
+
+    combo.close = function () {
+      if (openCombo === combo) openCombo = null;
+      panel.hidden = true;
+      wrap.classList.remove('is-open', 'combo-up');
+      button.setAttribute('aria-expanded', 'false');
+    };
+
+    combo.open = function () {
+      if (select.disabled) return;
+      if (openCombo) openCombo.close();
+      openCombo = combo;
+      input.value = '';
+      panel.hidden = false;
+      wrap.classList.add('is-open');
+      button.setAttribute('aria-expanded', 'true');
+      render();
+      // On phones keep the list above the on-screen keyboard; on larger screens open upwards if there is no room below.
+      if (window.matchMedia('(max-width: 719px)').matches) {
+        wrap.scrollIntoView({ block: 'start' });
+      } else {
+        var box = wrap.getBoundingClientRect();
+        var below = window.innerHeight - box.bottom;
+        wrap.classList.toggle('combo-up', below < panel.offsetHeight + 12 && box.top > below);
+      }
+      input.focus();
+    };
+
+    button.addEventListener('click', function () {
+      if (openCombo === combo) combo.close();
+      else combo.open();
+    });
+    button.addEventListener('keydown', function (event) {
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        combo.open();
+      }
+    });
+    input.addEventListener('input', render);
+    input.addEventListener('keydown', function (event) {
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        if (!items.length) return;
+        var step = event.key === 'ArrowDown' ? 1 : -1;
+        setActive(active === -1 ? (step === 1 ? 0 : items.length - 1) : (active + step + items.length) % items.length);
+      } else if (event.key === 'Enter') {
+        event.preventDefault();
+        if (items[active]) choose(items[active]);
+      } else if (event.key === 'Escape') {
+        event.preventDefault();
+        event.stopPropagation();
+        combo.close();
+        button.focus();
+      } else if (event.key === 'Tab') {
+        combo.close();
+        button.focus();
+      }
+    });
+    // Keep focus in the search box so the phone keyboard stays up while the list is tapped.
+    list.addEventListener('mousedown', function (event) { event.preventDefault(); });
+    list.addEventListener('click', function (event) {
+      var item = event.target.closest('[role="option"]');
+      if (item) choose(item);
+    });
+    select.addEventListener('change', sync);
+    // A required choice cannot show the browser's message on a hidden select, so mark it and open it.
+    select.addEventListener('invalid', function (event) {
+      event.preventDefault();
+      wrap.classList.add('is-invalid');
+      if (!openCombo) combo.open();
+    });
+    // The select also changes from code: wirePicker swaps its models and the home search disables it.
+    new MutationObserver(sync).observe(select, { childList: true, attributes: true, attributeFilter: ['disabled'] });
+    window.addEventListener('pageshow', sync);
+    combo.wrap = wrap;
+    sync();
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('select[data-searchable]'), wireCombo);
+  document.addEventListener('pointerdown', function (event) {
+    if (openCombo && !openCombo.wrap.contains(event.target)) openCombo.close();
+  });
 
   // EMI calculator: live result as the values change.
   var emi = document.querySelector('[data-emi-form]');
