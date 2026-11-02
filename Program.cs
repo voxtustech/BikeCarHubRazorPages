@@ -54,7 +54,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.Cookie.Name = "bch_auth";
         options.Cookie.HttpOnly = true;
         options.Cookie.SameSite = SameSiteMode.Lax;
-        options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+        // The site only runs on HTTPS outside Development, so the cookie is never sent in clear text.
+        options.Cookie.SecurePolicy = builder.Environment.IsDevelopment() ? CookieSecurePolicy.SameAsRequest : CookieSecurePolicy.Always;
         options.ExpireTimeSpan = TimeSpan.FromDays(14);
         options.SlidingExpiration = true;
     });
@@ -66,6 +67,11 @@ builder.Services.AddRateLimiter(options =>
     options.AddPolicy("forms", context => HttpMethods.IsPost(context.Request.Method)
         ? RateLimitPartition.GetFixedWindowLimiter(context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
             _ => new FixedWindowRateLimiterOptions { PermitLimit = 5, Window = TimeSpan.FromMinutes(1) })
+        : RateLimitPartition.GetNoLimiter("read"));
+    // Wishlist taps are quick and frequent, so they get a looser limit than forms.
+    options.AddPolicy("wishlist", context => HttpMethods.IsPost(context.Request.Method)
+        ? RateLimitPartition.GetFixedWindowLimiter(context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            _ => new FixedWindowRateLimiterOptions { PermitLimit = 60, Window = TimeSpan.FromMinutes(1) })
         : RateLimitPartition.GetNoLimiter("read"));
 });
 
@@ -83,6 +89,8 @@ builder.Services.AddSingleton<ISpecService, SpecService>();
 builder.Services.AddSingleton<IElectricCatalog, ElectricCatalog>();
 builder.Services.AddSingleton<IWishlistRepository, SqlWishlistRepository>();
 builder.Services.AddSingleton<IContentService, ContentService>();
+builder.Services.AddSingleton(TimeProvider.System);
+builder.Services.AddSingleton<ISignInThrottle, SignInThrottle>();
 builder.Services.AddSingleton<IAuthService, AuthService>();
 builder.Services.AddSingleton<IEmailSender, SmtpEmailSender>();
 
@@ -168,8 +176,17 @@ app.MapRazorPages();
 app.MapHealthChecks("/health");
 app.MapSeoEndpoints();
 
+if (app.Environment.IsDevelopment())
+{
+    // Development only: the SQL that stores today's slugs (see README, "Stored slugs").
+    app.MapGet("/dev/slug-fill.sql", async (ICatalogService catalog) =>
+        Results.Text(SlugFillScript.Build(await catalog.GetAsync(), DateTime.UtcNow), "text/plain", System.Text.Encoding.UTF8));
+}
+
 app.MapGet("/images/{**path}", (string path, IImageUrlProvider images, HttpContext context) =>
 {
+    // Only image files are served; article .docx files and anything else in the folder stay private.
+    if (!ImageUrlProvider.IsImageFile(path)) return Results.NotFound();
     var file = images.MapToLocalFile("/images/" + path);
     if (file is null) return Results.NotFound();
     context.Response.Headers.CacheControl = "public,max-age=604800";

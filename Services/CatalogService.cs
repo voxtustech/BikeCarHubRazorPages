@@ -13,7 +13,25 @@ public sealed class Catalog
     public required IReadOnlyDictionary<string, Bike> BikeByFullSlug { get; init; }
     /// <summary>Models switched off with IsActive = 0; their URLs answer 410 Gone.</summary>
     public required IReadOnlyCollection<string> RemovedKeys { get; init; }
+    /// <summary>Old path (lowercase, no trailing slash) to the current URL, from SlugHistory.</summary>
+    public IReadOnlyDictionary<string, string> Redirects { get; init; } = new Dictionary<string, string>();
     public required DateTime LoadedUtc { get; init; }
+
+    /// <summary>
+    /// Current URL for an address that SlugHistory says has moved. A path under a moved brand or model
+    /// (a facet, a variant) moves with it.
+    /// </summary>
+    public string? FindRedirect(string? path)
+    {
+        if (Redirects.Count == 0 || string.IsNullOrEmpty(path)) return null;
+        var p = path.TrimEnd('/').ToLowerInvariant();
+        if (Redirects.TryGetValue(p, out var exact)) return exact;
+        for (var cut = p.LastIndexOf('/'); cut > 0; cut = p.LastIndexOf('/', cut - 1))
+        {
+            if (Redirects.TryGetValue(p[..cut], out var parent)) return parent + p[cut..];
+        }
+        return null;
+    }
 
     public Bike? FindBike(string brandSlug, string modelSlug) =>
         BrandBySlug.TryGetValue(brandSlug, out var brand) ? brand.Bikes.FirstOrDefault(b => b.Slug == modelSlug) : null;
@@ -38,8 +56,9 @@ public sealed class CatalogService(ICatalogRepository repo, ICacheStore cache, I
         var variantRows = await repo.GetVariantsAsync();
         var displacement = (await repo.GetDisplacementsAsync()).ToDictionary(r => r.TwoWheelerId, r => r.Value);
         var mileage = (await repo.GetMileagesAsync()).ToDictionary(r => r.TwoWheelerId, r => r.Value);
+        var history = await repo.GetSlugHistoryAsync();
 
-        var brandSlugs = new HashSet<string>();
+        var brandSlugs = new SlugAllocator(brandRows.Select(r => r.Slug));
         var brands = brandRows
             .Where(r => !string.IsNullOrWhiteSpace(r.BrandName))
             .OrderBy(r => r.TWBrandId)
@@ -47,7 +66,7 @@ public sealed class CatalogService(ICatalogRepository repo, ICacheStore cache, I
             {
                 Id = r.TWBrandId,
                 Name = r.BrandName!.Trim(),
-                Slug = Slugger.Unique(Slugger.Slugify(r.BrandName), r.TWBrandId, brandSlugs),
+                Slug = brandSlugs.Allocate(r.Slug, Slugger.Slugify(r.BrandName), r.TWBrandId),
                 LogoPath = r.BrandLogoURL,
                 HasPetrol = r.IsPetrol == true,
                 HasEv = r.IsEV == true,
@@ -60,7 +79,8 @@ public sealed class CatalogService(ICatalogRepository repo, ICacheStore cache, I
 
         var bikesById = new Dictionary<int, Bike>();
         var removed = new List<string>();
-        var modelSlugs = brands.Keys.ToDictionary(id => id, _ => new HashSet<string>());
+        var modelSlugs = brands.Keys.ToDictionary(id => id,
+            id => new SlugAllocator(bikeRows.Where(r => r.TwoWBrandId == id).Select(r => r.Slug)));
 
         foreach (var r in bikeRows.OrderBy(r => r.TwoWheelerId))
         {
@@ -69,7 +89,7 @@ public sealed class CatalogService(ICatalogRepository repo, ICacheStore cache, I
 
             var name = r.TwoWheelerName.Trim();
             var shortName = Slugger.StripBrand(name, brand.Name);
-            var slug = Slugger.Unique(Slugger.Slugify(shortName), r.TwoWheelerId, modelSlugs[brandId]);
+            var slug = modelSlugs[brandId].Allocate(r.Slug, Slugger.Slugify(shortName), r.TwoWheelerId);
 
             if (r.IsActive == false)
             {
@@ -112,7 +132,7 @@ public sealed class CatalogService(ICatalogRepository repo, ICacheStore cache, I
         foreach (var group in variantRows.Where(v => v.TwoWheelerId is not null).GroupBy(v => v.TwoWheelerId!.Value))
         {
             if (!bikesById.TryGetValue(group.Key, out var bike)) continue;
-            var used = new HashSet<string>();
+            var used = new SlugAllocator(group.Select(v => v.Slug));
             foreach (var r in group.OrderBy(v => v.TWVarientId))
             {
                 if (string.IsNullOrWhiteSpace(r.Varients)) continue;
@@ -126,7 +146,7 @@ public sealed class CatalogService(ICatalogRepository repo, ICacheStore cache, I
                     Id = r.TWVarientId,
                     Name = name,
                     ShortName = shortName,
-                    Slug = Slugger.Unique(baseSlug, r.TWVarientId, used),
+                    Slug = used.Allocate(r.Slug, baseSlug, r.TWVarientId),
                     Bike = bike,
                     Created = r.CreatedDateTime,
                     SeoTitle = Clean(r.SEO_Title),
@@ -146,8 +166,33 @@ public sealed class CatalogService(ICatalogRepository repo, ICacheStore cache, I
             BrandBySlug = activeBrands.ToDictionary(b => b.Slug),
             BikeByFullSlug = bikes.GroupBy(b => b.FullSlug).ToDictionary(g => g.Key, g => g.First()),
             RemovedKeys = removed.ToHashSet(),
+            Redirects = BuildRedirects(history, brands.Values, bikesById.Values),
             LoadedUtc = DateTime.UtcNow
         };
+    }
+
+    /// <summary>Maps each SlugHistory row to the record's current URL. Rows for unknown or removed records are skipped.</summary>
+    public static Dictionary<string, string> BuildRedirects(IEnumerable<SlugHistoryRow> history, IEnumerable<Brand> brands, IEnumerable<Bike> bikes)
+    {
+        var brandById = brands.Where(b => b.Bikes.Count > 0).ToDictionary(b => b.Id);
+        var bikeById = bikes.ToDictionary(b => b.Id);
+        var variantById = bikeById.Values.SelectMany(b => b.Variants).ToDictionary(v => v.Id);
+        var result = new Dictionary<string, string>();
+        foreach (var row in history)
+        {
+            var old = row.OldPath?.Trim().TrimEnd('/').ToLowerInvariant();
+            if (string.IsNullOrEmpty(old) || !old.StartsWith('/')) continue;
+            string? target = row.EntityType?.Trim().ToLowerInvariant() switch
+            {
+                "brand" => brandById.GetValueOrDefault(row.EntityId)?.Url,
+                "model" => bikeById.GetValueOrDefault(row.EntityId)?.Url,
+                "variant" => variantById.GetValueOrDefault(row.EntityId)?.Url,
+                _ => null
+            };
+            // A row that points at its own current address would loop.
+            if (target is not null && target != old) result[old] = target;
+        }
+        return result;
     }
 
     private static readonly string[] ImageExtensions = [".webp", ".avif", ".png", ".jpg", ".jpeg"];

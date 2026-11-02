@@ -67,3 +67,30 @@ public static class Slugger
         return slug;
     }
 }
+
+/// <summary>
+/// Hands out unique slugs within one scope (all brands, one brand's models, one model's variants).
+/// A slug stored in the database always wins; computed slugs never take a stored one, so filling the
+/// Slug columns one row at a time never moves another page.
+/// </summary>
+public sealed class SlugAllocator
+{
+    private readonly HashSet<string> _used;
+    private readonly HashSet<string> _claimed = new();
+
+    public SlugAllocator(IEnumerable<string?> storedSlugs) =>
+        _used = storedSlugs.Select(Slugger.Slugify).Where(s => s.Length > 0).ToHashSet();
+
+    public string Allocate(string? stored, string computed, int id)
+    {
+        var s = Slugger.Slugify(stored);
+        // A stored slug repeated by mistake goes to its first owner; the others fall back to computed ones.
+        if (s.Length > 0 && _claimed.Add(s)) return s;
+
+        var slug = computed.Length == 0 ? id.ToString(CultureInfo.InvariantCulture) : computed;
+        if (!_used.Add(slug)) slug = $"{slug}-{id}";
+        _used.Add(slug);
+        _claimed.Add(slug);
+        return slug;
+    }
+}

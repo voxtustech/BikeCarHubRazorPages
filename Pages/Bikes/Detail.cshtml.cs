@@ -24,7 +24,8 @@ public class DetailModel(ICatalogService catalogService, ISpecService specServic
         if (bike is null)
         {
             if (catalog.RemovedKeys.Contains($"{brand}/{model}")) return Gone();
-            return FindRenamed(catalog, brand, model) is { } target ? Moved(target.Url) : NotFound();
+            if (FindRenamed(catalog, brand, model) is { } target) return Moved(target.Url);
+            return catalog.FindRedirect(Request.Path) is { } moved ? Moved(moved) : NotFound();
         }
 
         Bike = bike;
@@ -35,7 +36,8 @@ public class DetailModel(ICatalogService catalogService, ISpecService specServic
             {
                 var wanted = Slugger.Slugify(variant);
                 var match = bike.Variants.FirstOrDefault(v => v.Slug == wanted || Slugger.Slugify(v.Name) == wanted);
-                return match is not null ? Moved(match.Url) : NotFound();
+                if (match is not null) return Moved(match.Url);
+                return catalog.FindRedirect(Request.Path) is { } moved ? Moved(moved) : NotFound();
             }
             IsVariantPage = true;
         }

@@ -31,7 +31,7 @@ public sealed class AuthService(IUserRepository users, IWriteGate gate, IDataPro
     public async Task<AppUser?> ValidateAsync(string email, string password)
     {
         var user = await users.FindByEmailAsync(email);
-        if (user?.PasswordHash is null) return null;
+        if (user?.PasswordHash is null || user.IsLockedOut(DateTimeOffset.UtcNow)) return null;
         // A "rehash needed" result is accepted as-is so that signing in never writes to the database.
         return _hasher.VerifyHashedPassword(user, user.PasswordHash, password) == PasswordVerificationResult.Failed ? null : user;
     }
