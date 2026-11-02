@@ -44,7 +44,7 @@
 | `/robots.txt`, `/sitemap.xml`, `/sitemaps/{name}-{n}.xml`, `/health` | Machine endpoints |
 | `/used-bikes/...` | Reserved for the marketplace; not built (no listing tables exist) |
 
-Slugs are built in code from names because the database has no slug columns yet (see migration 001). A model's slug is its name without the brand words; a clash inside a brand gets the record id appended.
+Slugs come from the `Slug` columns when migration 001 has been run and the row has one; otherwise they are built in code from the names. `SlugHistory` (migration 002) rows answer 301 to the current URL. A model's slug is its name without the brand words; a clash inside a brand gets the record id appended.
 
 ## SEO rules
 - One title, description, H1, canonical, Open Graph/Twitter set and breadcrumb trail per page, from `PageMeta`.
@@ -67,11 +67,11 @@ The home page has its own layout (`Pages/Shared/_HomeLayout.cshtml`), stylesheet
 - Every image has width and height; below-the-fold images are lazy; the main image of a page is preloaded.
 
 ## Security
-Parameterised SQL only · anti-forgery on every POST · HTTPS redirect and HSTS outside Development · CSP (`default-src 'self'`, no inline script or style), `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options` · rate limit of 5 POSTs a minute per IP on all forms · honeypot field on public forms · cookie auth against the existing `AspNetUsers` hashes · sign-in never writes · reset tokens are time-limited (1 hour) and tied to the user's security stamp.
+Parameterised SQL only · anti-forgery on every POST · HTTPS redirect and HSTS outside Development · CSP (`default-src 'self'`, no inline script or style), `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options` · rate limit of 5 POSTs a minute per IP on all forms (60 for wishlist taps) · honeypot field on public forms · cookie auth against the existing `AspNetUsers` hashes, secure-only cookie outside Development · sign-in never writes · an email is locked for 15 minutes after 5 wrong passwords (in memory), and `AspNetUsers.LockoutEnd` is honoured · separate read-only (`Default`) and write (`Write`) connection strings · only image files are served under `/images` · reset tokens are time-limited (1 hour) and tied to the user's security stamp.
 
 ## Not done in this phase
 - Responsive `srcset` and WebP generation (source images exist in one size only).
-- SlugHistory lookups, SEO overrides and SitemapStatus (their tables are proposed, not created).
+- SEO overrides and SitemapStatus (their tables are proposed, not created).
 - A local/seed data fallback: the hosted database was reachable, so it was not needed. If the database is down the site answers with the error page.
 - Reviews and wishlist (tables exist; outside the Phase 1 page list).
 

@@ -27,7 +27,7 @@ public abstract class AccountPageModel : BasePageModel
 }
 
 [EnableRateLimiting("forms")]
-public class SignInModel(IAuthService auth) : AccountPageModel
+public class SignInModel(IAuthService auth, ISignInThrottle throttle) : AccountPageModel
 {
     [BindProperty, Required, EmailAddress, StringLength(256)] public string Email { get; set; } = "";
     [BindProperty, Required, DataType(DataType.Password), StringLength(100)] public string Password { get; set; } = "";
@@ -51,12 +51,20 @@ public class SignInModel(IAuthService auth) : AccountPageModel
         SetMeta("Sign in", "/account/sign-in");
         if (!ModelState.IsValid) return Page();
 
+        if (throttle.IsLocked(Email))
+        {
+            ModelState.AddModelError(string.Empty, "Too many attempts for this account. Please wait 15 minutes and try again.");
+            return Page();
+        }
+
         var user = await auth.ValidateAsync(Email, Password);
         if (user is null)
         {
+            throttle.RecordFailure(Email);
             ModelState.AddModelError(string.Empty, "The email or password is not correct.");
             return Page();
         }
+        throttle.Reset(Email);
 
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, auth.CreatePrincipal(user),
             new AuthenticationProperties { IsPersistent = RememberMe });

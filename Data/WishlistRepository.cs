@@ -32,7 +32,7 @@ public sealed class SqlWishlistRepository(IDbConnectionFactory db, IWriteGate ga
     {
         if (!gate.Allowed) throw new DatabaseWritesDisabledException();
         if (bikeIds.Count == 0) return;
-        await using var conn = await db.OpenAsync();
+        await using var conn = await db.OpenWriteAsync();
         await conn.ExecuteAsync(
             """
             INSERT INTO Wishlist (TwoWheelerID, Username, UserID, CreatedAt)
@@ -45,7 +45,7 @@ public sealed class SqlWishlistRepository(IDbConnectionFactory db, IWriteGate ga
     public async Task RemoveAsync(int userId, int bikeId)
     {
         if (!gate.Allowed) throw new DatabaseWritesDisabledException();
-        await using var conn = await db.OpenAsync();
+        await using var conn = await db.OpenWriteAsync();
         await conn.ExecuteAsync("DELETE FROM Wishlist WHERE UserID = @userId AND TwoWheelerID = @bikeId", new { userId, bikeId });
     }
 }

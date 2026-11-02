@@ -29,9 +29,9 @@ public class BrandModel(ICatalogService catalogService) : BasePageModel
         {
             // A differently written brand name still reaches the right page, permanently.
             var normalized = Slugger.Slugify(brand);
-            return catalog.BrandBySlug.TryGetValue(normalized, out var match)
-                ? Moved(facet is null ? match.Url : $"{match.Url}/{facet}")
-                : NotFound();
+            if (catalog.BrandBySlug.TryGetValue(normalized, out var match))
+                return Moved(facet is null ? match.Url : $"{match.Url}/{facet}");
+            return catalog.FindRedirect(Request.Path) is { } moved ? Moved(moved) : NotFound();
         }
 
         Brand = found;

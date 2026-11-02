@@ -112,4 +112,8 @@ public sealed class AppUser
     public string? Email { get; set; }
     public string? PasswordHash { get; set; }
     public string? SecurityStamp { get; set; }
+    public bool LockoutEnabled { get; set; }
+    public DateTimeOffset? LockoutEnd { get; set; }
+    /// <summary>Locked by an administrator or by Identity on the old site (AspNetUsers.LockoutEnd).</summary>
+    public bool IsLockedOut(DateTimeOffset now) => LockoutEnabled && LockoutEnd is { } end && end > now;
 }

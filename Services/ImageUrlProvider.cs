@@ -64,8 +64,28 @@ public sealed class ImageUrlProvider : IImageUrlProvider
         return _fileCache.GetOrAdd(path, p =>
         {
             var physical = ToPhysical(p);
-            return physical is not null && File.Exists(physical) ? physical : null;
+            if (physical is not null && File.Exists(physical)) return physical;
+            // Copies of images that only existed on the old image host (tools/Download-MissingImages.ps1).
+            var mirrored = ToMirror(p);
+            return mirrored is not null && File.Exists(mirrored) ? mirrored : null;
         });
+    }
+
+    /// <summary>Folder under the image root that holds downloaded copies, laid out by their database path.</summary>
+    public const string MirrorFolder = "_remote";
+
+    private static readonly string[] ImageFileExtensions = [".webp", ".avif", ".png", ".jpg", ".jpeg", ".gif", ".svg"];
+
+    /// <summary>True for paths that end in an image extension. Anything else under /images is never served.</summary>
+    public static bool IsImageFile(string? path) =>
+        !string.IsNullOrWhiteSpace(path) && ImageFileExtensions.Contains(Path.GetExtension(path.Trim()), StringComparer.OrdinalIgnoreCase);
+
+    private string? ToMirror(string path)
+    {
+        var rest = path["/images/".Length..].Replace('/', Path.DirectorySeparatorChar);
+        var mirrorRoot = Path.Combine(_root, MirrorFolder);
+        var physical = Path.GetFullPath(Path.Combine(mirrorRoot, rest));
+        return physical.StartsWith(mirrorRoot + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase) ? physical : null;
     }
 
     public string? MapToLocalDirectory(string? dbPath)

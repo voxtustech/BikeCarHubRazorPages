@@ -4,6 +4,7 @@ using BikeCarHub.Domain;
 using BikeCarHub.Services;
 using BikeCarHub.Web;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace BikeCarHub.Pages.Wishlist;
 
@@ -17,6 +18,7 @@ public sealed record WishlistView(IReadOnlyList<WishlistItem> Items, WishlistMod
 /// Saved bikes live in the visitor's browser. When database writes are allowed, a signed-in visitor's list is
 /// also kept in the Wishlist table so it follows them to other devices.
 /// </summary>
+[EnableRateLimiting("wishlist")]
 public class IndexModel(ICatalogService catalogService, IElectricCatalog electricCatalog, IWishlistRepository repo, IWriteGate gate) : BasePageModel
 {
     public const int MaxItems = 50;

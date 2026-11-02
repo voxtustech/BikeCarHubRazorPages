@@ -13,6 +13,8 @@ public sealed class BrandRow
     public string? TitleTag { get; set; }
     public string? MetaDescription { get; set; }
     public DateTime? CreatedDateTime { get; set; }
+    /// <summary>Stored slug (migration 001). Null until the column exists and is filled.</summary>
+    public string? Slug { get; set; }
 }
 
 public sealed class BikeRow
@@ -30,6 +32,7 @@ public sealed class BikeRow
     public bool? IsActive { get; set; }
     public string? Discription { get; set; }
     public DateTime? CreatedDateTime { get; set; }
+    public string? Slug { get; set; }
 }
 
 public sealed class VariantRow
@@ -40,6 +43,15 @@ public sealed class VariantRow
     public DateTime? CreatedDateTime { get; set; }
     public string? SEO_Title { get; set; }
     public string? SEO_Description { get; set; }
+    public string? Slug { get; set; }
+}
+
+/// <summary>An old address kept for a 301 after a rename (migration 002).</summary>
+public sealed class SlugHistoryRow
+{
+    public string? EntityType { get; set; }
+    public int EntityId { get; set; }
+    public string? OldPath { get; set; }
 }
 
 public sealed class BikeFigureRow
@@ -57,6 +69,8 @@ public interface ICatalogRepository
     Task<IReadOnlyList<BikeFigureRow>> GetMileagesAsync();
     /// <summary>One result set per table in <paramref name="tables"/>, first row only, as column/value pairs.</summary>
     Task<IReadOnlyList<IDictionary<string, object?>?>> GetSpecRowsAsync(IReadOnlyList<string> tables, int variantId);
+    /// <summary>Rows of SlugHistory, or none when the table has not been created.</summary>
+    Task<IReadOnlyList<SlugHistoryRow>> GetSlugHistoryAsync();
 }
 
 public sealed class SqlCatalogRepository(IDbConnectionFactory db) : ICatalogRepository
@@ -76,25 +90,42 @@ public sealed class SqlCatalogRepository(IDbConnectionFactory db) : ICatalogRepo
     private static readonly Dictionary<string, string> SpecSql =
         SpecTables.ToDictionary(t => t, t => $"SELECT TOP 1 * FROM [{t}] WHERE TWVarientId = @id ORDER BY 1;");
 
+    // The Slug columns come from migration 001, which may not have been run. A query cannot name a column that
+    // does not exist, so the column list is chosen after checking; both spellings are fixed strings.
+    private const string NoSlug = "CAST(NULL AS varchar(200)) AS Slug";
+
+    private static async Task<string> SlugColumnAsync(System.Data.Common.DbConnection conn, string table) =>
+        await conn.ExecuteScalarAsync<int?>("SELECT COL_LENGTH(@table, 'Slug')", new { table }) is null ? NoSlug : "Slug";
+
     public async Task<IReadOnlyList<BrandRow>> GetBrandsAsync()
     {
         await using var conn = await db.OpenAsync();
+        var slug = await SlugColumnAsync(conn, "TWBrands");
         return (await conn.QueryAsync<BrandRow>(
-            "SELECT TWBrandId, BrandName, IsPetrol, IsEV, BrandLogoURL, Discription, TitleTag, MetaDescription, CreatedDateTime FROM TWBrands WHERE IsTWBrand = 1")).AsList();
+            $"SELECT TWBrandId, BrandName, IsPetrol, IsEV, BrandLogoURL, Discription, TitleTag, MetaDescription, CreatedDateTime, {slug} FROM TWBrands WHERE IsTWBrand = 1")).AsList();
     }
 
     public async Task<IReadOnlyList<BikeRow>> GetBikesAsync()
     {
         await using var conn = await db.OpenAsync();
+        var slug = await SlugColumnAsync(conn, "TwoWheelers");
         return (await conn.QueryAsync<BikeRow>(
-            "SELECT TwoWheelerId, TwoWheelerName, Price, BasePrice, TopPrice, Type, TwoWBrandId, TWImage, LaunchDate, IsEV, IsActive, Discription, CreatedDateTime FROM TwoWheelers")).AsList();
+            $"SELECT TwoWheelerId, TwoWheelerName, Price, BasePrice, TopPrice, Type, TwoWBrandId, TWImage, LaunchDate, IsEV, IsActive, Discription, CreatedDateTime, {slug} FROM TwoWheelers")).AsList();
     }
 
     public async Task<IReadOnlyList<VariantRow>> GetVariantsAsync()
     {
         await using var conn = await db.OpenAsync();
+        var slug = await SlugColumnAsync(conn, "TWVarients");
         return (await conn.QueryAsync<VariantRow>(
-            "SELECT TWVarientId, Varients, TwoWheelerId, CreatedDateTime, SEO_Title, SEO_Description FROM TWVarients ORDER BY TWVarientId")).AsList();
+            $"SELECT TWVarientId, Varients, TwoWheelerId, CreatedDateTime, SEO_Title, SEO_Description, {slug} FROM TWVarients ORDER BY TWVarientId")).AsList();
+    }
+
+    public async Task<IReadOnlyList<SlugHistoryRow>> GetSlugHistoryAsync()
+    {
+        await using var conn = await db.OpenAsync();
+        if (await conn.ExecuteScalarAsync<int?>("SELECT OBJECT_ID('SlugHistory', 'U')") is null) return [];
+        return (await conn.QueryAsync<SlugHistoryRow>("SELECT EntityType, EntityId, OldPath FROM SlugHistory")).AsList();
     }
 
     public async Task<IReadOnlyList<BikeFigureRow>> GetDisplacementsAsync()
