@@ -6,6 +6,8 @@
 //   slug        : the URL, /blog/{slug}; leave out to use the image folder name
 //   date        : publish date, yyyy-MM-dd; leave out to use the Word file's created date
 //   cardImage   : optional smaller picture (file name inside imageFolder) for article cards
+//   twoWheeler  : false for a car article (default true)
+//   morePhotos  : false leaves out the "More photos" section of folder pictures not used in the Word file
 //   draft       : true keeps the entry off the site
 // The Word file's Heading 1 becomes the H1, the first paragraph the intro and meta description, the first picture the
 // cover, and the Word "Title" property (File > Info) the title shown in Google.
@@ -17,5 +19,14 @@
     "slug": "royal-enfield-himalayan-750",
     "date": "2026-11-03",
     "cardImage": "himalayan_750.png"
+  },
+  {
+    "section": "blog",
+    "docx": "blogs/2026/Nov/hyundai-bayon-blog.docx",
+    "imageFolder": "/images/blogs/2026/Nov/hyundai-bayon",
+    "slug": "hyundai-bayon",
+    "date": "2026-11-03",
+    "twoWheeler": false,
+    "morePhotos": false
   }
 ]

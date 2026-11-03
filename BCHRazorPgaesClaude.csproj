@@ -21,7 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Articles\blogs\2026\Nov\NewFolder\" />
+    <None Remove="Articles\blogs\2026\Nov\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\images\blogs\2026\Nov\" />
   </ItemGroup>
 

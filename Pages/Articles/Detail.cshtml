@@ -4,11 +4,20 @@
     var article = Model.Article;
 }
 
-<article class="container section prose">
+<article class="container section prose@(article.WordLayout ? " prose-word" : "")@(article.WordTheme is "blue" ? " word-theme-blue" : "")">
+    @if (article.Kicker is not null)
+    {
+        <p class="kicker">@article.Kicker</p>
+    }
     <h1>@article.Title</h1>
     @if (article.Date is not null)
     {
         <p class="meta">Published <time datetime="@article.Date.Value.ToString("yyyy-MM-dd")">@Html.DateText(article.Date)</time></p>
+    }
+    @if (article.WordLayout && article.Summary is not null)
+    {
+        @* As in the Word file: the italic intro sits between the title and the cover. *@
+        <p class="lead">@article.Summary</p>
     }
     @if (article.CoverWidth is { } coverWidth && article.CoverHeight is { } coverHeight)
     {
@@ -27,7 +36,7 @@
             @Html.Img(article.ImagePath, article.Title, 960, 540, eager: true)
         </div>
     }
-    @if (article.Summary is not null)
+    @if (!article.WordLayout && article.Summary is not null)
     {
         <p class="lead">@article.Summary</p>
     }

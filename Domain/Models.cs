@@ -80,6 +80,12 @@ public sealed class Article
     /// <summary>Shorter title for search results (the Word "Title" property); the H1 stays <see cref="Title"/>.</summary>
     public string? SeoTitle { get; init; }
     public string? Author { get; init; }
+    /// <summary>The Word article template look (colours, boxes, tables) applies to this article.</summary>
+    public bool WordLayout { get; init; }
+    /// <summary>Colour theme of the Word template ("orange", "blue"); null for the default.</summary>
+    public string? WordTheme { get; init; }
+    /// <summary>Small line above the H1, such as "BIKECARHUB · NEW BIKES · ROYAL ENFIELD".</summary>
+    public string? Kicker { get; init; }
     public string? CoverAlt { get; init; }
     public string? CoverCaption { get; init; }
     public int? CoverWidth { get; init; }

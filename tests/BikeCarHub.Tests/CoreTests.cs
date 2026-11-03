@@ -148,16 +148,16 @@ public class RichDocxReaderTests
             var doc = RichDocxReader.Read(path, _ => null, "/images/default.webp")!;
             Assert.Equal("Test Bike 750: Specs", doc.Title);
             Assert.Equal("A short intro <with> symbols.", doc.Standfirst);
+            Assert.Equal("BIKECARHUB · NEW BIKES", doc.Kicker);
             Assert.DoesNotContain("BIKECARHUB", doc.BodyHtml);
             Assert.DoesNotContain("<with>", doc.BodyHtml);
-            Assert.Contains("<nav class=\"toc\"", doc.BodyHtml);
             Assert.Contains("<h2 id=\"at-a-glance\">At a glance</h2>", doc.BodyHtml);
             Assert.Contains("<li><strong>743 cc</strong><span>Twin engine</span></li>", doc.BodyHtml);
-            Assert.Contains("<ul><li>Engine: twin</li></ul>", doc.BodyHtml);
+            Assert.Contains("<ul class=\"square-list\"><li>Engine: twin</li></ul>", doc.BodyHtml);
             Assert.Contains("<figure class=\"pull-quote\"><blockquote><p>“A quote.”</p></blockquote><figcaption>Maker</figcaption>", doc.BodyHtml);
             Assert.Contains("<p class=\"callout-title\">Price not announced yet</p>", doc.BodyHtml);
             Assert.Contains("<th scope=\"row\">Displacement</th><td>743 cc</td>", doc.BodyHtml);
-            Assert.Contains("<h3>How big is the engine?</h3><p>743cc.</p>", doc.BodyHtml);
+            Assert.Contains("How big is the engine?</h3><p>743cc.</p>", doc.BodyHtml);
             Assert.Equal([new BikeCarHub.Domain.ArticleFaq("How big is the engine?", "743cc.")], doc.Faqs);
         }
         finally
@@ -187,6 +187,35 @@ public class RichDocxReaderTests
         Assert.StartsWith("Royal Enfield Himalayan 750", doc.Title);
         Assert.Equal(7, doc.Faqs.Count);
         Assert.Contains("class=\"article-table\"", doc.BodyHtml);
+        // The template's highlights survive: coloured stat boxes and the highlighted Himalayan 750 column.
+        Assert.Contains("<li class=\"fill-accent\"><strong>55 PS</strong>", doc.BodyHtml);
+        Assert.Contains("<th scope=\"col\" class=\"fill-accent center\"><strong>Himalayan 750</strong></th>", doc.BodyHtml);
+        Assert.Contains("<td class=\"fill-peach center\">743 cc twin</td>", doc.BodyHtml);
+        Assert.Equal("orange", doc.Theme);
+    }
+
+    [Fact]
+    public void Shipped_hyundai_bayon_docx_parses_with_the_blue_theme()
+    {
+        var dir = new DirectoryInfo(AppContext.BaseDirectory);
+        while (dir is not null && !File.Exists(Path.Combine(dir.FullName, "BCHRazorPgaesClaude.csproj"))) dir = dir.Parent;
+        Assert.NotNull(dir);
+        var entries = FileArticles.ReadManifest(Path.Combine(dir!.FullName, "Articles", FileArticles.ManifestName));
+        var entry = Assert.Single(entries, e => e.Slug == "hyundai-bayon");
+        Assert.False(entry.TwoWheeler);
+        Assert.False(entry.MorePhotos);
+
+        var doc = RichDocxReader.Read(Path.Combine(dir.FullName, "Articles", entry.Docx!), _ => null, "/images/default.webp")!;
+        Assert.StartsWith("Hyundai Bayon", doc.Title);
+        Assert.Equal("BIKECARHUB  ·  NEW CARS  ·  HYUNDAI", doc.Kicker);
+        Assert.Equal("blue", doc.Theme);
+        Assert.Equal(7, doc.Faqs.Count);
+        Assert.Contains("<li class=\"fill-dark\"><strong>115 PS</strong>", doc.BodyHtml);
+        Assert.Contains("<li class=\"fill-accent\"><strong>144 Nm</strong>", doc.BodyHtml);
+        Assert.Contains("<figure class=\"pull-quote\">", doc.BodyHtml);
+        Assert.Contains("<aside class=\"callout\">", doc.BodyHtml);
+        // Variant names sit in blue row headers, as in the Word table.
+        Assert.Matches("<th scope=\"row\" class=\"fill-accent[^\"]*\">(<strong>)?HX 2", doc.BodyHtml);
     }
 }
 
