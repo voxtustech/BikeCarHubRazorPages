@@ -1,4 +1,4 @@
-@page "/status/{code:int}"
+﻿@page "/status/{code:int}"
 @using Microsoft.AspNetCore.Mvc
 @attribute [IgnoreAntiforgeryToken]
 @{
@@ -6,10 +6,12 @@
     var (heading, message) = code switch
     {
         404 => ("Page not found", "The page you are looking for does not exist or has moved."),
-        410 => ("This page has been removed", "This model is no longer listed on BikeCarHub."),
+        410 => ("This page has been removed", "This page is no longer available on BikeCarHub."),
         429 => ("Too many requests", "Please wait a minute and try again."),
         _ => ("Something went wrong", "We could not load this page. Please try again shortly.")
     };
+    // Opened directly (not re-executed for an error), the page must still answer with its error code, never 200.
+    if (ViewContext.HttpContext.Response.StatusCode == 200 && code is >= 400 and <= 599) ViewContext.HttpContext.Response.StatusCode = code;
     ViewData["Meta"] = new PageMeta { Title = $"{heading} | BikeCarHub", Description = message, NoIndex = true };
 }
 

@@ -18,7 +18,7 @@ dotnet user-secrets set "ConnectionStrings:Default" "Server=...;Database=...;Use
 ## Settings (`appsettings.json`)
 | Key | Default | Meaning |
 |---|---|---|
-| `Site:BaseUrl` | `https://www.bikecarhub.com` | Used for canonical URLs, sitemaps and reset links |
+| `Site:BaseUrl` | `https://bikecarhub.com` | Used for canonical URLs, sitemaps and reset links. Requests to the other spelling (www or bare) get a 301 to this host |
 | `Database:AllowWrites` | `false` | `false`: sign-up, password reset, newsletter and ask-a-question save nothing and say "Demo mode". `true`: they write to `AspNetUsers`, `NewsLetters`, `TWOrFWContactUs` |
 | `Images:LocalRoot` | `wwwroot/images` | Folder that holds the images |
 | `Images:ArticlesRoot` | `Articles` | Private folder that holds the article `.docx` files. Each file sits at the same sub-path as the article's images, for example `wwwroot\images\blogs\2026\Sept\Kia Sorento` and `Articles\blogs\2026\Sept\Kia Sorento` |

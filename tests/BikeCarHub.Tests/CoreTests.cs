@@ -32,6 +32,26 @@ public class SluggerTests
         Assert.Equal("std", Slugger.Unique("std", 1, used));
         Assert.Equal("std-2", Slugger.Unique("std", 2, used));
     }
+
+    private static readonly string[] Slugs =
+    [
+        "mahindra-be-formula-e-edition", "triumph-speed-t4-receives-18000-discount-for-limited-time",
+        "maruti-suzuki-brezza-the-value-for-money-variant", "maruti-suzuki-swift-2025-the-value-for-money-variant",
+        "tvs-xl-ev", "tata-punch", "tata-punch-ev"
+    ];
+
+    [Theory]
+    [InlineData("tVS-xL-eV", "tvs-xl-ev")]
+    [InlineData("mahindraBE-formulaE-edition", "mahindra-be-formula-e-edition")]
+    [InlineData("triumph-speed-t4-receives-₹18,000-discount-for-limited-time", "triumph-speed-t4-receives-18000-discount-for-limited-time")]
+    [InlineData("marutisuzukibrezza", "maruti-suzuki-brezza-the-value-for-money-variant")]
+    [InlineData("marutisuzukiswift2025", "maruti-suzuki-swift-2025-the-value-for-money-variant")]
+    [InlineData("tata-punch", "tata-punch")]
+    [InlineData("hero-splendor-plus", null)]
+    [InlineData("tata", null)]
+    [InlineData("marutisuzuki", null)]
+    public void Match_finds_the_page_an_old_slug_meant(string wanted, string? expected) =>
+        Assert.Equal(expected, Slugger.Match(Slugs, wanted, s => s));
 }
 
 public class FormattingTests

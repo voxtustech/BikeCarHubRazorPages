@@ -18,9 +18,8 @@ public class DetailModel(IContentService contentService, IImageUrlProvider image
         var article = all.FirstOrDefault(a => a.Slug == slug);
         if (article is null)
         {
-            // Old links carried symbols and capitals; send them to the clean address.
-            var normalized = Slugger.Slugify(slug);
-            var match = all.FirstOrDefault(a => a.Slug == normalized);
+            // Old links carried symbols, capitals or a different slug style; send them to the clean address.
+            var match = Slugger.Match(all, slug, a => a.Slug);
             return match is not null ? Moved(match.Url) : NotFound();
         }
 

@@ -16,10 +16,12 @@ public class DetailModel(IContentService contentService, IImageUrlProvider image
         var bike = all.FirstOrDefault(u => u.Slug == slug);
         if (bike is null)
         {
-            var normalized = Slugger.Slugify(slug);
-            var match = all.FirstOrDefault(u => u.Slug == normalized);
+            var match = Slugger.Match(all, slug, u => u.Slug);
             return match is not null ? Moved(match.Url) : NotFound();
         }
+
+        // Launched since, with no write-up of its own: the model page is the useful answer, not a thin preview.
+        if (bike.ReleasedAs is not null && bike.BodyTextLength < 200) return Moved(bike.ReleasedAs.Url);
 
         Bike = bike;
         Status = bike.StatusOn(DateTime.Today);

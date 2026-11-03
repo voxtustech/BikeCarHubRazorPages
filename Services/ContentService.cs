@@ -163,12 +163,16 @@ public sealed class ContentService(IContentRepository repo, ICatalogService cata
         return bike;
     }
 
-    // Some rows hold the literal text "NULL" instead of a database null.
+    // Some rows hold the literal text "NULL" instead of a database null, and the old editor left HTML tags
+    // (<span class="font-weight-700">) in summaries, which would otherwise show as text on the page.
     private static string? CleanText(string? value)
     {
-        var v = value?.Trim();
+        var v = value is null ? null : System.Net.WebUtility.HtmlDecode(HtmlTag.Replace(value, " "));
+        v = v is null ? null : string.Join(' ', v.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries));
         return string.IsNullOrEmpty(v) || v.Equals("NULL", StringComparison.OrdinalIgnoreCase) ? null : v;
     }
+
+    private static readonly System.Text.RegularExpressions.Regex HtmlTag = new("<[^>]+>", System.Text.RegularExpressions.RegexOptions.Compiled);
 
     private static IEnumerable<string> ImagesIn(string folder) =>
         Directory.EnumerateFiles(folder)
