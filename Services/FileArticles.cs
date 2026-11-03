@@ -20,6 +20,8 @@ public sealed class FileArticleEntry
     /// <summary>File name, inside the image folder, of the smaller picture used on article cards.</summary>
     public string? CardImage { get; set; }
     public bool TwoWheeler { get; set; } = true;
+    /// <summary>false leaves out the "More photos" section (folder pictures that are not in the Word file).</summary>
+    public bool MorePhotos { get; set; } = true;
     /// <summary>true keeps the entry off the site.</summary>
     public bool Draft { get; set; }
 }
@@ -95,6 +97,9 @@ public static class FileArticles
             IsTwoWheeler = entry.TwoWheeler,
             SeoTitle = doc.DocumentTitle is { } t && Slugger.Slugify(t) != Slugger.Slugify(doc.Title) ? t : null,
             Author = doc.Author,
+            WordLayout = true,
+            WordTheme = doc.Theme,
+            Kicker = doc.Kicker,
             CoverAlt = doc.Cover?.Alt,
             CoverCaption = doc.Cover?.Caption,
             CoverWidth = doc.Cover?.Image.Width,
@@ -108,7 +113,7 @@ public static class FileArticles
         // Photos supplied in the folder but not placed in the text go in the "More photos" gallery.
         var shown = new HashSet<string>(doc.UsedImages, StringComparer.OrdinalIgnoreCase);
         if (card is not null) shown.Add(card);
-        article.GalleryPaths.AddRange(folderImages.Select(images.ToVirtualPath).Where(p => !shown.Contains(p)));
+        if (entry.MorePhotos) article.GalleryPaths.AddRange(folderImages.Select(images.ToVirtualPath).Where(p => !shown.Contains(p)));
 
         return (article, doc.MissingImages > 0 ? $"{doc.MissingImages} picture(s) in the Word file have no matching file in {entry.ImageFolder}" : null);
     }

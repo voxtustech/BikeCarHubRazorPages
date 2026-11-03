@@ -18,6 +18,8 @@ public sealed class DocxArticle
     public string? DocumentTitle { get; set; }
     public string? Author { get; set; }
     public DateTime? Created { get; set; }
+    /// <summary>The small line above the title, such as "BIKECARHUB · NEW BIKES · ROYAL ENFIELD".</summary>
+    public string? Kicker { get; set; }
     /// <summary>The first paragraph under the title: the intro shown as the lead and used as the meta description.</summary>
     public string? Standfirst { get; set; }
     public DocxFigure? Cover { get; set; }
@@ -27,12 +29,15 @@ public sealed class DocxArticle
     public HashSet<string> UsedImages { get; } = new(StringComparer.OrdinalIgnoreCase);
     /// <summary>Embedded images with no matching web file; they are left out of the page.</summary>
     public int MissingImages { get; set; }
+    /// <summary>The template's colour theme ("orange", "blue"), from the accent colour the file uses most.</summary>
+    public string? Theme { get; set; }
 }
 
 /// <summary>
-/// Turns a fully laid-out Word article into page HTML: title, intro, cover, headings with a table of contents,
+/// Turns a Word article laid out on the BikeCarHub template into page HTML: kicker, title, intro, cover, headings,
 /// figures with captions, image-and-text blocks, image grids, a stat strip, quotes, callouts, data tables and FAQs.
-/// Every piece of text is HTML-encoded; images are only shown when the resolver finds the published web file.
+/// The template's colours (cell shading and coloured text) are kept as CSS classes, because the site's
+/// Content-Security-Policy does not allow inline styles. Every piece of text is HTML-encoded.
 /// </summary>
 public static partial class RichDocxReader
 {
@@ -43,6 +48,39 @@ public static partial class RichDocxReader
     private static readonly XNamespace PR = "http://schemas.openxmlformats.org/package/2006/relationships";
     private static readonly XNamespace DC = "http://purl.org/dc/elements/1.1/";
     private static readonly XNamespace DCT = "http://purl.org/dc/terms/";
+
+    // The BikeCarHub article template palettes -> CSS classes (site.css, "Articles laid out in Word").
+    // Each palette uses the same roles (dark, accent, light box, tint), so one set of classes serves them all;
+    // the page's theme class (word-theme-*) sets the actual colours.
+    private static readonly Dictionary<string, string> FillClass = new(StringComparer.OrdinalIgnoreCase)
+    {
+        // Orange template
+        ["1E2328"] = "fill-dark",
+        ["C4501B"] = "fill-accent",
+        ["F6EFE6"] = "fill-cream",
+        ["FBE3D6"] = "fill-peach",
+        // Blue template
+        ["0B2545"] = "fill-dark",
+        ["0077B6"] = "fill-accent",
+        ["EEF4FA"] = "fill-cream",
+        ["DCEBF7"] = "fill-peach",
+        ["F2F2F2"] = "fill-grey",
+        ["000000"] = "fill-black"
+    };
+
+    private static readonly Dictionary<string, string> TextClass = new(StringComparer.OrdinalIgnoreCase)
+    {
+        ["C4501B"] = "text-accent",
+        ["0077B6"] = "text-accent",
+        ["6B6B6B"] = "text-muted"
+    };
+
+    /// <summary>Accent colour -> theme name.</summary>
+    private static readonly Dictionary<string, string> ThemeByAccent = new(StringComparer.OrdinalIgnoreCase)
+    {
+        ["0077B6"] = "blue",
+        ["C4501B"] = "orange"
+    };
 
     [GeneratedRegex(@"^heading\s?(\d)$", RegexOptions.IgnoreCase)]
     private static partial Regex HeadingStyle();
@@ -61,7 +99,14 @@ public static partial class RichDocxReader
 
     private sealed record Drawing(string RelId, string? Alt, int WidthPx);
 
-    private sealed record Para(string Text, string Html, string Style, int Level, bool IsList, bool AllBold, List<Drawing> Drawings);
+    private sealed record Para(string Text, string Html, string Style, int Level, bool IsList, bool AllBold, bool Centered, List<Drawing> Drawings);
+
+    private sealed record Cell(List<Para> Paras, string? Fill)
+    {
+        public List<Para> Text => Paras.Where(p => p.Text.Length > 0).ToList();
+        public List<Drawing> Drawings => Paras.SelectMany(p => p.Drawings).ToList();
+        public bool Centered => Text.Count > 0 && Text.All(p => p.Centered);
+    }
 
     public static DocxArticle? Read(string docxPath, Func<byte[], DocxImage?> resolveImage, string placeholder)
     {
@@ -113,6 +158,14 @@ public static partial class RichDocxReader
         var body = doc.Root?.Element(W + "body");
         if (body is null) return null;
 
+        result.Theme = body.Descendants()
+            .Where(e => e.Name == W + "shd" || e.Name == W + "color")
+            .Select(e => (string?)e.Attribute(W + "fill") ?? (string?)e.Attribute(W + "val"))
+            .Where(v => v is not null && ThemeByAccent.ContainsKey(v))
+            .GroupBy(v => ThemeByAccent[v!])
+            .OrderByDescending(g => g.Count())
+            .FirstOrDefault()?.Key;
+
         var resolved = new Dictionary<string, DocxImage?>();
         DocxImage? Image(string relId)
         {
@@ -126,20 +179,19 @@ public static partial class RichDocxReader
         var elements = body.Elements().Where(e => e.Name == W + "p" || e.Name == W + "tbl").ToList();
         var paras = elements.ToDictionary(e => e, e => e.Name == W + "p" ? ParsePara(e, rels) : null);
 
-        // Everything above the title (a kicker such as "BIKECARHUB · NEW BIKES") is decoration and is skipped.
         var titleIndex = elements.FindIndex(e => paras[e] is { Level: 1 });
         var titleFromStyle = false;
         if (titleIndex >= 0)
         {
             result.Title = paras[elements[titleIndex]]!.Text;
             titleFromStyle = paras[elements[titleIndex]]!.Style.Equals("Title", StringComparison.OrdinalIgnoreCase);
+            // A short line above the title is the kicker ("BIKECARHUB · NEW BIKES · ROYAL ENFIELD").
+            result.Kicker = elements.Take(titleIndex).Select(e => paras[e]).LastOrDefault(p => p is { Text.Length: > 0 and <= 80 })?.Text;
         }
         else result.Title = result.DocumentTitle;
 
         var sb = new StringBuilder();
-        var toc = new List<(string Id, string Text)>();
         var ids = new HashSet<string>();
-        var tocInsertAt = -1;
         var inList = false;
         var inFaq = false;
         var faqOpen = false;
@@ -158,8 +210,9 @@ public static partial class RichDocxReader
         {
             if (question is null) return;
             if (!faqOpen) { sb.Append("<div class=\"faq-list\">"); faqOpen = true; }
-            sb.Append("<h3>").Append(Enc(question)).Append("</h3>");
+            sb.Append("<div class=\"faq-item\"><h3><span class=\"faq-q\" aria-hidden=\"true\">Q.</span> ").Append(Enc(question)).Append("</h3>");
             foreach (var a in answer) sb.Append("<p>").Append(a.Html).Append("</p>");
+            sb.Append("</div>");
             if (answer.Count > 0) result.Faqs.Add(new ArticleFaq(question, string.Join(" ", answer.Select(a => a.Text))));
             question = null;
             answer.Clear();
@@ -234,8 +287,6 @@ public static partial class RichDocxReader
                 if (level == 2)
                 {
                     var id = Unique(Slugger.Slugify(p.Text), ids);
-                    if (tocInsertAt < 0) tocInsertAt = sb.Length;
-                    toc.Add((id, p.Text));
                     sb.Append("<h2 id=\"").Append(id).Append("\">").Append(Enc(p.Text)).Append("</h2>");
                     inFaq = FaqHeading().IsMatch(p.Text);
                 }
@@ -258,7 +309,7 @@ public static partial class RichDocxReader
 
             if (p.IsList)
             {
-                if (!inList) sb.Append("<ul>");
+                if (!inList) sb.Append("<ul class=\"square-list\">");
                 inList = true;
                 sb.Append("<li>").Append(p.Html).Append("</li>");
                 continue;
@@ -270,14 +321,6 @@ public static partial class RichDocxReader
         CloseList();
         CloseFaq();
 
-        if (toc.Count >= 3 && tocInsertAt >= 0)
-        {
-            var nav = new StringBuilder("<nav class=\"toc\" aria-label=\"In this article\"><p class=\"toc-title\">In this article</p><ol>");
-            foreach (var (id, text) in toc) nav.Append("<li><a href=\"#").Append(id).Append("\">").Append(Enc(text)).Append("</a></li>");
-            nav.Append("</ol></nav>");
-            sb.Insert(tocInsertAt, nav.ToString());
-        }
-
         result.BodyHtml = sb.ToString();
         return result.Title is null || result.TextLength == 0 ? null : result;
     }
@@ -286,15 +329,15 @@ public static partial class RichDocxReader
         Func<string, DocxImage?> image, Func<Drawing, string?, string> altFor, Func<DocxImage, string, bool, string> imgTag)
     {
         var rows = table.Elements(W + "tr")
-            .Select(tr => tr.Elements(W + "tc").Select(tc => tc.Elements(W + "p").Select(p => ParsePara(p, rels)).ToList()).ToList())
+            .Select(tr => tr.Elements(W + "tc").Select(tc => new Cell(
+                tc.Elements(W + "p").Select(p => ParsePara(p, rels)).ToList(),
+                FillOf(tc.Element(W + "tcPr")?.Element(W + "shd")))).ToList())
             .Where(r => r.Count > 0)
             .ToList();
         if (rows.Count == 0) return 0;
 
-        static List<Para> TextOf(List<Para> cell) => cell.Where(p => p.Text.Length > 0).ToList();
-        static List<Drawing> DrawingsOf(List<Para> cell) => cell.SelectMany(p => p.Drawings).ToList();
         var cells = rows.SelectMany(r => r).ToList();
-        var length = cells.Sum(c => TextOf(c).Sum(p => p.Text.Length));
+        var length = cells.Sum(c => c.Text.Sum(p => p.Text.Length));
 
         string Figure(Drawing d, string? caption, string css)
         {
@@ -304,49 +347,54 @@ public static partial class RichDocxReader
             return f.Append("</figure>").ToString();
         }
 
-        static string Paragraphs(IEnumerable<Para> ps) => string.Concat(ps.Select(p => p.IsList ? $"<ul><li>{p.Html}</li></ul>" : $"<p>{p.Html}</p>"));
+        static string Classes(params string?[] names) =>
+            names.Any(n => n is not null) ? $" class=\"{string.Join(' ', names.Where(n => n is not null))}\"" : "";
+
+        static string Paragraphs(IEnumerable<Para> ps) => string.Concat(ps.Select(p => p.IsList ? $"<ul class=\"square-list\"><li>{p.Html}</li></ul>" : $"<p>{p.Html}</p>"));
 
         // Picture in one cell, text in the other: an image-and-text block.
         if (rows.Count == 1 && rows[0].Count == 2)
         {
             var (left, right) = (rows[0][0], rows[0][1]);
-            var leftIsImage = DrawingsOf(left).Count > 0 && TextOf(left).Count == 0 && DrawingsOf(right).Count == 0 && TextOf(right).Count > 0;
-            var rightIsImage = DrawingsOf(right).Count > 0 && TextOf(right).Count == 0 && DrawingsOf(left).Count == 0 && TextOf(left).Count > 0;
+            var leftIsImage = left.Drawings.Count > 0 && left.Text.Count == 0 && right.Drawings.Count == 0 && right.Text.Count > 0;
+            var rightIsImage = right.Drawings.Count > 0 && right.Text.Count == 0 && left.Drawings.Count == 0 && left.Text.Count > 0;
             if (leftIsImage || rightIsImage)
             {
                 var (pics, text) = leftIsImage ? (left, right) : (right, left);
                 sb.Append(leftIsImage ? "<div class=\"media-text\">" : "<div class=\"media-text media-text-reverse\">");
-                foreach (var d in DrawingsOf(pics)) sb.Append(Figure(d, null, "media-text-figure"));
-                sb.Append("<div class=\"media-text-body\">").Append(Paragraphs(TextOf(text))).Append("</div></div>");
+                foreach (var d in pics.Drawings) sb.Append(Figure(d, null, $"media-text-figure {pics.Fill}".Trim()));
+                sb.Append("<div class=\"media-text-body\">").Append(Paragraphs(text.Text)).Append("</div></div>");
                 return length;
             }
         }
 
         // Every filled cell holds a picture: an image grid, with the cell text as the caption.
-        var filled = cells.Where(c => DrawingsOf(c).Count > 0 || TextOf(c).Count > 0).ToList();
-        if (filled.Count >= 2 && filled.All(c => DrawingsOf(c).Count > 0))
+        var filled = cells.Where(c => c.Drawings.Count > 0 || c.Text.Count > 0).ToList();
+        if (filled.Count >= 2 && filled.All(c => c.Drawings.Count > 0))
         {
-            var small = filled.SelectMany(DrawingsOf).All(d => d.WidthPx is > 0 and <= 160);
-            sb.Append(small ? "<div class=\"figure-grid figure-grid-swatches\">" : "<div class=\"figure-grid\">");
+            var small = filled.SelectMany(c => c.Drawings).All(d => d.WidthPx is > 0 and <= 160);
+            // Keep the Word table's column count (2x2 gallery, row of 5 colour swatches).
+            var cols = Math.Clamp(rows.Max(r => r.Count), 1, 6);
+            sb.Append("<div class=\"figure-grid cols-").Append(cols).Append(small ? " figure-grid-swatches\">" : "\">");
             foreach (var c in filled)
             {
-                var caption = string.Join(" ", TextOf(c).Select(p => p.Text));
-                foreach (var d in DrawingsOf(c)) sb.Append(Figure(d, caption.Length > 0 ? caption : null, "grid-figure"));
+                var caption = string.Join(" ", c.Text.Select(p => p.Text));
+                foreach (var d in c.Drawings) sb.Append(Figure(d, caption.Length > 0 ? caption : null, $"grid-figure {c.Fill}".Trim()));
             }
             sb.Append("</div>");
             return length;
         }
 
-        var noImages = cells.All(c => DrawingsOf(c).Count == 0);
+        var noImages = cells.All(c => c.Drawings.Count == 0);
 
-        // One row of "value / label" cells: the at-a-glance stat strip.
-        if (noImages && rows.Count == 1 && rows[0].Count >= 3 && rows[0].All(c => TextOf(c).Count == 2))
+        // One row of "value / label" cells: the at-a-glance stat strip, keeping each box's colour.
+        if (noImages && rows.Count == 1 && rows[0].Count >= 3 && rows[0].All(c => c.Text.Count == 2))
         {
             sb.Append("<ul class=\"stat-strip\">");
             foreach (var c in rows[0])
             {
-                var t = TextOf(c);
-                sb.Append("<li><strong>").Append(Enc(t[0].Text)).Append("</strong><span>").Append(Enc(t[1].Text)).Append("</span></li>");
+                sb.Append("<li").Append(Classes(c.Fill)).Append("><strong>").Append(Enc(c.Text[0].Text)).Append("</strong><span>")
+                    .Append(Enc(c.Text[1].Text)).Append("</span></li>");
             }
             sb.Append("</ul>");
             return length;
@@ -355,13 +403,14 @@ public static partial class RichDocxReader
         // A single boxed cell: a pull quote when it opens with a quote mark, otherwise a highlighted note.
         if (noImages && rows.Count == 1 && rows[0].Count == 1)
         {
-            var t = TextOf(rows[0][0]);
+            var t = rows[0][0].Text;
             if (t.Count == 0) return 0;
             if (t[0].Text[0] is '“' or '"' or '‘')
             {
                 var cite = t.Count > 1 && t[^1].Text[0] is not ('“' or '"' or '‘') ? t[^1] : null;
-                sb.Append("<figure class=\"pull-quote\"><blockquote>").Append(Paragraphs(cite is null ? t : t.SkipLast(1))).Append("</blockquote>");
-                if (cite is not null) sb.Append("<figcaption>").Append(cite.Html).Append("</figcaption>");
+                sb.Append("<figure class=\"pull-quote\"><blockquote>")
+                    .Append(string.Concat((cite is null ? t : t.SkipLast(1)).Select(p => $"<p>{Enc(p.Text)}</p>"))).Append("</blockquote>");
+                if (cite is not null) sb.Append("<figcaption>").Append(Enc(cite.Text)).Append("</figcaption>");
                 sb.Append("</figure>");
             }
             else
@@ -382,31 +431,41 @@ public static partial class RichDocxReader
         {
             foreach (var c in rows[0])
             {
-                foreach (var d in DrawingsOf(c)) sb.Append(Figure(d, null, "article-figure"));
-                sb.Append(Paragraphs(TextOf(c)));
+                foreach (var d in c.Drawings) sb.Append(Figure(d, null, "article-figure"));
+                sb.Append(Paragraphs(c.Text));
             }
             return length;
         }
 
-        // A real data table: header row, first column as row headers.
+        // A real data table: header row, first column as row headers, cell shading and alignment kept,
+        // so a highlighted column (for example the bike the article is about) stays highlighted.
         var columns = rows.Max(r => r.Count);
         sb.Append("<div class=\"table-wrap\"><table class=\"article-table\"><thead><tr>");
-        foreach (var c in rows[0]) sb.Append("<th scope=\"col\">").Append(CellHtml(c)).Append("</th>");
+        foreach (var c in rows[0])
+            sb.Append("<th scope=\"col\"").Append(Classes(c.Fill, c.Centered ? "center" : null)).Append('>').Append(CellHtml(c)).Append("</th>");
         sb.Append("</tr></thead><tbody>");
         foreach (var r in rows.Skip(1))
         {
             sb.Append("<tr>");
             for (var i = 0; i < r.Count; i++)
             {
+                var c = r[i];
                 var tag = i == 0 && columns >= 2 ? "th" : "td";
-                sb.Append('<').Append(tag).Append(tag == "th" ? " scope=\"row\">" : ">").Append(CellHtml(r[i])).Append("</").Append(tag).Append('>');
+                sb.Append('<').Append(tag).Append(tag == "th" ? " scope=\"row\"" : "").Append(Classes(c.Fill, c.Centered ? "center" : null))
+                    .Append('>').Append(CellHtml(c)).Append("</").Append(tag).Append('>');
             }
             sb.Append("</tr>");
         }
         sb.Append("</tbody></table></div>");
         return length;
 
-        static string CellHtml(List<Para> cell) => string.Join("<br>", cell.Where(p => p.Text.Length > 0).Select(p => p.Html));
+        static string CellHtml(Cell cell) => string.Join("<br>", cell.Text.Select(p => p.Html));
+    }
+
+    private static string? FillOf(XElement? shd)
+    {
+        var fill = (string?)shd?.Attribute(W + "fill");
+        return fill is not null && FillClass.TryGetValue(fill, out var css) ? css : null;
     }
 
     private static Para ParsePara(XElement p, Dictionary<string, (string Target, bool External)> rels)
@@ -415,9 +474,10 @@ public static partial class RichDocxReader
         var style = (string?)props?.Element(W + "pStyle")?.Attribute(W + "val") ?? "";
         var heading = HeadingStyle().Match(style);
         var level = style.Equals("Title", StringComparison.OrdinalIgnoreCase) ? 1 : heading.Success ? int.Parse(heading.Groups[1].Value) : 0;
+        var centered = (string?)props?.Element(W + "jc")?.Attribute(W + "val") is "center";
 
         // Runs with the same formatting are merged so the HTML stays clean.
-        var segments = new List<(string Text, bool Bold, bool Italic, string? Href)>();
+        var segments = new List<(string Text, bool Bold, bool Italic, string? Colour, string? Href)>();
         foreach (var run in p.Descendants(W + "r"))
         {
             if (run.Ancestors().TakeWhile(a => a != p).Any(a => a.Name == W + "del")) continue;
@@ -431,14 +491,16 @@ public static partial class RichDocxReader
             var rPr = run.Element(W + "rPr");
             var bold = On(rPr?.Element(W + "b")) || ((string?)rPr?.Element(W + "rStyle")?.Attribute(W + "val"))?.Equals("Strong", StringComparison.OrdinalIgnoreCase) == true;
             var italic = On(rPr?.Element(W + "i"));
+            var colourValue = (string?)rPr?.Element(W + "color")?.Attribute(W + "val");
+            var colour = colourValue is not null && TextClass.TryGetValue(colourValue, out var css) ? css : null;
             string? href = null;
             var link = run.Ancestors(W + "hyperlink").FirstOrDefault();
             if ((string?)link?.Attribute(R + "id") is { } relId && rels.TryGetValue(relId, out var rel) && rel.External
                 && (rel.Target.StartsWith("https://", StringComparison.OrdinalIgnoreCase) || rel.Target.StartsWith("http://", StringComparison.OrdinalIgnoreCase)))
                 href = rel.Target;
-            if (segments.Count > 0 && segments[^1] is var last && last.Bold == bold && last.Italic == italic && last.Href == href)
-                segments[^1] = (last.Text + text, bold, italic, href);
-            else segments.Add((text.ToString(), bold, italic, href));
+            if (segments.Count > 0 && segments[^1] is var last && last.Bold == bold && last.Italic == italic && last.Colour == colour && last.Href == href)
+                segments[^1] = (last.Text + text, bold, italic, colour, href);
+            else segments.Add((text.ToString(), bold, italic, colour, href));
         }
 
         if (segments.Count > 0)
@@ -453,6 +515,7 @@ public static partial class RichDocxReader
             var inner = Enc(s.Text);
             if (s.Italic) inner = $"<em>{inner}</em>";
             if (s.Bold && level == 0) inner = $"<strong>{inner}</strong>";
+            if (s.Colour is not null) inner = $"<span class=\"{s.Colour}\">{inner}</span>";
             if (s.Href is not null) inner = $"<a href=\"{Attr(s.Href)}\" rel=\"noopener\">{inner}</a>";
             html.Append(inner);
         }
@@ -467,7 +530,7 @@ public static partial class RichDocxReader
             return relId is null ? null : new Drawing(relId, (string?)docPr?.Attribute("descr") ?? (string?)docPr?.Attribute("title"), (int)(cx / 9525));
         }).Where(d => d is not null).Select(d => d!).ToList();
 
-        return new Para(plain, html.ToString(), style, level, props?.Element(W + "numPr") is not null, allBold, drawings);
+        return new Para(plain, html.ToString(), style, level, props?.Element(W + "numPr") is not null, allBold, centered, drawings);
     }
 
     private static bool IsCaption(Para p) =>
