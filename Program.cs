@@ -122,6 +122,25 @@ app.UseWhen(context => !context.Request.Path.StartsWithSegments("/images"), bran
     }
 }));
 
+// One host per site: www and bare domain both answer, so the one that is not Site:BaseUrl redirects to it.
+var siteHost = new Uri(app.Configuration["Site:BaseUrl"] ?? "http://localhost").Host;
+app.Use(async (context, next) =>
+{
+    var host = context.Request.Host.Host;
+    var isOtherSpelling = string.Equals(host, "www." + siteHost, StringComparison.OrdinalIgnoreCase)
+        || string.Equals("www." + host, siteHost, StringComparison.OrdinalIgnoreCase);
+    if (isOtherSpelling)
+    {
+        var baseUrl = app.Configuration["Site:BaseUrl"]!.TrimEnd('/');
+        context.Response.Redirect(baseUrl + context.Request.PathBase + context.Request.Path + context.Request.QueryString, permanent: true);
+        return;
+    }
+    await next();
+});
+
+// Addresses used by the previous site: one permanent redirect to the new page, or 410 Gone.
+app.UseLegacyUrls();
+
 // One URL per page: lowercase, no trailing slash.
 app.Use(async (context, next) =>
 {
@@ -145,7 +164,8 @@ app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
 
-string[] privatePrefixes = ["/account", "/search", "/newsletter", "/ask-a-question", "/compare/go", "/status"];
+// /ask-a-question is listed in the sitemap, so it must not carry noindex.
+string[] privatePrefixes = ["/account", "/search", "/newsletter", "/compare/go", "/status", "/wishlist"];
 app.Use(async (context, next) =>
 {
     var path = context.Request.Path;
@@ -176,18 +196,6 @@ app.MapGet("/images/{**path}", (string path, IImageUrlProvider images, HttpConte
     context.Response.Headers.CacheControl = "public,max-age=604800";
     return Results.File(file, ImageUrlProvider.SniffContentType(file), lastModified: File.GetLastWriteTimeUtc(file));
 });
-
-// Addresses used by the previous site, kept alive with permanent redirects.
-app.MapGet("/contact-us", () => Results.Redirect("/ask-a-question", permanent: true));
-app.MapGet("/privacy-policy", () => Results.Redirect("/privacy", permanent: true));
-app.MapGet("/terms-and-conditions", () => Results.Redirect("/terms", permanent: true));
-app.MapGet("/login", () => Results.Redirect("/account/sign-in", permanent: true));
-app.MapGet("/blogs", () => Results.Redirect("/blog", permanent: true));
-app.MapGet("/blogs/{slug}", (string slug) => Results.Redirect($"/blog/{Slugger.Slugify(slug)}", permanent: true));
-app.MapGet("/latestnews", () => Results.Redirect("/news", permanent: true));
-app.MapGet("/latestnews/{slug}", (string slug) => Results.Redirect($"/news/{Slugger.Slugify(slug)}", permanent: true));
-app.MapGet("/upcoming-bike", () => Results.Redirect("/upcoming-bikes", permanent: true));
-app.MapGet("/upcoming-bike/{slug}", (string slug) => Results.Redirect($"/upcoming-bikes/{Slugger.Slugify(slug)}", permanent: true));
 
 app.Run();
 

@@ -10,9 +10,23 @@
     {
         <p class="meta">Published <time datetime="@article.Date.Value.ToString("yyyy-MM-dd")">@Html.DateText(article.Date)</time></p>
     }
-    <div class="article-cover">
-        @Html.Img(article.ImagePath, article.Title, 960, 540, eager: true)
-    </div>
+    @if (article.CoverWidth is { } coverWidth && article.CoverHeight is { } coverHeight)
+    {
+        @* Word-file articles: the cover keeps its real proportions and its photo credit. *@
+        <figure class="article-cover article-cover-natural">
+            @Html.Img(article.ImagePath, article.CoverAlt ?? article.Title, coverWidth, coverHeight, eager: true)
+            @if (article.CoverCaption is not null)
+            {
+                <figcaption>@article.CoverCaption</figcaption>
+            }
+        </figure>
+    }
+    else
+    {
+        <div class="article-cover">
+            @Html.Img(article.ImagePath, article.Title, 960, 540, eager: true)
+        </div>
+    }
     @if (article.Summary is not null)
     {
         <p class="lead">@article.Summary</p>
@@ -29,11 +43,11 @@
     @if (article.GalleryPaths.Count > 0)
     {
         <section aria-labelledby="photos-heading">
-            <h2 id="photos-heading">Photos</h2>
+            <h2 id="photos-heading">@(article.CoverWidth is null ? "Photos" : "More photos")</h2>
             <div class="gallery">
                 @for (var i = 0; i < article.GalleryPaths.Count; i++)
                 {
-                    @Html.Img(article.GalleryPaths[i], $"{article.Title} – photo {i + 1}", 480, 320)
+                    @Html.Img(article.GalleryPaths[i], article.CoverWidth is null ? $"{article.Title} – photo {i + 1}" : $"{article.Title.Split(':')[0].Trim()} – more photos {i + 1}", 480, 320)
                 }
             </div>
         </section>

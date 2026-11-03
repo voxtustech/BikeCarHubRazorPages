@@ -1,0 +1,21 @@
+// Articles published from Word files, with no database row.
+// One entry per article. The site reads this file at start-up and every 10 minutes (content cache).
+//   section     : "blog", "news" or "value-for-money"
+//   docx        : the .docx, relative to this Articles folder
+//   imageFolder : web folder holding the article's pictures (the same pictures that are inside the .docx)
+//   slug        : the URL, /blog/{slug}; leave out to use the image folder name
+//   date        : publish date, yyyy-MM-dd; leave out to use the Word file's created date
+//   cardImage   : optional smaller picture (file name inside imageFolder) for article cards
+//   draft       : true keeps the entry off the site
+// The Word file's Heading 1 becomes the H1, the first paragraph the intro and meta description, the first picture the
+// cover, and the Word "Title" property (File > Info) the title shown in Google.
+[
+  {
+    "section": "blog",
+    "docx": "blogs/2026/Nov/royal-enfield-himalayan-750-blog.docx",
+    "imageFolder": "/images/blogs/2026/Nov/royal-enfield-himalayan-750",
+    "slug": "royal-enfield-himalayan-750",
+    "date": "2026-11-03",
+    "cardImage": "himalayan_750.png"
+  }
+]

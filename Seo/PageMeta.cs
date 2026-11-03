@@ -116,6 +116,27 @@ public static class JsonLd
             ["publisher"] = new Dictionary<string, object?> { ["@type"] = "Organization", ["name"] = site.Name }
         };
         if (article.Date is { } date) data["datePublished"] = date.ToString("yyyy-MM-dd");
+        if (article.Summary is not null) data["description"] = Formatting.Truncate(article.Summary, 300);
+        // The author named in the Word file; when it is the site itself it is the publishing organisation.
+        if (article.Author is { } author)
+            data["author"] = new Dictionary<string, object?>
+            {
+                ["@type"] = author.Equals(site.Name, StringComparison.OrdinalIgnoreCase) ? "Organization" : "Person",
+                ["name"] = author
+            };
         return data;
     }
+
+    /// <summary>FAQPage from the question-and-answer section of the article, exactly as written.</summary>
+    public static object ForFaqs(IEnumerable<ArticleFaq> faqs) => new Dictionary<string, object?>
+    {
+        ["@context"] = "https://schema.org",
+        ["@type"] = "FAQPage",
+        ["mainEntity"] = faqs.Select(f => new Dictionary<string, object?>
+        {
+            ["@type"] = "Question",
+            ["name"] = f.Question,
+            ["acceptedAnswer"] = new Dictionary<string, object?> { ["@type"] = "Answer", ["text"] = f.Answer }
+        }).ToList()
+    };
 }

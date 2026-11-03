@@ -59,6 +59,8 @@ public sealed record SpecSection(string Title, IReadOnlyList<SpecItem> Items);
 
 public enum ArticleKind { Blog, News, ValueForMoney }
 
+public sealed record ArticleFaq(string Question, string Answer);
+
 public sealed class Article
 {
     public int Id { get; init; }
@@ -73,6 +75,20 @@ public sealed class Article
     public string? BodyHtml { get; set; }
     public int BodyTextLength { get; set; }
     public List<string> GalleryPaths { get; } = new();
+
+    // Set only for articles published from a Word file listed in Articles/articles.json.
+    /// <summary>Shorter title for search results (the Word "Title" property); the H1 stays <see cref="Title"/>.</summary>
+    public string? SeoTitle { get; init; }
+    public string? Author { get; init; }
+    public string? CoverAlt { get; init; }
+    public string? CoverCaption { get; init; }
+    public int? CoverWidth { get; init; }
+    public int? CoverHeight { get; init; }
+    /// <summary>Smaller image for article cards; falls back to the cover.</summary>
+    public string? CardImagePath { get; init; }
+    public IReadOnlyList<ArticleFaq> Faqs { get; init; } = [];
+    public string? CardImage => CardImagePath ?? ImagePath;
+
     public string BasePath => Kind switch { ArticleKind.Blog => "/blog", ArticleKind.News => "/news", _ => "/value-for-money" };
     public string Url => $"{BasePath}/{Slug}";
     /// <summary>Thin or empty articles stay reachable but are kept out of the index and the sitemap.</summary>

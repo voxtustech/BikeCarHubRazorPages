@@ -1,7 +1,7 @@
 @model Article
 <article class="card article-card">
     <a class="card-media" href="@Model.Url" tabindex="-1" aria-hidden="true">
-        @Html.Img(Model.ImagePath, Model.Title, 400, 225)
+        @Html.Img(Model.CardImage, Model.Title, 400, 225)
     </a>
     <div class="card-body">
         @if (Model.Date is not null)
