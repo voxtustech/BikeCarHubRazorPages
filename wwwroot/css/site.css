@@ -222,6 +222,55 @@ th, td { text-align: left; vertical-align: top; padding: 10px 14px; border-top: 
 .article-cover img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
 .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
 .gallery img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 8px; background: #eceff3; }
+
+/* Articles laid out in Word (Articles/articles.json) */
+.article-cover-natural img { aspect-ratio: auto; height: auto; }
+.article-cover-natural figcaption,
+.prose figcaption { font-size: .875rem; color: var(--ink-soft); padding: 8px 2px 0; }
+.article-cover-natural figcaption { padding: 8px 12px 10px; background: var(--surface); }
+.prose img { max-width: 100%; height: auto; }
+.prose h2[id] { scroll-margin-top: 80px; }
+.article-figure { margin: 20px 0; }
+.article-figure img { width: 100%; border-radius: 8px; background: #eceff3; }
+.toc { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 18px; margin: 20px 0; }
+.toc-title { margin: 0 0 6px; font-weight: 700; }
+.toc ol { margin: 0; padding-left: 22px; columns: 2 240px; column-gap: 28px; }
+.toc li { break-inside: avoid; padding: 3px 0; }
+.toc a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
+.toc a:hover { color: var(--accent); text-decoration-color: currentColor; }
+.stat-strip { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 16px 0 20px; padding: 0; }
+@media (min-width: 640px) { .stat-strip { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.stat-strip li { background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: 8px; padding: 12px 14px; }
+.stat-strip strong { display: block; font-size: 1.35rem; line-height: 1.2; }
+.stat-strip span { display: block; font-size: .875rem; color: var(--ink-soft); }
+.media-text { display: grid; gap: 16px; margin: 16px 0 20px; align-items: center; }
+@media (min-width: 720px) {
+  .media-text { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 24px; }
+  .media-text-reverse .media-text-figure { order: 2; }
+}
+.media-text-figure { margin: 0; }
+.media-text-figure img { width: 100%; border-radius: 8px; background: #eceff3; }
+.media-text-body > :first-child { margin-top: 0; }
+.media-text-body > :last-child { margin-bottom: 0; }
+.figure-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; margin: 16px 0 20px; }
+.figure-grid-swatches { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+.grid-figure { margin: 0; }
+.grid-figure img { width: 100%; border-radius: 8px; background: #eceff3; }
+.figure-grid-swatches .grid-figure { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px; text-align: center; }
+.figure-grid-swatches figcaption { color: var(--ink); font-weight: 600; }
+.pull-quote { margin: 20px 0; padding: 16px 20px; border-left: 4px solid var(--accent); background: var(--surface); border-radius: 0 8px 8px 0; }
+.pull-quote blockquote { margin: 0; font-size: 1.15rem; font-style: italic; }
+.pull-quote blockquote p { margin: 0; }
+.pull-quote figcaption { padding: 8px 0 0; font-weight: 600; }
+.pull-quote figcaption::before { content: "— "; }
+.callout { margin: 16px 0 20px; padding: 14px 18px; background: #fff5d6; border-left: 4px solid #b98900; border-radius: 8px; }
+.callout p { margin: 0 0 6px; }
+.callout p:last-child { margin-bottom: 0; }
+.callout-title { font-weight: 700; color: var(--demo); }
+.article-table tbody th { font-weight: 500; color: var(--ink-soft); }
+.article-table thead th { background: #eceff3; border-top: 0; }
+.faq-list h3 { font-size: 1.05rem; margin: 1.1em 0 .3em; }
+.faq-list p { margin-top: 0; }
 .status { font-weight: 600; padding: 8px 12px; border-radius: 6px; background: #eef1f5; }
 .status-upcoming { background: #e7f4ec; color: var(--ok); }
 .status-passed { background: #fff5d6; color: var(--demo); }

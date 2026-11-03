@@ -21,7 +21,7 @@ dotnet user-secrets set "ConnectionStrings:Default" "Server=...;Database=...;Use
 | `Site:BaseUrl` | `https://bikecarhub.com` | Used for canonical URLs, sitemaps and reset links. Requests to the other spelling (www or bare) get a 301 to this host |
 | `Database:AllowWrites` | `false` | `false`: sign-up, password reset, newsletter and ask-a-question save nothing and say "Demo mode". `true`: they write to `AspNetUsers`, `NewsLetters`, `TWOrFWContactUs` |
 | `Images:LocalRoot` | `wwwroot/images` | Folder that holds the images |
-| `Images:ArticlesRoot` | `Articles` | Private folder that holds the article `.docx` files. Each file sits at the same sub-path as the article's images, for example `wwwroot\images\blogs\2026\Sept\Kia Sorento` and `Articles\blogs\2026\Sept\Kia Sorento` |
+| `Images:ArticlesRoot` | `Articles` | Private folder that holds the article `.docx` files. A new article with no database row is published by adding an entry to `Articles\articles.json` (the file explains each field): its Word file is laid out automatically (Heading 1 = H1, first paragraph = intro, first picture = cover, tables become stat strips, image-and-text blocks, quotes, callouts or data tables, a "Frequently asked questions" section becomes FAQs). Pictures inside the Word file must also be copied, unchanged, into the entry's `imageFolder`. Each file sits at the same sub-path as the article's images, for example `wwwroot\images\blogs\2026\Sept\Kia Sorento` and `Articles\blogs\2026\Sept\Kia Sorento` |
 | `Images:RemoteBaseUrl` | empty | Optional host for images that are not in the local folder. Empty: those images show the default picture |
 | `Smtp:*` | empty | Outgoing mail for password-reset links. Empty: forgot-password says no email was sent |
 

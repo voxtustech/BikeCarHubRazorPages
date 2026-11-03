@@ -103,6 +103,93 @@ public class FormattingTests
     public void ParseLaunchDate_rejects_free_text() => Assert.Null(Formatting.ParseLaunchDate("Coming soon"));
 }
 
+public class RichDocxReaderTests
+{
+    private const string Ns = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
+
+    private static string P(string text, string? style = null, bool bold = false, bool list = false) =>
+        "<w:p><w:pPr>" + (style is null ? "" : $"<w:pStyle w:val=\"{style}\"/>") + (list ? "<w:numPr><w:ilvl w:val=\"0\"/><w:numId w:val=\"1\"/></w:numPr>" : "") +
+        "</w:pPr><w:r>" + (bold ? "<w:rPr><w:b/></w:rPr>" : "") + $"<w:t xml:space=\"preserve\">{System.Security.SecurityElement.Escape(text)}</w:t></w:r></w:p>";
+
+    private static string Cell(params string[] paras) => "<w:tc>" + string.Concat(paras.Select(t => P(t))) + "</w:tc>";
+    private static string Table(params string[][] rows) => "<w:tbl>" + string.Concat(rows.Select(r => "<w:tr>" + string.Concat(r) + "</w:tr>")) + "</w:tbl>";
+
+    private static string WriteDocx(string bodyXml)
+    {
+        var path = Path.Combine(Path.GetTempPath(), $"bch-test-{Guid.NewGuid():N}.docx");
+        using (var zip = System.IO.Compression.ZipFile.Open(path, System.IO.Compression.ZipArchiveMode.Create))
+        {
+            using var w = new StreamWriter(zip.CreateEntry("word/document.xml").Open());
+            w.Write($"<?xml version=\"1.0\"?><w:document xmlns:w=\"{Ns}\"><w:body>{bodyXml}</w:body></w:document>");
+        }
+        return path;
+    }
+
+    [Fact]
+    public void Read_lays_out_a_word_article()
+    {
+        var path = WriteDocx(string.Concat(
+            P("BIKECARHUB · NEW BIKES", bold: true),
+            P("Test Bike 750: Specs", "Heading1"),
+            P("A short intro <with> symbols."),
+            P("At a glance", "Heading2"),
+            Table([Cell("743 cc", "Twin engine"), Cell("55 PS", "@ 7,000 rpm"), Cell("63 Nm", "@ 5,000 rpm")]),
+            P("Engine: twin", list: true),
+            P("History", "Heading2"),
+            Table([Cell("“A quote.”", "Maker")]),
+            Table([Cell("Price not announced yet", "We will update this post.")]),
+            P("Specifications", "Heading2"),
+            Table([Cell("Specification"), Cell("Value")], [Cell("Displacement"), Cell("743 cc")]),
+            P("Frequently asked questions", "Heading2"),
+            P("Q.  How big is the engine?", bold: true),
+            P("743cc.")));
+        try
+        {
+            var doc = RichDocxReader.Read(path, _ => null, "/images/default.webp")!;
+            Assert.Equal("Test Bike 750: Specs", doc.Title);
+            Assert.Equal("A short intro <with> symbols.", doc.Standfirst);
+            Assert.DoesNotContain("BIKECARHUB", doc.BodyHtml);
+            Assert.DoesNotContain("<with>", doc.BodyHtml);
+            Assert.Contains("<nav class=\"toc\"", doc.BodyHtml);
+            Assert.Contains("<h2 id=\"at-a-glance\">At a glance</h2>", doc.BodyHtml);
+            Assert.Contains("<li><strong>743 cc</strong><span>Twin engine</span></li>", doc.BodyHtml);
+            Assert.Contains("<ul><li>Engine: twin</li></ul>", doc.BodyHtml);
+            Assert.Contains("<figure class=\"pull-quote\"><blockquote><p>“A quote.”</p></blockquote><figcaption>Maker</figcaption>", doc.BodyHtml);
+            Assert.Contains("<p class=\"callout-title\">Price not announced yet</p>", doc.BodyHtml);
+            Assert.Contains("<th scope=\"row\">Displacement</th><td>743 cc</td>", doc.BodyHtml);
+            Assert.Contains("<h3>How big is the engine?</h3><p>743cc.</p>", doc.BodyHtml);
+            Assert.Equal([new BikeCarHub.Domain.ArticleFaq("How big is the engine?", "743cc.")], doc.Faqs);
+        }
+        finally
+        {
+            File.Delete(path);
+        }
+    }
+
+    [Fact]
+    public void ImageSize_reads_a_png_header()
+    {
+        byte[] png = [0x89, (byte)'P', (byte)'N', (byte)'G', 13, 10, 26, 10, 0, 0, 0, 13, (byte)'I', (byte)'H', (byte)'D', (byte)'R', 0, 0, 1, 94, 0, 0, 0, 230];
+        Assert.Equal((350, 230), ImageSize.Read(png));
+    }
+
+    [Fact]
+    public void Shipped_article_list_and_himalayan_750_docx_parse()
+    {
+        var dir = new DirectoryInfo(AppContext.BaseDirectory);
+        while (dir is not null && !File.Exists(Path.Combine(dir.FullName, "BCHRazorPgaesClaude.csproj"))) dir = dir.Parent;
+        Assert.NotNull(dir);
+        var entries = FileArticles.ReadManifest(Path.Combine(dir!.FullName, "Articles", FileArticles.ManifestName));
+        var entry = Assert.Single(entries, e => e.Slug == "royal-enfield-himalayan-750");
+        Assert.Equal(BikeCarHub.Domain.ArticleKind.Blog, FileArticles.KindOf(entry.Section));
+
+        var doc = RichDocxReader.Read(Path.Combine(dir.FullName, "Articles", entry.Docx!), _ => null, "/images/default.webp")!;
+        Assert.StartsWith("Royal Enfield Himalayan 750", doc.Title);
+        Assert.Equal(7, doc.Faqs.Count);
+        Assert.Contains("class=\"article-table\"", doc.BodyHtml);
+    }
+}
+
 public class EmiCalculatorTests
 {
     [Fact]

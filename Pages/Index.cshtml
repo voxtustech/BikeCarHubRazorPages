@@ -128,7 +128,7 @@
                     @foreach (var story in Model.MoreStories)
                     {
                         <a class="story" href="@story.Url">
-                            <span class="story-media">@Html.Img(story.ImagePath, story.Title, 160, 110)</span>
+                            <span class="story-media">@Html.Img(story.CardImage, story.Title, 160, 110)</span>
                             <span>
                                 <span class="story-kind">Blog · @Html.DateText(story.Date)</span>
                                 <span class="story-title">@story.Title</span>

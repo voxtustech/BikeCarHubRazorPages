@@ -20,4 +20,9 @@
     <None Include="Articles\**" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Articles\blogs\2026\Nov\NewFolder\" />
+    <Folder Include="wwwroot\images\blogs\2026\Nov\" />
+  </ItemGroup>
+
 </Project>

@@ -16,6 +16,8 @@ public interface IImageUrlProvider
     /// <summary>The .docx for an article's image folder: same sub-path under the private articles root, or null.</summary>
     string? FindArticleFile(string imageFolder);
     string ToVirtualPath(string physicalFile);
+    /// <summary>Private folder that holds the article .docx files (Images:ArticlesRoot).</summary>
+    string ArticlesRoot { get; }
 }
 
 public sealed class ImageUrlProvider : IImageUrlProvider
@@ -54,6 +56,8 @@ public sealed class ImageUrlProvider : IImageUrlProvider
     }
 
     public string Placeholder => "/images/default.webp";
+
+    public string ArticlesRoot => _articlesRoot;
 
     public string Resolve(string? dbPath)
     {

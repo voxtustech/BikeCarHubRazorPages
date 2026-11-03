@@ -25,7 +25,8 @@ public interface IContentService
     Task<SiteContent> GetAsync();
 }
 
-public sealed class ContentService(IContentRepository repo, ICatalogService catalogService, IImageUrlProvider images, ICacheStore cache) : IContentService
+public sealed class ContentService(IContentRepository repo, ICatalogService catalogService, IImageUrlProvider images, ICacheStore cache,
+    ILogger<ContentService> log) : IContentService
 {
     private static readonly string[] ImageExtensions = [".webp", ".avif", ".png", ".jpg", ".jpeg"];
 
@@ -55,6 +56,8 @@ public sealed class ContentService(IContentRepository repo, ICatalogService cata
             .OrderBy(r => r.VFMId)
             .Select(r => BuildArticle(ArticleKind.ValueForMoney, r.VFMId, r.VFMHeading!, r.URL, null, null, r.ImageURL, r.Date, r.IsTwoWheeler, vfmSlugs))
             .ToList();
+
+        AddFileArticles(blogs, blogSlugs, news, newsSlugs, vfm, vfmSlugs);
 
         var upcomingSlugs = new HashSet<string>();
         var upcoming = (await repo.GetUpcomingAsync())
@@ -125,6 +128,54 @@ public sealed class ContentService(IContentRepository repo, ICatalogService cata
             }
         }
         return article;
+    }
+
+    // Articles written as Word files and listed in Articles/articles.json, published without a database row.
+    private void AddFileArticles(List<Article> blogs, HashSet<string> blogSlugs, List<Article> news, HashSet<string> newsSlugs,
+        List<Article> vfm, HashSet<string> vfmSlugs)
+    {
+        var manifest = Path.Combine(images.ArticlesRoot, FileArticles.ManifestName);
+        IReadOnlyList<FileArticleEntry> entries;
+        try
+        {
+            entries = FileArticles.ReadManifest(manifest);
+        }
+        catch (Exception ex) when (ex is IOException or System.Text.Json.JsonException)
+        {
+            log.LogError(ex, "Could not read {Manifest}; no file articles are published", manifest);
+            return;
+        }
+
+        for (var i = 0; i < entries.Count; i++)
+        {
+            var entry = entries[i];
+            if (entry.Draft) continue;
+            if (FileArticles.KindOf(entry.Section) is not { } kind)
+            {
+                log.LogWarning("articles.json entry {Index}: unknown section {Section}", i + 1, entry.Section);
+                continue;
+            }
+            var (list, used) = kind switch
+            {
+                ArticleKind.Blog => (blogs, blogSlugs),
+                ArticleKind.News => (news, newsSlugs),
+                _ => (vfm, vfmSlugs)
+            };
+            // Negative ids never clash with database ids.
+            var (article, problem) = FileArticles.Build(entry, kind, -(i + 1), images);
+            if (article is null)
+            {
+                log.LogWarning("articles.json entry {Index} ({Docx}) not published: {Problem}", i + 1, entry.Docx, problem);
+                continue;
+            }
+            if (problem is not null) log.LogWarning("articles.json entry {Index} ({Docx}): {Problem}", i + 1, entry.Docx, problem);
+            if (!used.Add(article.Slug))
+            {
+                log.LogWarning("articles.json entry {Index} ({Docx}) not published: slug {Slug} is already used", i + 1, entry.Docx, article.Slug);
+                continue;
+            }
+            list.Add(article);
+        }
     }
 
     private UpcomingBike BuildUpcoming(UpcomingRow r, Catalog catalog, HashSet<string> used)
