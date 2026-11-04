@@ -63,10 +63,20 @@ The site runs without them. Using the new columns needs a small code change afte
    ```
    Self-contained alternative: add `-r win-x86 --self-contained true` (or `win-x64`, matching the app pool).
    The publish output includes a generated `web.config`, the images in `wwwroot\images` and the `Articles` folder.
-3. Upload the contents of `publish` to the site's `httpdocs` folder.
+3. Upload the contents of `publish` to the site's `httpdocs` folder **with the site offline**, otherwise IIS shows "HTTP Error 503.0, 0x800704e7" (see below):
+   1. Upload `Deploy\app_offline.htm` to the root of `httpdocs` first. IIS stops the app and shows that page to visitors.
+   2. Upload the contents of `publish`, overwriting the old files.
+   3. Delete `app_offline.htm` from `httpdocs`. The app starts on the next request.
 4. Set the connection string on the server as an environment variable or in Plesk's ASP.NET settings: name `ConnectionStrings__Default`. Do not put it in `appsettings.json`.
 5. Give the app pool identity write permission on `Logs` and `App_Data` (sign-in cookies and reset links depend on the keys stored in `App_Data\keys`).
 6. Turn on HTTPS for the domain. The site redirects to HTTPS and sends HSTS outside Development.
 7. Check `/health`, `/robots.txt` and `/sitemap.xml`, then submit the sitemap in Search Console.
+
+### "HTTP Error 503.0 Service Unavailable" (0x800704e7) after publishing
+`0x800704e7` means the ASP.NET Core module saw the app shutting down. Overwriting the DLLs and `web.config` of a running site does that: every changed file restarts the app, starts during a half-finished upload crash, and after a few crashes IIS's rapid-fail protection stops the application pool, so the 503 stays until the pool is started again. To recover:
+1. Make sure the upload has finished and no `app_offline.htm` is left in `httpdocs`.
+2. In Plesk, open **Websites & Domains → bikecarhub.com → Dedicated IIS Application Pool** (or **IIS Application Pool**) and click **Recycle** (or **Start** if it shows stopped).
+3. If it still fails, set `stdoutLogEnabled="true"` in the server's `web.config`, load the site once, read `logs\stdout_*.log` (create the `logs` folder if it is missing) and the files in `Logs\`, then set it back to `false`.
+Using `app_offline.htm` for every upload (step 3 above) prevents it.
 
 The current live site is a JavaScript single-page app that returns its shell for every URL, so its exact page addresses could not be read. The old database slugs (`blogs/…`, `latestnews/…`, `upcoming-bike/…`) are redirected with 301s; tell me any other address pattern the old site used and it can be added in `Program.cs`.
