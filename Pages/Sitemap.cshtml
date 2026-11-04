@@ -1,0 +1,127 @@
+@page "/sitemap"
+@inject ICatalogService CatalogService
+@inject IContentService ContentService
+@{
+    // A readable list of every live page. It is built from the same data as /sitemap.xml, so it only links
+    // pages that exist and are indexable (thin articles and pilot sections stay out, as they do in the XML sitemap).
+    ViewData["Meta"] = new PageMeta
+    {
+        Title = "Sitemap: All Pages on BikeCarHub",
+        Description = "Every page on BikeCarHub in one place: bike brands and models, upcoming bikes, news, blogs, comparisons, tools and site information.",
+        CanonicalPath = "/sitemap"
+    }.Crumbs(("Sitemap", "/sitemap"));
+
+    var catalog = await CatalogService.GetAsync();
+    var content = await ContentService.GetAsync();
+    var brands = catalog.Brands.Where(b => b.Bikes.Count > 0).OrderBy(b => b.Name, StringComparer.OrdinalIgnoreCase).ToList();
+    var upcoming = content.Upcoming.Where(u => u.BodyTextLength >= 200).OrderBy(u => u.Name, StringComparer.OrdinalIgnoreCase).ToList();
+    static List<Article> Live(IEnumerable<Article> list) => list.Where(a => a.IsIndexable).OrderByDescending(a => a.Date).ToList();
+    var blogs = Live(content.Blogs);
+    var news = Live(content.News);
+    var vfm = Live(content.ValueForMoney);
+}
+
+<div class="container section sitemap-page">
+    <h1>Sitemap</h1>
+    <p class="lead">All the pages on BikeCarHub, grouped by section.</p>
+
+    <nav class="sitemap-jump" aria-label="Sitemap sections">
+        <a href="#main-pages">Main pages</a>
+        @if (brands.Count > 0) { <a href="#bikes">Bikes by brand</a> }
+        @if (upcoming.Count > 0) { <a href="#upcoming">Upcoming bikes</a> }
+        @if (blogs.Count > 0) { <a href="#blogs">Blogs</a> }
+        @if (news.Count > 0) { <a href="#news">News</a> }
+        @if (vfm.Count > 0) { <a href="#value-for-money">Value for money</a> }
+    </nav>
+
+    <section aria-labelledby="main-pages">
+        <h2 id="main-pages">Main pages</h2>
+        <ul class="sitemap-cols">
+            <li><a href="/">Home</a></li>
+            <li><a href="/new-bikes">New bikes</a></li>
+            <li><a href="/upcoming-bikes">Upcoming bikes</a></li>
+            <li><a href="/electric-bikes">Electric bike running cost</a></li>
+            <li><a href="/compare">Compare bikes</a></li>
+            <li><a href="/emi-calculator">EMI calculator</a></li>
+            <li><a href="/blog">Blogs</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/value-for-money">Value for money</a></li>
+            <li><a href="/ask-a-question">Ask a question</a></li>
+            <li><a href="/about">About BikeCarHub</a></li>
+            <li><a href="/privacy">Privacy policy</a></li>
+            <li><a href="/terms">Terms and conditions</a></li>
+            <li><a href="/disclaimer">Disclaimer</a></li>
+        </ul>
+    </section>
+
+    @if (brands.Count > 0)
+    {
+        <section aria-labelledby="bikes">
+            <h2 id="bikes">Bikes by brand</h2>
+            <div class="sitemap-brands">
+                @foreach (var brand in brands)
+                {
+                    var hasTypes = brand.Bikes.Any(x => x.IsScooter) && brand.Bikes.Any(x => !x.IsScooter);
+                    var hasFuels = brand.Bikes.Any(x => x.IsEv) && brand.Bikes.Any(x => !x.IsEv);
+                    <div class="sitemap-brand">
+                        <h3><a href="@brand.Url">@brand.Name bikes</a></h3>
+                        @if (hasTypes || hasFuels)
+                        {
+                            <p class="sitemap-facets">
+                                @if (hasTypes)
+                                {
+                                    <a href="@brand.Url/bikes">Motorcycles</a>
+                                    <a href="@brand.Url/scooters">Scooters</a>
+                                }
+                                @if (hasFuels)
+                                {
+                                    <a href="@brand.Url/electric">Electric</a>
+                                    <a href="@brand.Url/petrol">Petrol</a>
+                                }
+                            </p>
+                        }
+                        <ul>
+                            @foreach (var bike in brand.Bikes.OrderBy(b => b.Name, StringComparer.OrdinalIgnoreCase))
+                            {
+                                <li><a href="@bike.Url">@bike.Name</a></li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+        </section>
+    }
+
+    @if (upcoming.Count > 0)
+    {
+        <section aria-labelledby="upcoming">
+            <h2 id="upcoming">Upcoming bikes</h2>
+            <ul class="sitemap-cols">
+                @foreach (var u in upcoming)
+                {
+                    <li><a href="@u.Url">@u.Name</a></li>
+                }
+            </ul>
+        </section>
+    }
+
+    @foreach (var (id, heading, list) in new[] { ("blogs", "Blogs", blogs), ("news", "News", news), ("value-for-money", "Value for money", vfm) })
+    {
+        if (list.Count == 0) continue;
+        <section aria-labelledby="@id">
+            <h2 id="@id">@heading</h2>
+            <ul class="sitemap-articles">
+                @foreach (var a in list)
+                {
+                    <li>
+                        <a href="@a.Url">@a.Title</a>
+                        @if (a.Date is not null)
+                        {
+                            <time datetime="@a.Date.Value.ToString("yyyy-MM-dd")">@Html.DateText(a.Date)</time>
+                        }
+                    </li>
+                }
+            </ul>
+        </section>
+    }
+</div>

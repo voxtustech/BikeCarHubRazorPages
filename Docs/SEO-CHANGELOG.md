@@ -4,7 +4,7 @@ Input: the GSC export of 221 not-indexed URLs (`not-indexed-urls-2026-11-02.csv`
 Every one of those URLs was replayed against this build, running locally on the real database.
 The result for each URL is in [gsc-url-check-2026-11-03.csv](gsc-url-check-2026-11-03.csv) (old URL, new status, final URL, robots tag).
 
-## Result on the 221 URLs
+## Result on the  221 URLs
 
 | Outcome | URLs | Meaning |
 |---|---|---|

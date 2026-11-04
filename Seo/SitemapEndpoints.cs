@@ -23,6 +23,7 @@ public static class SitemapEndpoints
             Disallow: /status/
 
             Sitemap: {site.BaseUrl}/sitemap.xml
+            Sitemap: {site.BaseUrl}/sitemap-all.xml
 
             """, "text/plain", Encoding.UTF8));
 
@@ -103,7 +104,7 @@ public static class SitemapEndpoints
             [
                 new("/", null), new("/new-bikes", null), new("/upcoming-bikes", null), new("/news", null), new("/blog", null),
                 new("/value-for-money", null), new("/compare", null), new("/emi-calculator", null), new("/ask-a-question", null),
-                new("/about", null), new("/privacy", null), new("/terms", null), new("/disclaimer", null)
+                new("/about", null), new("/privacy", null), new("/terms", null), new("/disclaimer", null), new("/sitemap", null)
             ],
             ["brands"] = brands,
             ["models"] = catalog.Bikes.Select(b => new Entry(b.Url, b.Created)).ToList(),
