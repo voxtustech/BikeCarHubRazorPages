@@ -4,7 +4,7 @@
     var article = Model.Article;
 }
 
-<article class="container section prose@(article.WordLayout ? " prose-word" : "")@(article.WordTheme is "blue" ? " word-theme-blue" : "")">
+<article class="container section prose@(article.WordLayout ? " prose-word" : "")@(article.WordTheme is "blue" or "red" ? " word-theme-" + article.WordTheme : "")">
     @if (article.Kicker is not null)
     {
         <p class="kicker">@article.Kicker</p>

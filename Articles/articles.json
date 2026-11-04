@@ -28,5 +28,13 @@
     "date": "2026-11-03",
     "twoWheeler": false,
     "morePhotos": false
+  },
+  {
+    "section": "blog",
+    "docx": "blogs/2026/Nov/hero-xpulse-450-blog.docx",
+    "imageFolder": "/images/blogs/2026/Nov/hero-xpulse-450",
+    "slug": "hero-xpulse-450",
+    "date": "2026-11-04",
+    "morePhotos": false
   }
 ]

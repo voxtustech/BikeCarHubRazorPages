@@ -217,6 +217,27 @@ public class RichDocxReaderTests
         // Variant names sit in blue row headers, as in the Word table.
         Assert.Matches("<th scope=\"row\" class=\"fill-accent[^\"]*\">(<strong>)?HX 2", doc.BodyHtml);
     }
+
+    [Fact]
+    public void Shipped_hero_xpulse_450_docx_parses_with_the_red_theme()
+    {
+        var dir = new DirectoryInfo(AppContext.BaseDirectory);
+        while (dir is not null && !File.Exists(Path.Combine(dir.FullName, "BCHRazorPgaesClaude.csproj"))) dir = dir.Parent;
+        Assert.NotNull(dir);
+        var entries = FileArticles.ReadManifest(Path.Combine(dir!.FullName, "Articles", FileArticles.ManifestName));
+        var entry = Assert.Single(entries, e => e.Slug == "hero-xpulse-450");
+        Assert.True(entry.TwoWheeler);
+
+        var doc = RichDocxReader.Read(Path.Combine(dir.FullName, "Articles", entry.Docx!), _ => null, "/images/default.webp")!;
+        Assert.StartsWith("Hero Xpulse 450", doc.Title);
+        Assert.Equal("BIKECARHUB  ·  UPCOMING BIKES  ·  HERO", doc.Kicker);
+        Assert.Equal("red", doc.Theme);
+        Assert.Equal(6, doc.Faqs.Count);
+        Assert.Contains("<li class=\"fill-dark\"><strong>421 cc</strong>", doc.BodyHtml);
+        Assert.Contains("<li class=\"fill-accent\"><strong>46.6 PS</strong>", doc.BodyHtml);
+        Assert.Matches("<aside class=\"callout\"><p>(<span[^>]*>)?<strong>Note:", doc.BodyHtml);
+        Assert.Contains("class=\"article-table\"", doc.BodyHtml);
+    }
 }
 
 public class EmiCalculatorTests
