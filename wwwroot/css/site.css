@@ -244,6 +244,15 @@ th, td { text-align: left; vertical-align: top; padding: 10px 14px; border-top: 
   --w-rule: #d5e1ee;
   --w-label: #dcebf7;
 }
+/* Red version of the template (near-black + red + warm beige), for example the Hero Xpulse 450 article. */
+.prose-word.word-theme-red {
+  --w-dark: #161616;
+  --w-accent: #d21f2b;
+  --w-cream: #f5f1ec;
+  --w-peach: #f6d9db;
+  --w-rule: #e3dad0;
+  --w-label: #f6d9db;
+}
 .prose-word .fill-grey { background: #f2f2f2; }
 .prose-word img { max-width: 100%; height: auto; }
 .prose-word .kicker { margin: 0 0 6px; color: var(--w-accent); font-size: .8rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }

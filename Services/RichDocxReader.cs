@@ -65,6 +65,11 @@ public static partial class RichDocxReader
         ["EEF4FA"] = "fill-cream",
         ["DCEBF7"] = "fill-peach",
         ["F2F2F2"] = "fill-grey",
+        // Red template
+        ["161616"] = "fill-dark",
+        ["D21F2B"] = "fill-accent",
+        ["F5F1EC"] = "fill-cream",
+        ["F6D9DB"] = "fill-peach",
         ["000000"] = "fill-black"
     };
 
@@ -72,6 +77,7 @@ public static partial class RichDocxReader
     {
         ["C4501B"] = "text-accent",
         ["0077B6"] = "text-accent",
+        ["D21F2B"] = "text-accent",
         ["6B6B6B"] = "text-muted"
     };
 
@@ -79,6 +85,7 @@ public static partial class RichDocxReader
     private static readonly Dictionary<string, string> ThemeByAccent = new(StringComparer.OrdinalIgnoreCase)
     {
         ["0077B6"] = "blue",
+        ["D21F2B"] = "red",
         ["C4501B"] = "orange"
     };
 
