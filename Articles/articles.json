@@ -9,6 +9,10 @@
 //   twoWheeler  : false for a car article (default true)
 //   morePhotos  : false leaves out the "More photos" section of folder pictures not used in the Word file
 //   draft       : true keeps the entry off the site
+//   links       : internal links added to the text: { "text": words to link, "href": "/blog/...", "context": optional longer
+//                 phrase holding the words, to choose which occurrence }. Only paragraph and list text is linked.
+//   imageMap    : { "picture name inside the .docx (word/media)": "file in imageFolder" } for pictures whose folder copy is
+//                 not the identical file (for example a watermarked version). Identical files are found without it.
 // The Word file's Heading 1 becomes the H1, the first paragraph the intro and meta description, the first picture the
 // cover, and the Word "Title" property (File > Info) the title shown in Google.
 [
@@ -27,7 +31,47 @@
     "slug": "hyundai-bayon",
     "date": "2026-11-03",
     "twoWheeler": false,
-    "morePhotos": false
+    "morePhotos": false,
+    "links": [
+      { "text": "seven variants", "context": "The Bayon comes in seven variants", "href": "/value-for-money/hyundai-bayon-best-value-for-money-variant" },
+      { "text": "variant-wise prices", "href": "/value-for-money/hyundai-bayon-best-value-for-money-variant" }
+    ],
+    "imageMap": {
+      "image1.jpg": "bayon-main-des-banner.jpg",
+      "image2.jpg": "bayon-exterior_banner.jpg",
+      "image3.jpg": "signature-led-drls.jpg",
+      "image4.jpg": "duel-led-handlambs.jpg",
+      "image5.jpg": "bay-perf-3.jpg",
+      "image6.jpg": "bay-perf-big1.jpg",
+      "image7.jpg": "highlights-bayon-interior-banner.jpg",
+      "image8.jpg": "bay-int-1.jpg",
+      "image9.jpg": "bay-conv-1.jpg",
+      "image10.jpg": "safety2-banner.jpg",
+      "image11.jpg": "6-airbags-standard.jpg",
+      "image12.jpg": "dashcam.jpg",
+      "image23.jpg": "bayon-interior-banner.jpg"
+    }
+  },
+  {
+    "section": "value-for-money",
+    "docx": "blogs/2026/Nov/hyundai-bayon-value-for-money-variant.docx",
+    "imageFolder": "/images/blogs/2026/Nov/hyundai-bayon",
+    "slug": "hyundai-bayon-best-value-for-money-variant",
+    "date": "2026-11-06",
+    "twoWheeler": false,
+    "morePhotos": false,
+    "links": [
+      { "text": "Hyundai Bayon", "context": "The Hyundai Bayon went on sale", "href": "/blog/hyundai-bayon" },
+      { "text": "505-litre boot", "href": "/blog/hyundai-bayon" }
+    ],
+    "imageMap": {
+      "image1.jpg": "bayon-main-des-banner.jpg",
+      "image2.jpg": "bay-int-1.jpg",
+      "image3.jpg": "duel-led-handlambs.jpg",
+      "image4.jpg": "highlights-bayon-interior-banner.jpg",
+      "image5.jpg": "bay-conv-1.jpg",
+      "image6.jpg": "exterior-banner.jpg"
+    }
   },
   {
     "section": "blog",

@@ -219,6 +219,67 @@ public class RichDocxReaderTests
     }
 
     [Fact]
+    public void Shipped_hyundai_bayon_value_for_money_docx_parses_and_its_links_resolve()
+    {
+        var dir = new DirectoryInfo(AppContext.BaseDirectory);
+        while (dir is not null && !File.Exists(Path.Combine(dir.FullName, "BCHRazorPgaesClaude.csproj"))) dir = dir.Parent;
+        Assert.NotNull(dir);
+        var entries = FileArticles.ReadManifest(Path.Combine(dir!.FullName, "Articles", FileArticles.ManifestName));
+        var entry = Assert.Single(entries, e => e.Slug == "hyundai-bayon-best-value-for-money-variant");
+        Assert.Equal(ArticleKind.ValueForMoney, FileArticles.KindOf(entry.Section));
+
+        var doc = RichDocxReader.Read(Path.Combine(dir.FullName, "Articles", entry.Docx!), _ => null, "/images/default.webp")!;
+        Assert.Equal("Hyundai Bayon: Which Variant Is the Best Value for Money?", doc.Title);
+        Assert.Equal("red", doc.Theme);
+        Assert.Equal(5, doc.Faqs.Count);
+        // The editor-only SEO box above the title is not published.
+        Assert.DoesNotContain("SEO DETAILS", doc.BodyHtml);
+        // The Sources section was removed from the Word file and must stay off the page.
+        Assert.DoesNotContain("callout-title\">Sources<", doc.BodyHtml);
+        Assert.Contains("<li class=\"fill-dark\"><strong>HX 5</strong>", doc.BodyHtml);
+        Assert.Matches("<th scope=\"row\" class=\"fill-peach[^\"]*\">(<strong>)?HX 5", doc.BodyHtml);
+
+        // Every internal link in the manifest, for both Bayon articles, finds its words.
+        foreach (var e in entries.Where(e => e.Links.Count > 0))
+        {
+            var html = RichDocxReader.Read(Path.Combine(dir.FullName, "Articles", e.Docx!), _ => null, "/images/default.webp")!.BodyHtml;
+            foreach (var link in e.Links) Assert.NotNull(FileArticles.AddLink(html, link.Text!, link.Href!, link.Context));
+        }
+    }
+
+    [Fact]
+    public void Every_picture_in_the_shipped_word_articles_has_a_folder_file()
+    {
+        var dir = new DirectoryInfo(AppContext.BaseDirectory);
+        while (dir is not null && !File.Exists(Path.Combine(dir.FullName, "BCHRazorPgaesClaude.csproj"))) dir = dir.Parent;
+        Assert.NotNull(dir);
+        foreach (var entry in FileArticles.ReadManifest(Path.Combine(dir!.FullName, "Articles", FileArticles.ManifestName)).Where(e => !e.Draft))
+        {
+            var folder = Path.Combine(dir.FullName, "wwwroot", entry.ImageFolder!.Trim('/').Replace('/', Path.DirectorySeparatorChar));
+            var hashes = Directory.EnumerateFiles(folder).Select(f => Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(File.ReadAllBytes(f)))).ToHashSet();
+            var missing = new List<string>();
+            RichDocxReader.Read(Path.Combine(dir.FullName, "Articles", entry.Docx!), (name, bytes) =>
+            {
+                var ok = hashes.Contains(Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(bytes)))
+                    || (entry.ImageMap.TryGetValue(name, out var mapped) && File.Exists(Path.Combine(folder, mapped)));
+                if (!ok) missing.Add(name);
+                return null;
+            }, "/images/default.webp");
+            Assert.True(missing.Count == 0, $"{entry.Docx}: no folder file for {string.Join(", ", missing)}");
+        }
+    }
+
+    [Fact]
+    public void AddLink_links_paragraph_text_only_once_and_skips_headings_and_existing_links()
+    {
+        const string html = "<h2 id=\"x\">Bayon price</h2><p>See <a href=\"https://x\">Bayon price</a> and Bayon price here. Bayon price.</p>";
+        var linked = FileArticles.AddLink(html, "Bayon price", "/blog/b");
+        Assert.Equal("<h2 id=\"x\">Bayon price</h2><p>See <a href=\"https://x\">Bayon price</a> and <a href=\"/blog/b\">Bayon price</a> here. Bayon price.</p>", linked);
+        Assert.Null(FileArticles.AddLink("<h3>Only a heading</h3>", "heading", "/blog/b"));
+        Assert.Equal("<p>A b. <a href=\"/v\">A</a> c.</p>", FileArticles.AddLink("<p>A b. A c.</p>", "A", "/v", "A c"));
+    }
+
+    [Fact]
     public void Shipped_hero_xpulse_450_docx_parses_with_the_red_theme()
     {
         var dir = new DirectoryInfo(AppContext.BaseDirectory);

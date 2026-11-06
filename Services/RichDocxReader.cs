@@ -70,6 +70,7 @@ public static partial class RichDocxReader
         ["D21F2B"] = "fill-accent",
         ["F5F1EC"] = "fill-cream",
         ["F6D9DB"] = "fill-peach",
+        ["FBE3E4"] = "fill-peach",
         ["000000"] = "fill-black"
     };
 
@@ -115,7 +116,11 @@ public static partial class RichDocxReader
         public bool Centered => Text.Count > 0 && Text.All(p => p.Centered);
     }
 
-    public static DocxArticle? Read(string docxPath, Func<byte[], DocxImage?> resolveImage, string placeholder)
+    public static DocxArticle? Read(string docxPath, Func<byte[], DocxImage?> resolveImage, string placeholder) =>
+        Read(docxPath, (_, bytes) => resolveImage(bytes), placeholder);
+
+    /// <param name="resolveImage">Gets the picture's file name inside the Word file (for example "image1.jpg") and its bytes.</param>
+    public static DocxArticle? Read(string docxPath, Func<string, byte[], DocxImage?> resolveImage, string placeholder)
     {
         XDocument doc;
         var rels = new Dictionary<string, (string Target, bool External)>();
@@ -177,7 +182,7 @@ public static partial class RichDocxReader
         DocxImage? Image(string relId)
         {
             if (resolved.TryGetValue(relId, out var hit)) return hit;
-            var img = imageBytes.TryGetValue(relId, out var bytes) ? resolveImage(bytes) : null;
+            var img = imageBytes.TryGetValue(relId, out var bytes) ? resolveImage(Path.GetFileName(rels[relId].Target), bytes) : null;
             if (img is null) result.MissingImages++;
             else result.UsedImages.Add(img.VirtualPath);
             return resolved[relId] = img;
