@@ -27,7 +27,7 @@ public interface ICatalogService
     Task<Catalog> GetAsync();
 }
 
-public sealed class CatalogService(ICatalogRepository repo, ICacheStore cache, IImageUrlProvider images) : ICatalogService
+public sealed partial class CatalogService(ICatalogRepository repo, ICacheStore cache, IImageUrlProvider images) : ICatalogService
 {
     public Task<Catalog> GetAsync() => cache.GetOrCreateAsync("catalog", TimeSpan.FromMinutes(30), LoadAsync);
 
@@ -36,6 +36,7 @@ public sealed class CatalogService(ICatalogRepository repo, ICacheStore cache, I
         var brandRows = await repo.GetBrandsAsync();
         var bikeRows = await repo.GetBikesAsync();
         var variantRows = await repo.GetVariantsAsync();
+        var colourRows = await repo.GetColoursAsync();
         var displacement = (await repo.GetDisplacementsAsync()).ToDictionary(r => r.TwoWheelerId, r => r.Value);
         var mileage = (await repo.GetMileagesAsync()).ToDictionary(r => r.TwoWheelerId, r => r.Value);
 
@@ -135,6 +136,17 @@ public sealed class CatalogService(ICatalogRepository repo, ICacheStore cache, I
             }
         }
 
+        var variantsById = bikesById.Values.SelectMany(b => b.Variants).ToDictionary(v => v.Id);
+        foreach (var r in colourRows)
+        {
+            var name = Clean(r.Color);
+            if (name is null || !variantsById.TryGetValue(r.TWVarientId, out var variant)) continue;
+            if (variant.Colours.Any(c => c.Name.Equals(name, StringComparison.OrdinalIgnoreCase))) continue;
+            var image = Clean(r.ImageURL);
+            if (image is not null && image.EndsWith("/default.webp", StringComparison.OrdinalIgnoreCase)) image = null;
+            variant.Colours.Add(new BikeColour(name, Hex(r.ColorHexCode), Hex(r.TopColorCode), Hex(r.BottomColorCode), image));
+        }
+
         var activeBrands = brands.Values.Where(b => b.Bikes.Count > 0).OrderBy(b => b.Name, StringComparer.OrdinalIgnoreCase).ToList();
         foreach (var b in activeBrands) b.Bikes.Sort((x, y) => string.Compare(x.Name, y.Name, StringComparison.OrdinalIgnoreCase));
         var bikes = activeBrands.SelectMany(b => b.Bikes).ToList();
@@ -172,6 +184,16 @@ public sealed class CatalogService(ICatalogRepository repo, ICacheStore cache, I
             .FirstOrDefault();
         return file is null ? null : images.ToVirtualPath(file);
     }
+
+    // Only #RGB / #RRGGBB reach the page, so a stray value can never break the swatch markup.
+    private static string? Hex(string? value)
+    {
+        var v = value?.Trim();
+        return v is not null && HexPattern().IsMatch(v) ? v.ToUpperInvariant() : null;
+    }
+
+    [System.Text.RegularExpressions.GeneratedRegex("^#(?:[0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$")]
+    private static partial System.Text.RegularExpressions.Regex HexPattern();
 
     private static string? Clean(string? value)
     {

@@ -1,0 +1,2693 @@
+{
+ "Ampere Vehicles|Ampere Magnus G Max": {
+  "brand": "Ampere Vehicles",
+  "model": "Ampere Magnus G Max",
+  "bwName": "Magnus G Max",
+  "url": "https://www.bikewale.com/ampere-bikes/magnus-g-max/",
+  "score": 100
+ },
+ "Ampere Vehicles|Ampere Reo Li/LA Plus": {
+  "brand": "Ampere Vehicles",
+  "model": "Ampere Reo Li/LA Plus",
+  "bwName": null,
+  "url": null,
+  "score": 36,
+  "bestGuess": "Reo reo"
+ },
+ "Ampere Vehicles|Nexus EX": {
+  "brand": "Ampere Vehicles",
+  "model": "Nexus EX",
+  "bwName": "Nexus",
+  "url": "https://www.bikewale.com/ampere-bikes/nexus/",
+  "score": 63
+ },
+ "Ampere Vehicles|Ampere Magnus Neo": {
+  "brand": "Ampere Vehicles",
+  "model": "Ampere Magnus Neo",
+  "bwName": "Magnus Neo",
+  "url": "https://www.bikewale.com/ampere-bikes/magnus/",
+  "score": 100
+ },
+ "Aprilia|Aprilia RS 457": {
+  "brand": "Aprilia",
+  "model": "Aprilia RS 457",
+  "bwName": "RS 457",
+  "url": "https://www.bikewale.com/aprilia-bikes/rs-457/",
+  "score": 100
+ },
+ "Aprilia|Aprilia Tuono 457": {
+  "brand": "Aprilia",
+  "model": "Aprilia Tuono 457",
+  "bwName": "Tuono 457",
+  "url": "https://www.bikewale.com/aprilia-bikes/tuono-457/",
+  "score": 100
+ },
+ "Aprilia|Aprilia SR": {
+  "brand": "Aprilia",
+  "model": "Aprilia SR",
+  "bwName": "SR 160",
+  "url": "https://www.bikewale.com/aprilia-bikes/sr-160/",
+  "score": 44
+ },
+ "Aprilia|Aprilia SR 125 hp.e": {
+  "brand": "Aprilia",
+  "model": "Aprilia SR 125 hp.e",
+  "bwName": "SR 125",
+  "url": "https://www.bikewale.com/aprilia-bikes/sr-125/",
+  "score": 58
+ },
+ "Aprilia|Aprilia SR 175 hp.e": {
+  "brand": "Aprilia",
+  "model": "Aprilia SR 175 hp.e",
+  "bwName": "SR 175",
+  "url": "https://www.bikewale.com/aprilia-bikes/sr-175/",
+  "score": 58
+ },
+ "Aprilia|Aprilia SXR GT 125": {
+  "brand": "Aprilia",
+  "model": "Aprilia SXR GT 125",
+  "bwName": "SXR GT 125 hp-e",
+  "url": "https://www.bikewale.com/aprilia-bikes/sxr-gt-125-hp-e/",
+  "score": 64
+ },
+ "Aprilia|Aprilia SXR GT 175": {
+  "brand": "Aprilia",
+  "model": "Aprilia SXR GT 175",
+  "bwName": "SXR GT 175 hp-e",
+  "url": "https://www.bikewale.com/aprilia-bikes/sxr-gt-175-hp-e/",
+  "score": 64
+ },
+ "Aprilia|Aprilia Tuareg 660": {
+  "brand": "Aprilia",
+  "model": "Aprilia Tuareg 660",
+  "bwName": "Tuareg 660",
+  "url": "https://www.bikewale.com/aprilia-bikes/tuareg-660/",
+  "score": 100
+ },
+ "Aprilia|Aprilia RS 660": {
+  "brand": "Aprilia",
+  "model": "Aprilia RS 660",
+  "bwName": "RS 660",
+  "url": "https://www.bikewale.com/aprilia-bikes/rs-660/",
+  "score": 100
+ },
+ "Aprilia|Aprilia RSV4 Factory 1100": {
+  "brand": "Aprilia",
+  "model": "Aprilia RSV4 Factory 1100",
+  "bwName": "RSV4 1100 Factory",
+  "url": "https://www.bikewale.com/aprilia-bikes/rsv4-1100-factory/",
+  "score": 80
+ },
+ "Aprilia|Aprilia Tuono 660": {
+  "brand": "Aprilia",
+  "model": "Aprilia Tuono 660",
+  "bwName": "Tuono 660",
+  "url": "https://www.bikewale.com/aprilia-bikes/tuono-660/",
+  "score": 100
+ },
+ "Ather Energy|Ather Konarc": {
+  "brand": "Ather Energy",
+  "model": "Ather Konarc",
+  "bwName": "Konarc",
+  "url": "https://www.bikewale.com/ather-bikes/konarc/",
+  "score": 100
+ },
+ "Ather Energy|Ather 450 Apex": {
+  "brand": "Ather Energy",
+  "model": "Ather 450 Apex",
+  "bwName": "450 Apex",
+  "url": "https://www.bikewale.com/ather-bikes/450-apex/",
+  "score": 100
+ },
+ "Bajaj|Bajaj Pulsar NS200": {
+  "brand": "Bajaj",
+  "model": "Bajaj Pulsar NS200",
+  "bwName": "Pulsar NS200",
+  "url": "https://www.bikewale.com/bajaj-bikes/pulsar-ns/",
+  "score": 100
+ },
+ "Bajaj|Bajaj Chetak C3001": {
+  "brand": "Bajaj",
+  "model": "Bajaj Chetak C3001",
+  "bwName": "Chetak",
+  "url": "https://www.bikewale.com/bajaj-bikes/chetak/",
+  "score": 53
+ },
+ "Bajaj|Bajaj Chetak C3503": {
+  "brand": "Bajaj",
+  "model": "Bajaj Chetak C3503",
+  "bwName": "Chetak",
+  "url": "https://www.bikewale.com/bajaj-bikes/chetak/",
+  "score": 53
+ },
+ "Bajaj|Bajaj Chetak 3502": {
+  "brand": "Bajaj",
+  "model": "Bajaj Chetak 3502",
+  "bwName": "Chetak",
+  "url": "https://www.bikewale.com/bajaj-bikes/chetak/",
+  "score": 56
+ },
+ "Bajaj|Bajaj Chetak 3501": {
+  "brand": "Bajaj",
+  "model": "Bajaj Chetak 3501",
+  "bwName": "Chetak",
+  "url": "https://www.bikewale.com/bajaj-bikes/chetak/",
+  "score": 56
+ },
+ "Bajaj|Bajaj Chetak C2501": {
+  "brand": "Bajaj",
+  "model": "Bajaj Chetak C2501",
+  "bwName": "Chetak C25",
+  "url": "https://www.bikewale.com/bajaj-bikes/chetak-c25/",
+  "score": 69
+ },
+ "Bajaj|Bajaj Pulsar N160 S": {
+  "brand": "Bajaj",
+  "model": "Bajaj Pulsar N160 S",
+  "bwName": "Pulsar N160 2V",
+  "url": "https://www.bikewale.com/bajaj-bikes/pulsar-n160/",
+  "score": 40
+ },
+ "Bajaj|Bajaj Pulsar 125": {
+  "brand": "Bajaj",
+  "model": "Bajaj Pulsar 125",
+  "bwName": "Pulsar 125",
+  "url": "https://www.bikewale.com/bajaj-bikes/pulsar-125/",
+  "score": 100
+ },
+ "Bajaj|Bajaj Pulsar NS125": {
+  "brand": "Bajaj",
+  "model": "Bajaj Pulsar NS125",
+  "bwName": "Pulsar NS125",
+  "url": "https://www.bikewale.com/bajaj-bikes/pulsar-ns125/",
+  "score": 100
+ },
+ "Bajaj|Bajaj Pulsar NS400Z": {
+  "brand": "Bajaj",
+  "model": "Bajaj Pulsar NS400Z",
+  "bwName": "Pulsar NS400Z",
+  "url": "https://www.bikewale.com/bajaj-bikes/pulsar-ns400z/",
+  "score": 100
+ },
+ "Bajaj|Bajaj Pulsar N160": {
+  "brand": "Bajaj",
+  "model": "Bajaj Pulsar N160",
+  "bwName": "Pulsar N160 2V",
+  "url": "https://www.bikewale.com/bajaj-bikes/pulsar-n160/",
+  "score": 70
+ },
+ "Bajaj|Bajaj Pulsar NS160": {
+  "brand": "Bajaj",
+  "model": "Bajaj Pulsar NS160",
+  "bwName": "Pulsar NS160",
+  "url": "https://www.bikewale.com/bajaj-bikes/pulsar-ns-160/",
+  "score": 100
+ },
+ "Bajaj|Bajaj Pulsar 150": {
+  "brand": "Bajaj",
+  "model": "Bajaj Pulsar 150",
+  "bwName": "Pulsar 150",
+  "url": "https://www.bikewale.com/bajaj-bikes/pulsar-150/",
+  "score": 100
+ },
+ "Bajaj|Bajaj Pulsar N250": {
+  "brand": "Bajaj",
+  "model": "Bajaj Pulsar N250",
+  "bwName": "Pulsar N250",
+  "url": "https://www.bikewale.com/bajaj-bikes/pulsar-n250/",
+  "score": 100
+ },
+ "Bajaj|Bajaj Pulsar RS200": {
+  "brand": "Bajaj",
+  "model": "Bajaj Pulsar RS200",
+  "bwName": "Pulsar RS 200",
+  "url": "https://www.bikewale.com/bajaj-bikes/rs-200/",
+  "score": 100
+ },
+ "Bajaj|Bajaj Platina 110": {
+  "brand": "Bajaj",
+  "model": "Bajaj Platina 110",
+  "bwName": "Platina 110",
+  "url": "https://www.bikewale.com/bajaj-bikes/platina-110/",
+  "score": 100
+ },
+ "Bajaj|Bajaj Dominar 400": {
+  "brand": "Bajaj",
+  "model": "Bajaj Dominar 400",
+  "bwName": "Dominar 400",
+  "url": "https://www.bikewale.com/bajaj-bikes/dominar-400/",
+  "score": 100
+ },
+ "Bajaj|Bajaj Platina 100": {
+  "brand": "Bajaj",
+  "model": "Bajaj Platina 100",
+  "bwName": "Platina 100",
+  "url": "https://www.bikewale.com/bajaj-bikes/platina-100/",
+  "score": 100
+ },
+ "Bajaj|Bajaj Freedom 125": {
+  "brand": "Bajaj",
+  "model": "Bajaj Freedom 125",
+  "bwName": "Freedom",
+  "url": "https://www.bikewale.com/bajaj-bikes/cng-freedom-125/",
+  "score": 62
+ },
+ "Bajaj|Bajaj Dominar 250": {
+  "brand": "Bajaj",
+  "model": "Bajaj Dominar 250",
+  "bwName": "Dominar 250",
+  "url": "https://www.bikewale.com/bajaj-bikes/dominar-250/",
+  "score": 100
+ },
+ "Bajaj|Bajaj CT 110X": {
+  "brand": "Bajaj",
+  "model": "Bajaj CT 110X",
+  "bwName": "CT 110",
+  "url": "https://www.bikewale.com/bajaj-bikes/ct-110/",
+  "score": 70
+ },
+ "Bajaj|Bajaj Pulsar 220 F": {
+  "brand": "Bajaj",
+  "model": "Bajaj Pulsar 220 F",
+  "bwName": "Pulsar 220F",
+  "url": "https://www.bikewale.com/bajaj-bikes/pulsar-220f/",
+  "score": 100
+ },
+ "Bajaj|Bajaj Avenger Cruise 220": {
+  "brand": "Bajaj",
+  "model": "Bajaj Avenger Cruise 220",
+  "bwName": "Avenger Cruise 220",
+  "url": "https://www.bikewale.com/bajaj-bikes/avenger-cruise-220/",
+  "score": 100
+ },
+ "Bajaj|Bajaj Pulsar N125": {
+  "brand": "Bajaj",
+  "model": "Bajaj Pulsar N125",
+  "bwName": "Pulsar N125",
+  "url": "https://www.bikewale.com/bajaj-bikes/pulsar-n125/",
+  "score": 100
+ },
+ "Bajaj|Bajaj Pulsar 180": {
+  "brand": "Bajaj",
+  "model": "Bajaj Pulsar 180",
+  "bwName": "Pulsar 180",
+  "url": "https://www.bikewale.com/bajaj-bikes/pulsar-180/",
+  "score": 100
+ },
+ "Bajaj|Bajaj Avenger 220 Street": {
+  "brand": "Bajaj",
+  "model": "Bajaj Avenger 220 Street",
+  "bwName": "Avenger Street 220",
+  "url": "https://www.bikewale.com/bajaj-bikes/avenger-street-220/",
+  "score": 80
+ },
+ "Benelli|Benelli TOURING": {
+  "brand": "Benelli",
+  "model": "Benelli TOURING",
+  "bwName": null,
+  "url": null,
+  "score": 0,
+  "bestGuess": "TRK 552 trk-552"
+ },
+ "Benelli|Benelli LEONCINO": {
+  "brand": "Benelli",
+  "model": "Benelli LEONCINO",
+  "bwName": "Leoncino 500",
+  "url": "https://www.bikewale.com/benelli-bikes/leoncino/",
+  "score": 64
+ },
+ "Benelli|Benelli NAKED": {
+  "brand": "Benelli",
+  "model": "Benelli NAKED",
+  "bwName": null,
+  "url": null,
+  "score": 0,
+  "bestGuess": "TRK 552 trk-552"
+ },
+ "BMW|BMW S 1000 RR": {
+  "brand": "BMW",
+  "model": "BMW S 1000 RR",
+  "bwName": "S1000RR",
+  "url": "https://www.bikewale.com/bmw-bikes/s1000rr/",
+  "score": 100
+ },
+ "BMW|BMW G 310 RR": {
+  "brand": "BMW",
+  "model": "BMW G 310 RR",
+  "bwName": "G310 RR",
+  "url": "https://www.bikewale.com/bmw-bikes/g310-rr/",
+  "score": 100
+ },
+ "BMW|BMW F 450 GS": {
+  "brand": "BMW",
+  "model": "BMW F 450 GS",
+  "bwName": "F 450 GS",
+  "url": "https://www.bikewale.com/bmw-bikes/f-450-gs/",
+  "score": 100
+ },
+ "BMW|BMW C 400 GT": {
+  "brand": "BMW",
+  "model": "BMW C 400 GT",
+  "bwName": "C 400 GT",
+  "url": "https://www.bikewale.com/bmw-bikes/c-400-gt/",
+  "score": 100
+ },
+ "BMW|BMW M 1000 R": {
+  "brand": "BMW",
+  "model": "BMW M 1000 R",
+  "bwName": "M 1000 R",
+  "url": "https://www.bikewale.com/bmw-bikes/m-1000-r/",
+  "score": 100
+ },
+ "BMW|BMW K 1600 GTL": {
+  "brand": "BMW",
+  "model": "BMW K 1600 GTL",
+  "bwName": "K1600 GT",
+  "url": "https://www.bikewale.com/bmw-bikes/k1600gt/",
+  "score": 70
+ },
+ "BMW|BMW R 12 nine T": {
+  "brand": "BMW",
+  "model": "BMW R 12 nine T",
+  "bwName": "R 12 nine T",
+  "url": "https://www.bikewale.com/bmw-bikes/r-12-nine-t/",
+  "score": 100
+ },
+ "BMW|BMW S 1000 R": {
+  "brand": "BMW",
+  "model": "BMW S 1000 R",
+  "bwName": "S 1000 R",
+  "url": "https://www.bikewale.com/bmw-bikes/s-1000-r/",
+  "score": 100
+ },
+ "BMW|BMW K 1600 B": {
+  "brand": "BMW",
+  "model": "BMW K 1600 B",
+  "bwName": "K 1600",
+  "url": "https://www.bikewale.com/bmw-bikes/k-1600/",
+  "score": 70
+ },
+ "BMW|BMW F 900 GS": {
+  "brand": "BMW",
+  "model": "BMW F 900 GS",
+  "bwName": "F 900 GS",
+  "url": "https://www.bikewale.com/bmw-bikes/f-900-gs/",
+  "score": 100
+ },
+ "BMW|BMW F 900 GS Adventure": {
+  "brand": "BMW",
+  "model": "BMW F 900 GS Adventure",
+  "bwName": "F 900 GS Adventure",
+  "url": "https://www.bikewale.com/bmw-bikes/f-900-gs-adventure/",
+  "score": 100
+ },
+ "BMW|BMW CE 04": {
+  "brand": "BMW",
+  "model": "BMW CE 04",
+  "bwName": "CE 04",
+  "url": "https://www.bikewale.com/bmw-bikes/ce-04/",
+  "score": 100
+ },
+ "BMW|BMW CE 02": {
+  "brand": "BMW",
+  "model": "BMW CE 02",
+  "bwName": "CE 02",
+  "url": "https://www.bikewale.com/bmw-bikes/ce-02/",
+  "score": 100
+ },
+ "BMW|BMW R 1300 GS": {
+  "brand": "BMW",
+  "model": "BMW R 1300 GS",
+  "bwName": "R 1300 GS",
+  "url": "https://www.bikewale.com/bmw-bikes/r1300gs/",
+  "score": 100
+ },
+ "BMW|BMW R 1300 GS Adventure": {
+  "brand": "BMW",
+  "model": "BMW R 1300 GS Adventure",
+  "bwName": "R 1300 GS Adventure",
+  "url": "https://www.bikewale.com/bmw-bikes/r-1300-gs-adventure/",
+  "score": 100
+ },
+ "BMW|BMW R 12": {
+  "brand": "BMW",
+  "model": "BMW R 12",
+  "bwName": "R 12",
+  "url": "https://www.bikewale.com/bmw-bikes/r-12/",
+  "score": 100
+ },
+ "Bounce infinity|Infinity E.1": {
+  "brand": "Bounce infinity",
+  "model": "Infinity E.1",
+  "bwName": null,
+  "url": null,
+  "score": 32,
+  "bestGuess": "Infinity E1 infinity-e1"
+ },
+ "BSA|BSA Scrambler 650": {
+  "brand": "BSA",
+  "model": "BSA Scrambler 650",
+  "bwName": "Scrambler 650",
+  "url": "https://www.bikewale.com/bsa-bikes/scrambler-650/",
+  "score": 100
+ },
+ "BSA|BSA": {
+  "brand": "BSA",
+  "model": "BSA",
+  "bwName": null,
+  "url": null,
+  "score": 20,
+  "bestGuess": "Gold Star 650 gold-star-650"
+ },
+ "CF Moto|CF Moto 650GT": {
+  "brand": "CF Moto",
+  "model": "CF Moto 650GT",
+  "bwName": "650GT",
+  "url": "https://www.bikewale.com/cfmoto-bikes/650gt/",
+  "score": 97
+ },
+ "CF Moto|CF Moto 650MT": {
+  "brand": "CF Moto",
+  "model": "CF Moto 650MT",
+  "bwName": "650MT",
+  "url": "https://www.bikewale.com/cfmoto-bikes/650mt/",
+  "score": 97
+ },
+ "CF Moto|CF Moto 650NK": {
+  "brand": "CF Moto",
+  "model": "CF Moto 650NK",
+  "bwName": "650NK",
+  "url": "https://www.bikewale.com/cfmoto-bikes/650nk/",
+  "score": 97
+ },
+ "CF Moto|CF Moto 300NK": {
+  "brand": "CF Moto",
+  "model": "CF Moto 300NK",
+  "bwName": "300NK",
+  "url": "https://www.bikewale.com/cfmoto-bikes/300nk/",
+  "score": 97
+ },
+ "Detel EV|Detel EV Easy Plus": {
+  "brand": "Detel EV",
+  "model": "Detel EV Easy Plus",
+  "bwName": null,
+  "url": null,
+  "score": 0,
+  "bestGuess": null
+ },
+ "Ducati|Ducati Panigale": {
+  "brand": "Ducati",
+  "model": "Ducati Panigale",
+  "bwName": "Panigale R",
+  "url": "https://www.bikewale.com/ducati-bikes/panigale-r/",
+  "score": 70
+ },
+ "Ducati|Ducati Monster": {
+  "brand": "Ducati",
+  "model": "Ducati Monster",
+  "bwName": "Monster",
+  "url": "https://www.bikewale.com/ducati-bikes/monster/",
+  "score": 100
+ },
+ "Ducati|Ducati Scrambler 2G": {
+  "brand": "Ducati",
+  "model": "Ducati Scrambler 2G",
+  "bwName": null,
+  "url": null,
+  "score": 27,
+  "bestGuess": "Scrambler Icon scrambler-icon"
+ },
+ "Ducati|Ducati Streetfighter": {
+  "brand": "Ducati",
+  "model": "Ducati Streetfighter",
+  "bwName": "Streetfighter",
+  "url": "https://www.bikewale.com/ducati-bikes/streetfighter/",
+  "score": 97
+ },
+ "Ducati|Ducati XDiavel V4": {
+  "brand": "Ducati",
+  "model": "Ducati XDiavel V4",
+  "bwName": "XDiavel V4",
+  "url": "https://www.bikewale.com/ducati-bikes/xdiavel-v4/",
+  "score": 100
+ },
+ "Ducati|Ducati Desmo450 MX": {
+  "brand": "Ducati",
+  "model": "Ducati Desmo450 MX",
+  "bwName": "Desmo450 MX",
+  "url": "https://www.bikewale.com/ducati-bikes/desmo450-mx/",
+  "score": 100
+ },
+ "Ducati|Ducati Supersport": {
+  "brand": "Ducati",
+  "model": "Ducati Supersport",
+  "bwName": "SuperSport",
+  "url": "https://www.bikewale.com/ducati-bikes/supersport/",
+  "score": 100
+ },
+ "Ducati|Ducati Hypermotard": {
+  "brand": "Ducati",
+  "model": "Ducati Hypermotard",
+  "bwName": "Hypermotard V2",
+  "url": "https://www.bikewale.com/ducati-bikes/hypermotard-v2/",
+  "score": 71
+ },
+ "Ducati|Ducati DesertX": {
+  "brand": "Ducati",
+  "model": "Ducati DesertX",
+  "bwName": "DesertX",
+  "url": "https://www.bikewale.com/ducati-bikes/desertx/",
+  "score": 100
+ },
+ "Ducati|Ducati Multistrada": {
+  "brand": "Ducati",
+  "model": "Ducati Multistrada",
+  "bwName": "Multistrada V4",
+  "url": "https://www.bikewale.com/ducati-bikes/multistrada-v4/",
+  "score": 71
+ },
+ "Ducati|Ducati Diavel": {
+  "brand": "Ducati",
+  "model": "Ducati Diavel",
+  "bwName": "Diavel",
+  "url": "https://www.bikewale.com/ducati-bikes/diavel/",
+  "score": 97
+ },
+ "Evolet|Pony": {
+  "brand": "Evolet",
+  "model": "Pony",
+  "bwName": "Pony",
+  "url": "https://www.bikewale.com/evolet-bikes/pony/",
+  "score": 100
+ },
+ "Evolet|Derby": {
+  "brand": "Evolet",
+  "model": "Derby",
+  "bwName": "Derby",
+  "url": "https://www.bikewale.com/evolet-bikes/derby/",
+  "score": 100
+ },
+ "Harley Davidson|Harley Davidson X 440": {
+  "brand": "Harley Davidson",
+  "model": "Harley Davidson X 440",
+  "bwName": "X440",
+  "url": "https://www.bikewale.com/harleydavidson-bikes/x440/",
+  "score": 100
+ },
+ "Harley Davidson|Harley-Davidson X440 T": {
+  "brand": "Harley Davidson",
+  "model": "Harley-Davidson X440 T",
+  "bwName": "X440 T",
+  "url": "https://www.bikewale.com/harleydavidson-bikes/x440-t/",
+  "score": 100
+ },
+ "Harley Davidson|Harley Davidson Fat Boy 114": {
+  "brand": "Harley Davidson",
+  "model": "Harley Davidson Fat Boy 114",
+  "bwName": "Fat Boy 114",
+  "url": "https://www.bikewale.com/harleydavidson-bikes/fat-boy-114/",
+  "score": 97
+ },
+ "Harley Davidson|Harley Davidson Sportster S": {
+  "brand": "Harley Davidson",
+  "model": "Harley Davidson Sportster S",
+  "bwName": "Sportster S",
+  "url": "https://www.bikewale.com/harleydavidson-bikes/sportster-s/",
+  "score": 100
+ },
+ "Harley Davidson|Harley-Davidson CVO Road Glide": {
+  "brand": "Harley Davidson",
+  "model": "Harley-Davidson CVO Road Glide",
+  "bwName": "Road Glide",
+  "url": "https://www.bikewale.com/harleydavidson-bikes/road-glide/",
+  "score": 65
+ },
+ "Harley Davidson|Harley Davidson Road Glide Special": {
+  "brand": "Harley Davidson",
+  "model": "Harley Davidson Road Glide Special",
+  "bwName": "Road Glide Special [2022]",
+  "url": "https://www.bikewale.com/harleydavidson-bikes/road-glide-special-2022/",
+  "score": 65
+ },
+ "Harley Davidson|Harley Davidson Breakout 117": {
+  "brand": "Harley Davidson",
+  "model": "Harley Davidson Breakout 117",
+  "bwName": "Breakout",
+  "url": "https://www.bikewale.com/harleydavidson-bikes/breakout/",
+  "score": 64
+ },
+ "Harley Davidson|Harley Davidson Pan America 1250 Special": {
+  "brand": "Harley Davidson",
+  "model": "Harley Davidson Pan America 1250 Special",
+  "bwName": "PAN America 1250 Special",
+  "url": "https://www.bikewale.com/harleydavidson-bikes/pan-america-1250-special/",
+  "score": 100
+ },
+ "Harley Davidson|Harley-Davidson Heritage Classic": {
+  "brand": "Harley Davidson",
+  "model": "Harley-Davidson Heritage Classic",
+  "bwName": "Heritage Classic",
+  "url": "https://www.bikewale.com/harleydavidson-bikes/heritage-classic/",
+  "score": 100
+ },
+ "Harley Davidson|Harley-Davidson Street Bob": {
+  "brand": "Harley Davidson",
+  "model": "Harley-Davidson Street Bob",
+  "bwName": "Street Bob",
+  "url": "https://www.bikewale.com/harleydavidson-bikes/street-bob/",
+  "score": 100
+ },
+ "Harley Davidson|Harley Davidson Nightster": {
+  "brand": "Harley Davidson",
+  "model": "Harley Davidson Nightster",
+  "bwName": "Nightster",
+  "url": "https://www.bikewale.com/harleydavidson-bikes/nightster/",
+  "score": 100
+ },
+ "Harley Davidson|Harley-Davidson Street Glide": {
+  "brand": "Harley Davidson",
+  "model": "Harley-Davidson Street Glide",
+  "bwName": "Street Glide",
+  "url": "https://www.bikewale.com/harleydavidson-bikes/street-glide/",
+  "score": 100
+ },
+ "Harley Davidson|Harley-Davidson CVO Street Glide": {
+  "brand": "Harley Davidson",
+  "model": "Harley-Davidson CVO Street Glide",
+  "bwName": "Street Glide",
+  "url": "https://www.bikewale.com/harleydavidson-bikes/street-glide/",
+  "score": 67
+ },
+ "Hero|Hero Splendor Plus": {
+  "brand": "Hero",
+  "model": "Hero Splendor Plus",
+  "bwName": "Splendor Plus",
+  "url": "https://www.bikewale.com/hero-bikes/splendor-plus/",
+  "score": 100
+ },
+ "Hero|Hero Splendor Plus XTEC": {
+  "brand": "Hero",
+  "model": "Hero Splendor Plus XTEC",
+  "bwName": "Splendor Plus Xtec",
+  "url": "https://www.bikewale.com/hero-bikes/splendor-plus-xtec/",
+  "score": 100
+ },
+ "Hero|Hero Glamour X 125": {
+  "brand": "Hero",
+  "model": "Hero Glamour X 125",
+  "bwName": "Glamour X 125",
+  "url": "https://www.bikewale.com/hero-bikes/glamour-x-125/",
+  "score": 100
+ },
+ "Hero|Hero HF Deluxe": {
+  "brand": "Hero",
+  "model": "Hero HF Deluxe",
+  "bwName": "HF Deluxe",
+  "url": "https://www.bikewale.com/hero-bikes/hf-deluxe/",
+  "score": 100
+ },
+ "Hero|Hero Xtreme 125R": {
+  "brand": "Hero",
+  "model": "Hero Xtreme 125R",
+  "bwName": "Xtreme 125R",
+  "url": "https://www.bikewale.com/hero-bikes/xtreme-125r/",
+  "score": 100
+ },
+ "Hero|Hero XPulse 210": {
+  "brand": "Hero",
+  "model": "Hero XPulse 210",
+  "bwName": "Xpulse 210",
+  "url": "https://www.bikewale.com/hero-bikes/xpulse-210/",
+  "score": 100
+ },
+ "Hero|Hero Xtreme 250R": {
+  "brand": "Hero",
+  "model": "Hero Xtreme 250R",
+  "bwName": "Xtreme 250R",
+  "url": "https://www.bikewale.com/hero-bikes/xtreme-250r/",
+  "score": 100
+ },
+ "Hero|Hero Pleasure Plus": {
+  "brand": "Hero",
+  "model": "Hero Pleasure Plus",
+  "bwName": "Pleasure Plus",
+  "url": "https://www.bikewale.com/hero-bikes/pleasure-plus/",
+  "score": 100
+ },
+ "Hero|Hero Destini 125": {
+  "brand": "Hero",
+  "model": "Hero Destini 125",
+  "bwName": "Destini 125",
+  "url": "https://www.bikewale.com/hero-bikes/destini-125/",
+  "score": 100
+ },
+ "Hero|Hero PASSION Plus": {
+  "brand": "Hero",
+  "model": "Hero PASSION Plus",
+  "bwName": "Passion Plus",
+  "url": "https://www.bikewale.com/hero-bikes/passion-plus/",
+  "score": 100
+ },
+ "Hero|Hero Super Splendor XTEC": {
+  "brand": "Hero",
+  "model": "Hero Super Splendor XTEC",
+  "bwName": "Super Splendor Xtec",
+  "url": "https://www.bikewale.com/hero-bikes/super-splendor/",
+  "score": 100
+ },
+ "Hero|Hero Xoom 125": {
+  "brand": "Hero",
+  "model": "Hero Xoom 125",
+  "bwName": "Xoom 125",
+  "url": "https://www.bikewale.com/hero-bikes/xoom-125/",
+  "score": 100
+ },
+ "Hero|Hero HF Deluxe Pro": {
+  "brand": "Hero",
+  "model": "Hero HF Deluxe Pro",
+  "bwName": "HF Deluxe",
+  "url": "https://www.bikewale.com/hero-bikes/hf-deluxe/",
+  "score": 64
+ },
+ "Hero|Hero Splendor Plus Flex Fuel": {
+  "brand": "Hero",
+  "model": "Hero Splendor Plus Flex Fuel",
+  "bwName": "Splendor Plus Flex Fuel",
+  "url": "https://www.bikewale.com/hero-bikes/splendor-plus-flex-fuel/",
+  "score": 100
+ },
+ "Hero|Hero Glamour": {
+  "brand": "Hero",
+  "model": "Hero Glamour",
+  "bwName": "Glamour",
+  "url": "https://www.bikewale.com/hero-bikes/glamour/",
+  "score": 100
+ },
+ "Hero|Hero Xtreme 160R": {
+  "brand": "Hero",
+  "model": "Hero Xtreme 160R",
+  "bwName": "Xtreme 160R",
+  "url": "https://www.bikewale.com/hero-bikes/xtreme/",
+  "score": 100
+ },
+ "Hero|Hero Xoom 160": {
+  "brand": "Hero",
+  "model": "Hero Xoom 160",
+  "bwName": "Xoom 160",
+  "url": "https://www.bikewale.com/hero-bikes/xoom-160/",
+  "score": 100
+ },
+ "Hero|Hero Karizma XMR": {
+  "brand": "Hero",
+  "model": "Hero Karizma XMR",
+  "bwName": "Karizma XMR",
+  "url": "https://www.bikewale.com/hero-bikes/karizma-xmr/",
+  "score": 100
+ },
+ "Hero|Hero HF 100": {
+  "brand": "Hero",
+  "model": "Hero HF 100",
+  "bwName": null,
+  "url": null,
+  "score": 27,
+  "bestGuess": "HF Deluxe hf-deluxe"
+ },
+ "Hero|Hero XTREME 160R 4V": {
+  "brand": "Hero",
+  "model": "Hero XTREME 160R 4V",
+  "bwName": "Xtreme 160R 4V",
+  "url": "https://www.bikewale.com/hero-bikes/xtreme-160r-4v/",
+  "score": 100
+ },
+ "Hero|Hero Xoom 110": {
+  "brand": "Hero",
+  "model": "Hero Xoom 110",
+  "bwName": "Xoom 110",
+  "url": "https://www.bikewale.com/hero-bikes/xoom/",
+  "score": 100
+ },
+ "Hero|Hero Destini 110": {
+  "brand": "Hero",
+  "model": "Hero Destini 110",
+  "bwName": "Destini 110",
+  "url": "https://www.bikewale.com/hero-bikes/destini-110/",
+  "score": 100
+ },
+ "Hero|Hero Destini Prime": {
+  "brand": "Hero",
+  "model": "Hero Destini Prime",
+  "bwName": "Destini Prime",
+  "url": "https://www.bikewale.com/hero-bikes/destini-prime/",
+  "score": 100
+ },
+ "Hero|Hero XPulse 200 4V": {
+  "brand": "Hero",
+  "model": "Hero XPulse 200 4V",
+  "bwName": "Xpulse 200 4V",
+  "url": "https://www.bikewale.com/hero-bikes/xpulse-200-4v/",
+  "score": 100
+ },
+ "Hero|Hero HF Deluxe Flex Fuel": {
+  "brand": "Hero",
+  "model": "Hero HF Deluxe Flex Fuel",
+  "bwName": "HF Deluxe Flex Fuel",
+  "url": "https://www.bikewale.com/hero-bikes/hf-deluxe-flex-fuel/",
+  "score": 100
+ },
+ "Hero|Vida V2": {
+  "brand": "Hero",
+  "model": "Vida V2",
+  "bwName": null,
+  "url": null,
+  "score": 0,
+  "bestGuess": "Xtreme 125R xtreme-125r"
+ },
+ "Hero|Vida VX2": {
+  "brand": "Hero",
+  "model": "Vida VX2",
+  "bwName": null,
+  "url": null,
+  "score": 0,
+  "bestGuess": "Xtreme 125R xtreme-125r"
+ },
+ "Hero|Vida Dirt.E K3": {
+  "brand": "Hero",
+  "model": "Vida Dirt.E K3",
+  "bwName": null,
+  "url": null,
+  "score": 0,
+  "bestGuess": "Xtreme 125R xtreme-125r"
+ },
+ "Honda|Honda Shine 125": {
+  "brand": "Honda",
+  "model": "Honda Shine 125",
+  "bwName": "Shine",
+  "url": "https://www.bikewale.com/honda-bikes/shine/",
+  "score": 58
+ },
+ "Honda|Honda Shine 100": {
+  "brand": "Honda",
+  "model": "Honda Shine 100",
+  "bwName": "Shine 100",
+  "url": "https://www.bikewale.com/honda-bikes/shine-100/",
+  "score": 100
+ },
+ "Honda|Honda Shine 100 DX": {
+  "brand": "Honda",
+  "model": "Honda Shine 100 DX",
+  "bwName": "Shine 100",
+  "url": "https://www.bikewale.com/honda-bikes/shine-100/",
+  "score": 68
+ },
+ "Honda|Honda SP 125": {
+  "brand": "Honda",
+  "model": "Honda SP 125",
+  "bwName": "SP 125",
+  "url": "https://www.bikewale.com/honda-bikes/sp-125/",
+  "score": 100
+ },
+ "Honda|Honda Livo": {
+  "brand": "Honda",
+  "model": "Honda Livo",
+  "bwName": "Livo",
+  "url": "https://www.bikewale.com/honda-bikes/livo/",
+  "score": 100
+ },
+ "Honda|Honda Unicorn": {
+  "brand": "Honda",
+  "model": "Honda Unicorn",
+  "bwName": "Unicorn",
+  "url": "https://www.bikewale.com/honda-bikes/unicorn/",
+  "score": 100
+ },
+ "Honda|Honda SP160": {
+  "brand": "Honda",
+  "model": "Honda SP160",
+  "bwName": "SP160",
+  "url": "https://www.bikewale.com/honda-bikes/sp160/",
+  "score": 100
+ },
+ "Honda|Honda Hornet 2.0": {
+  "brand": "Honda",
+  "model": "Honda Hornet 2.0",
+  "bwName": "Hornet 2.0",
+  "url": "https://www.bikewale.com/honda-bikes/hornet/",
+  "score": 100
+ },
+ "Honda|Honda CB125 Hornet": {
+  "brand": "Honda",
+  "model": "Honda CB125 Hornet",
+  "bwName": "CB 125 Hornet",
+  "url": "https://www.bikewale.com/honda-bikes/cb-125-hornet/",
+  "score": 100
+ },
+ "Honda|Honda CB350 H'ness": {
+  "brand": "Honda",
+  "model": "Honda CB350 H'ness",
+  "bwName": "CB350",
+  "url": "https://www.bikewale.com/honda-bikes/cb350/",
+  "score": 50
+ },
+ "Honda|Honda CB350": {
+  "brand": "Honda",
+  "model": "Honda CB350",
+  "bwName": "CB350",
+  "url": "https://www.bikewale.com/honda-bikes/cb350/",
+  "score": 100
+ },
+ "Honda|Honda CB350 RS": {
+  "brand": "Honda",
+  "model": "Honda CB350 RS",
+  "bwName": "CB350RS",
+  "url": "https://www.bikewale.com/honda-bikes/cb350rs/",
+  "score": 100
+ },
+ "Honda|Honda CB350C": {
+  "brand": "Honda",
+  "model": "Honda CB350C",
+  "bwName": "CB350C",
+  "url": "https://www.bikewale.com/honda-bikes/cb350c/",
+  "score": 100
+ },
+ "Honda|Honda XR 300 Rally": {
+  "brand": "Honda",
+  "model": "Honda XR 300 Rally",
+  "bwName": "XR300 Rally",
+  "url": "https://www.bikewale.com/honda-bikes/xr300-rally/",
+  "score": 100
+ },
+ "Honda|Honda XR 300L": {
+  "brand": "Honda",
+  "model": "Honda XR 300L",
+  "bwName": "XR300L",
+  "url": "https://www.bikewale.com/honda-bikes/xr300l/",
+  "score": 100
+ },
+ "Honda|Honda Rebel 300": {
+  "brand": "Honda",
+  "model": "Honda Rebel 300",
+  "bwName": "Rebel 300",
+  "url": "https://www.bikewale.com/honda-bikes/rebel-300/",
+  "score": 100
+ },
+ "Honda|Honda NX200": {
+  "brand": "Honda",
+  "model": "Honda NX200",
+  "bwName": "NX200",
+  "url": "https://www.bikewale.com/honda-bikes/nx200/",
+  "score": 100
+ },
+ "Honda|Honda CB500": {
+  "brand": "Honda",
+  "model": "Honda CB500",
+  "bwName": "CB500",
+  "url": "https://www.bikewale.com/honda-bikes/cb500/",
+  "score": 100
+ },
+ "Honda|Honda NX500": {
+  "brand": "Honda",
+  "model": "Honda NX500",
+  "bwName": "NX500",
+  "url": "https://www.bikewale.com/honda-bikes/nx500/",
+  "score": 100
+ },
+ "Honda|Honda Gold Wing": {
+  "brand": "Honda",
+  "model": "Honda Gold Wing",
+  "bwName": "Goldwing",
+  "url": "https://www.bikewale.com/honda-bikes/Goldwing/",
+  "score": 100
+ },
+ "Honda|Honda CBR1000RR-R Fireblade SP": {
+  "brand": "Honda",
+  "model": "Honda CBR1000RR-R Fireblade SP",
+  "bwName": "CBR1000RR-R Fireblade",
+  "url": "https://www.bikewale.com/honda-bikes/cbr1000rr-r-fireblade/",
+  "score": 74
+ },
+ "Honda|Honda CB1000 Hornet SP": {
+  "brand": "Honda",
+  "model": "Honda CB1000 Hornet SP",
+  "bwName": "CB1000 Hornet",
+  "url": "https://www.bikewale.com/honda-bikes/cb1000-hornet/",
+  "score": 71
+ },
+ "Honda|Honda CB750 Hornet": {
+  "brand": "Honda",
+  "model": "Honda CB750 Hornet",
+  "bwName": "CB750 Hornet",
+  "url": "https://www.bikewale.com/honda-bikes/cb750-hornet/",
+  "score": 100
+ },
+ "Honda|Honda XL750 Transalp": {
+  "brand": "Honda",
+  "model": "Honda XL750 Transalp",
+  "bwName": "Transalp XL750",
+  "url": "https://www.bikewale.com/honda-bikes/transalp-xl750/",
+  "score": 80
+ },
+ "Honda|Honda Activa 6G": {
+  "brand": "Honda",
+  "model": "Honda Activa 6G",
+  "bwName": "Activa",
+  "url": "https://www.bikewale.com/honda-bikes/activa-6g/",
+  "score": 65
+ },
+ "Honda|Honda Activa 125": {
+  "brand": "Honda",
+  "model": "Honda Activa 125",
+  "bwName": "Activa 125",
+  "url": "https://www.bikewale.com/honda-bikes/activa-125/",
+  "score": 100
+ },
+ "Honda|Honda Dio": {
+  "brand": "Honda",
+  "model": "Honda Dio",
+  "bwName": "Dio",
+  "url": "https://www.bikewale.com/honda-bikes/dio/",
+  "score": 100
+ },
+ "Honda|Honda Dio 125": {
+  "brand": "Honda",
+  "model": "Honda Dio 125",
+  "bwName": "Dio 125",
+  "url": "https://www.bikewale.com/honda-bikes/dio-125/",
+  "score": 100
+ },
+ "Honda|Honda ADV 160": {
+  "brand": "Honda",
+  "model": "Honda ADV 160",
+  "bwName": "ADV 160",
+  "url": "https://www.bikewale.com/honda-bikes/adv-160/",
+  "score": 100
+ },
+ "Honda|Honda Activa E": {
+  "brand": "Honda",
+  "model": "Honda Activa E",
+  "bwName": "Activa e",
+  "url": "https://www.bikewale.com/honda-bikes/activa-e/",
+  "score": 100
+ },
+ "Honda|Honda QC1": {
+  "brand": "Honda",
+  "model": "Honda QC1",
+  "bwName": "QC1",
+  "url": "https://www.bikewale.com/honda-bikes/qc1/",
+  "score": 100
+ },
+ "Honda|Honda QC3": {
+  "brand": "Honda",
+  "model": "Honda QC3",
+  "bwName": "QC3",
+  "url": "https://www.bikewale.com/honda-bikes/qc3/",
+  "score": 100
+ },
+ "Husqvarna|Husqvarna Svartpilen 401": {
+  "brand": "Husqvarna",
+  "model": "Husqvarna Svartpilen 401",
+  "bwName": "Svartpilen 401",
+  "url": "https://www.bikewale.com/husqvarna-bikes/svartpilen-401/",
+  "score": 100
+ },
+ "Husqvarna|Husqvarna Vitpilen 250": {
+  "brand": "Husqvarna",
+  "model": "Husqvarna Vitpilen 250",
+  "bwName": "Vitpilen 250",
+  "url": "https://www.bikewale.com/husqvarna-bikes/vitpilen-250/",
+  "score": 100
+ },
+ "Indian|Indian New Scout 1250cc": {
+  "brand": "Indian",
+  "model": "Indian New Scout 1250cc",
+  "bwName": null,
+  "url": null,
+  "score": 38,
+  "bestGuess": "Scout scout"
+ },
+ "Indian|Indian Scout 1133cc": {
+  "brand": "Indian",
+  "model": "Indian Scout 1133cc",
+  "bwName": "Scout",
+  "url": "https://www.bikewale.com/indian-bikes/scout/",
+  "score": 44
+ },
+ "Indian|Indian Chief Bobber": {
+  "brand": "Indian",
+  "model": "Indian Chief Bobber",
+  "bwName": "Chief Bobber Dark Horse",
+  "url": "https://www.bikewale.com/indian-bikes/chief-bobber-dark-horse/",
+  "score": 53
+ },
+ "Indian|Indian FTR": {
+  "brand": "Indian",
+  "model": "Indian FTR",
+  "bwName": "FTR 1200",
+  "url": "https://www.bikewale.com/indian-bikes/ftr-1200/",
+  "score": 46
+ },
+ "Indian|Indian Roadmaster Elite": {
+  "brand": "Indian",
+  "model": "Indian Roadmaster Elite",
+  "bwName": "Roadmaster Elite",
+  "url": "https://www.bikewale.com/indian-bikes/roadmaster-elite/",
+  "score": 97
+ },
+ "Indian|Indian Cruiser": {
+  "brand": "Indian",
+  "model": "Indian Cruiser",
+  "bwName": null,
+  "url": null,
+  "score": 0,
+  "bestGuess": "Scout Bobber scout-bobber"
+ },
+ "Indian|Indian Dark Horse": {
+  "brand": "Indian",
+  "model": "Indian Dark Horse",
+  "bwName": "Chief Dark Horse",
+  "url": "https://www.bikewale.com/indian-bikes/chief-dark-horse/",
+  "score": 59
+ },
+ "Indian|Indian Challenger": {
+  "brand": "Indian",
+  "model": "Indian Challenger",
+  "bwName": null,
+  "url": null,
+  "score": 0,
+  "bestGuess": "Scout Bobber scout-bobber"
+ },
+ "Indian|Indian Super Chief": {
+  "brand": "Indian",
+  "model": "Indian Super Chief",
+  "bwName": "Super Chief Limited",
+  "url": "https://www.bikewale.com/indian-bikes/super-chief-limited/",
+  "score": 55
+ },
+ "Indian|Indian Touring": {
+  "brand": "Indian",
+  "model": "Indian Touring",
+  "bwName": null,
+  "url": null,
+  "score": 0,
+  "bestGuess": "Scout Bobber scout-bobber"
+ },
+ "Indian|Indian Bagger": {
+  "brand": "Indian",
+  "model": "Indian Bagger",
+  "bwName": null,
+  "url": null,
+  "score": 0,
+  "bestGuess": "Scout Bobber scout-bobber"
+ },
+ "Indian|Indian Chieftain": {
+  "brand": "Indian",
+  "model": "Indian Chieftain",
+  "bwName": "Chieftain",
+  "url": "https://www.bikewale.com/indian-bikes/chieftain/",
+  "score": 97
+ },
+ "Indian|Indian Scout Sixty Bobber": {
+  "brand": "Indian",
+  "model": "Indian Scout Sixty Bobber",
+  "bwName": "Scout Sixty Bobber",
+  "url": "https://www.bikewale.com/indian-bikes/scout-sixty-bobber/",
+  "score": 100
+ },
+ "Indian|Indian Super Chief Dark Horse": {
+  "brand": "Indian",
+  "model": "Indian Super Chief Dark Horse",
+  "bwName": "Chief Dark Horse",
+  "url": "https://www.bikewale.com/indian-bikes/chief-dark-horse/",
+  "score": 64
+ },
+ "Indian|Indian Scout Sixty Limited": {
+  "brand": "Indian",
+  "model": "Indian Scout Sixty Limited",
+  "bwName": "Scout Sixty",
+  "url": "https://www.bikewale.com/indian-bikes/scout-sixty/",
+  "score": 52
+ },
+ "Indian|Indian Sport Scout Sixty": {
+  "brand": "Indian",
+  "model": "Indian Sport Scout Sixty",
+  "bwName": "Sport Scout Sixty",
+  "url": "https://www.bikewale.com/indian-bikes/sport-scout-sixty/",
+  "score": 100
+ },
+ "JAWA|JAWA 42": {
+  "brand": "JAWA",
+  "model": "JAWA 42",
+  "bwName": null,
+  "url": null,
+  "score": 37,
+  "bestGuess": "42 [2024] 42-2024"
+ },
+ "JAWA|JAWA 42 Bobber": {
+  "brand": "JAWA",
+  "model": "JAWA 42 Bobber",
+  "bwName": "42 Bobber [2022]",
+  "url": "https://www.bikewale.com/jawa-bikes/42-bobber-2022/",
+  "score": 57
+ },
+ "JAWA|Jawa 42 FJ": {
+  "brand": "JAWA",
+  "model": "Jawa 42 FJ",
+  "bwName": "42 FJ [2024]",
+  "url": "https://www.bikewale.com/jawa-bikes/42-fj-2024/",
+  "score": 50
+ },
+ "JAWA|JAWA Perak": {
+  "brand": "JAWA",
+  "model": "JAWA Perak",
+  "bwName": "Perak",
+  "url": "https://www.bikewale.com/jawa-bikes/perak/",
+  "score": 100
+ },
+ "JAWA|JAWA 350": {
+  "brand": "JAWA",
+  "model": "JAWA 350",
+  "bwName": "350",
+  "url": "https://www.bikewale.com/jawa-bikes/350/",
+  "score": 100
+ },
+ "Joy e-Bike|Gen-Next Nanu": {
+  "brand": "Joy e-Bike",
+  "model": "Gen-Next Nanu",
+  "bwName": null,
+  "url": null,
+  "score": 20,
+  "bestGuess": "Gen Nxt gen-nxt"
+ },
+ "Joy e-Bike|Gen-Next Nanu Eco": {
+  "brand": "Joy e-Bike",
+  "model": "Gen-Next Nanu Eco",
+  "bwName": null,
+  "url": null,
+  "score": 16,
+  "bestGuess": "Gen Nxt gen-nxt"
+ },
+ "Joy e-Bike|Gen-Next Nanu Plus": {
+  "brand": "Joy e-Bike",
+  "model": "Gen-Next Nanu Plus",
+  "bwName": null,
+  "url": null,
+  "score": 16,
+  "bestGuess": "Gen Nxt gen-nxt"
+ },
+ "Joy e-Bike|Wolf": {
+  "brand": "Joy e-Bike",
+  "model": "Wolf",
+  "bwName": "Wolf",
+  "url": "https://www.bikewale.com/joyebike-bikes/wolf/",
+  "score": 100
+ },
+ "Joy e-Bike|Glob": {
+  "brand": "Joy e-Bike",
+  "model": "Glob",
+  "bwName": "Glob",
+  "url": "https://www.bikewale.com/joyebike-bikes/glob/",
+  "score": 100
+ },
+ "Joy e-Bike|Mihos": {
+  "brand": "Joy e-Bike",
+  "model": "Mihos",
+  "bwName": "Mihos",
+  "url": "https://www.bikewale.com/joyebike-bikes/mihos/",
+  "score": 100
+ },
+ "Kabira Mobility|KM3000": {
+  "brand": "Kabira Mobility",
+  "model": "KM3000",
+  "bwName": null,
+  "url": null,
+  "score": 0,
+  "bestGuess": null
+ },
+ "Kabira Mobility|KM4000": {
+  "brand": "Kabira Mobility",
+  "model": "KM4000",
+  "bwName": null,
+  "url": null,
+  "score": 0,
+  "bestGuess": null
+ },
+ "Kabira Mobility|Hermes 75": {
+  "brand": "Kabira Mobility",
+  "model": "Hermes 75",
+  "bwName": null,
+  "url": null,
+  "score": 0,
+  "bestGuess": null
+ },
+ "Kawasaki|Kawasaki Ninja": {
+  "brand": "Kawasaki",
+  "model": "Kawasaki Ninja",
+  "bwName": "Ninja 300",
+  "url": "https://www.bikewale.com/kawasaki-bikes/ninja-300/",
+  "score": 58
+ },
+ "Kawasaki|Kawasaki Z": {
+  "brand": "Kawasaki",
+  "model": "Kawasaki Z",
+  "bwName": null,
+  "url": null,
+  "score": 37,
+  "bestGuess": "Z H2 z-h2"
+ },
+ "Kawasaki|Kawasaki Dual Sport": {
+  "brand": "Kawasaki",
+  "model": "Kawasaki Dual Sport",
+  "bwName": null,
+  "url": null,
+  "score": 0,
+  "bestGuess": "Z900 z900"
+ },
+ "Kawasaki|Kawasaki W": {
+  "brand": "Kawasaki",
+  "model": "Kawasaki W",
+  "bwName": null,
+  "url": null,
+  "score": 35,
+  "bestGuess": "W175 w175"
+ },
+ "Kawasaki|Kawasaki Urban Cruiser": {
+  "brand": "Kawasaki",
+  "model": "Kawasaki Urban Cruiser",
+  "bwName": null,
+  "url": null,
+  "score": 0,
+  "bestGuess": "Z900 z900"
+ },
+ "Kawasaki|Kawasaki Z1100": {
+  "brand": "Kawasaki",
+  "model": "Kawasaki Z1100",
+  "bwName": "Z1100",
+  "url": "https://www.bikewale.com/kawasaki-bikes/z1100/",
+  "score": 100
+ },
+ "Kawasaki|Kawasaki KLX": {
+  "brand": "Kawasaki",
+  "model": "Kawasaki KLX",
+  "bwName": "KLX230",
+  "url": "https://www.bikewale.com/kawasaki-bikes/klx230/",
+  "score": 50
+ },
+ "Kawasaki|Kawasaki Ninja 1100SX": {
+  "brand": "Kawasaki",
+  "model": "Kawasaki Ninja 1100SX",
+  "bwName": "Ninja 1100SX",
+  "url": "https://www.bikewale.com/kawasaki-bikes/ninja-1100sx/",
+  "score": 100
+ },
+ "Kawasaki|Kawasaki KX": {
+  "brand": "Kawasaki",
+  "model": "Kawasaki KX",
+  "bwName": "KX 85",
+  "url": "https://www.bikewale.com/kawasaki-bikes/kx-85/",
+  "score": 50
+ },
+ "Kawasaki|Kawasaki Versys X 300": {
+  "brand": "Kawasaki",
+  "model": "Kawasaki Versys X 300",
+  "bwName": "Versys-X 300",
+  "url": "https://www.bikewale.com/kawasaki-bikes/versys-x-300/",
+  "score": 100
+ },
+ "Kawasaki|Kawasaki Versys 650": {
+  "brand": "Kawasaki",
+  "model": "Kawasaki Versys 650",
+  "bwName": "Versys 650 [2026]",
+  "url": "https://www.bikewale.com/kawasaki-bikes/versys-650-2026/",
+  "score": 62
+ },
+ "Kawasaki|Kawasaki Versys 1100": {
+  "brand": "Kawasaki",
+  "model": "Kawasaki Versys 1100",
+  "bwName": "Versys 1100",
+  "url": "https://www.bikewale.com/kawasaki-bikes/versys-1100/",
+  "score": 100
+ },
+ "Keeway|Keeway V302C": {
+  "brand": "Keeway",
+  "model": "Keeway V302C",
+  "bwName": "V302C",
+  "url": "https://www.bikewale.com/keeway-bikes/v302c/",
+  "score": 100
+ },
+ "Keeway|Keeway SR125": {
+  "brand": "Keeway",
+  "model": "Keeway SR125",
+  "bwName": "SR125",
+  "url": "https://www.bikewale.com/keeway-bikes/sr125/",
+  "score": 100
+ },
+ "Keeway|Keeway Hypevolt-R": {
+  "brand": "Keeway",
+  "model": "Keeway Hypevolt-R",
+  "bwName": "Hypevolt-R",
+  "url": "https://www.bikewale.com/keeway-bikes/hypevolt-r/",
+  "score": 100
+ },
+ "Keeway|Keeway RR 300": {
+  "brand": "Keeway",
+  "model": "Keeway RR 300",
+  "bwName": "RR300",
+  "url": "https://www.bikewale.com/keeway-bikes/rr300/",
+  "score": 97
+ },
+ "Keeway|Keeway SR250": {
+  "brand": "Keeway",
+  "model": "Keeway SR250",
+  "bwName": "SR250",
+  "url": "https://www.bikewale.com/keeway-bikes/sr250/",
+  "score": 100
+ },
+ "Keeway|Keeway K-Light 250V": {
+  "brand": "Keeway",
+  "model": "Keeway K-Light 250V",
+  "bwName": "K-Light 250V",
+  "url": "https://www.bikewale.com/keeway-bikes/k-light-250v/",
+  "score": 97
+ },
+ "Keeway|Keeway Sixties 300i": {
+  "brand": "Keeway",
+  "model": "Keeway Sixties 300i",
+  "bwName": "Sixties 300i",
+  "url": "https://www.bikewale.com/keeway-bikes/sixties-300i/",
+  "score": 97
+ },
+ "Keeway|Keeway K300 SF": {
+  "brand": "Keeway",
+  "model": "Keeway K300 SF",
+  "bwName": "K300 SF",
+  "url": "https://www.bikewale.com/keeway-bikes/k300-sf/",
+  "score": 97
+ },
+ "Keeway|Keeway Vieste 300": {
+  "brand": "Keeway",
+  "model": "Keeway Vieste 300",
+  "bwName": "Vieste 300",
+  "url": "https://www.bikewale.com/keeway-bikes/vieste-300/",
+  "score": 97
+ },
+ "Kinetic Green|Kinetic Green E Luna": {
+  "brand": "Kinetic Green",
+  "model": "Kinetic Green E Luna",
+  "bwName": "E Luna",
+  "url": "https://www.bikewale.com/kinetic-green-bikes/e-luna/",
+  "score": 100
+ },
+ "Kinetic Green|Kinetic Green E Luna Prime": {
+  "brand": "Kinetic Green",
+  "model": "Kinetic Green E Luna Prime",
+  "bwName": "E Luna",
+  "url": "https://www.bikewale.com/kinetic-green-bikes/e-luna/",
+  "score": 53
+ },
+ "Kinetic Green|Zing": {
+  "brand": "Kinetic Green",
+  "model": "Zing",
+  "bwName": "Zing",
+  "url": "https://www.bikewale.com/kinetic-green-bikes/zing/",
+  "score": 100
+ },
+ "Kinetic Green|Zoom": {
+  "brand": "Kinetic Green",
+  "model": "Zoom",
+  "bwName": null,
+  "url": null,
+  "score": 0,
+  "bestGuess": "E Luna e-luna"
+ },
+ "Kinetic Green|E-Zulu": {
+  "brand": "Kinetic Green",
+  "model": "E-Zulu",
+  "bwName": "Zulu",
+  "url": "https://www.bikewale.com/kinetic-green-bikes/zulu/",
+  "score": 68
+ },
+ "Kinetic Green|Flex": {
+  "brand": "Kinetic Green",
+  "model": "Flex",
+  "bwName": "Flex",
+  "url": "https://www.bikewale.com/kinetic-green-bikes/flex/",
+  "score": 97
+ },
+ "KTM|KTM 390 Duke": {
+  "brand": "KTM",
+  "model": "KTM 390 Duke",
+  "bwName": "390 Duke",
+  "url": "https://www.bikewale.com/ktm-bikes/390-duke/",
+  "score": 100
+ },
+ "KTM|KTM 250 Duke": {
+  "brand": "KTM",
+  "model": "KTM 250 Duke",
+  "bwName": "250 Duke",
+  "url": "https://www.bikewale.com/ktm-bikes/duke-250/",
+  "score": 100
+ },
+ "KTM|KTM 160 Duke": {
+  "brand": "KTM",
+  "model": "KTM 160 Duke",
+  "bwName": "160 Duke",
+  "url": "https://www.bikewale.com/ktm-bikes/160-duke/",
+  "score": 100
+ },
+ "KTM|KTM 390 Duke R": {
+  "brand": "KTM",
+  "model": "KTM 390 Duke R",
+  "bwName": "390 Duke R",
+  "url": "https://www.bikewale.com/ktm-bikes/390-duke-r/",
+  "score": 100
+ },
+ "KTM|KTM 1390 Super Duke R": {
+  "brand": "KTM",
+  "model": "KTM 1390 Super Duke R",
+  "bwName": "1390 Super Duke R",
+  "url": "https://www.bikewale.com/ktm-bikes/1390-super-duke-r/",
+  "score": 100
+ },
+ "KTM|KTM 200 DUKE": {
+  "brand": "KTM",
+  "model": "KTM 200 DUKE",
+  "bwName": "200 Duke",
+  "url": "https://www.bikewale.com/ktm-bikes/duke-200/",
+  "score": 100
+ },
+ "KTM|KTM 250 ADVENTURE": {
+  "brand": "KTM",
+  "model": "KTM 250 ADVENTURE",
+  "bwName": "250 Adventure",
+  "url": "https://www.bikewale.com/ktm-bikes/250-adventure/",
+  "score": 100
+ },
+ "KTM|KTM RC 390": {
+  "brand": "KTM",
+  "model": "KTM RC 390",
+  "bwName": "RC 390",
+  "url": "https://www.bikewale.com/ktm-bikes/rc-390/",
+  "score": 100
+ },
+ "KTM|KTM RC 390 GP": {
+  "brand": "KTM",
+  "model": "KTM RC 390 GP",
+  "bwName": "RC 390",
+  "url": "https://www.bikewale.com/ktm-bikes/rc-390/",
+  "score": 63
+ },
+ "KTM|KTM 390 Adventure S": {
+  "brand": "KTM",
+  "model": "KTM 390 Adventure S",
+  "bwName": "390 Adventure S",
+  "url": "https://www.bikewale.com/ktm-bikes/390-adventure-s/",
+  "score": 100
+ },
+ "KTM|KTM 390 ADVENTURE": {
+  "brand": "KTM",
+  "model": "KTM 390 ADVENTURE",
+  "bwName": "390 Adventure",
+  "url": "https://www.bikewale.com/ktm-bikes/390-adventure/",
+  "score": 100
+ },
+ "KTM|KTM 390 ADVENTURE X": {
+  "brand": "KTM",
+  "model": "KTM 390 ADVENTURE X",
+  "bwName": "390 Adventure X",
+  "url": "https://www.bikewale.com/ktm-bikes/390-adventure-x/",
+  "score": 100
+ },
+ "KTM|KTM RC 200": {
+  "brand": "KTM",
+  "model": "KTM RC 200",
+  "bwName": "RC 200",
+  "url": "https://www.bikewale.com/ktm-bikes/rc-200/",
+  "score": 100
+ },
+ "KTM|KTM RC 200 GP": {
+  "brand": "KTM",
+  "model": "KTM RC 200 GP",
+  "bwName": "RC 200",
+  "url": "https://www.bikewale.com/ktm-bikes/rc-200/",
+  "score": 63
+ },
+ "KTM|KTM 50 SX": {
+  "brand": "KTM",
+  "model": "KTM 50 SX",
+  "bwName": "50 SX",
+  "url": "https://www.bikewale.com/ktm-bikes/50-sx/",
+  "score": 100
+ },
+ "KTM|KTM 890 Adventure R": {
+  "brand": "KTM",
+  "model": "KTM 890 Adventure R",
+  "bwName": "890 Adventure R",
+  "url": "https://www.bikewale.com/ktm-bikes/890-adventure-r/",
+  "score": 100
+ },
+ "KTM|KTM 1290 Super Adventure S": {
+  "brand": "KTM",
+  "model": "KTM 1290 Super Adventure S",
+  "bwName": "1290 Super Adventure S",
+  "url": "https://www.bikewale.com/ktm-bikes/1290-super-adventure-s/",
+  "score": 100
+ },
+ "KTM|KTM 450 SX-F": {
+  "brand": "KTM",
+  "model": "KTM 450 SX-F",
+  "bwName": "450 SX-F",
+  "url": "https://www.bikewale.com/ktm-bikes/450-sx-f/",
+  "score": 100
+ },
+ "KTM|KTM 890 Duke": {
+  "brand": "KTM",
+  "model": "KTM 890 Duke",
+  "bwName": "890 Duke",
+  "url": "https://www.bikewale.com/ktm-bikes/890-duke/",
+  "score": 100
+ },
+ "KTM|KTM 350 EXC-F": {
+  "brand": "KTM",
+  "model": "KTM 350 EXC-F",
+  "bwName": "350 EXC-F",
+  "url": "https://www.bikewale.com/ktm-bikes/350-exc-f/",
+  "score": 100
+ },
+ "KTM|KTM 85 SX": {
+  "brand": "KTM",
+  "model": "KTM 85 SX",
+  "bwName": "85 SX",
+  "url": "https://www.bikewale.com/ktm-bikes/85-sx/",
+  "score": 100
+ },
+ "KTM|KTM 250 SX-F": {
+  "brand": "KTM",
+  "model": "KTM 250 SX-F",
+  "bwName": "250 SX-F",
+  "url": "https://www.bikewale.com/ktm-bikes/250-sx-f/",
+  "score": 100
+ },
+ "KTM|KTM 390 Adventure R": {
+  "brand": "KTM",
+  "model": "KTM 390 Adventure R",
+  "bwName": "390 Adventure R",
+  "url": "https://www.bikewale.com/ktm-bikes/390-adventure-r/",
+  "score": 100
+ },
+ "KTM|KTM 65 SX": {
+  "brand": "KTM",
+  "model": "KTM 65 SX",
+  "bwName": "65 SX",
+  "url": "https://www.bikewale.com/ktm-bikes/65-sx/",
+  "score": 100
+ },
+ "KTM|KTM 390 Enduro R": {
+  "brand": "KTM",
+  "model": "KTM 390 Enduro R",
+  "bwName": "390 Enduro R",
+  "url": "https://www.bikewale.com/ktm-bikes/390-enduro-r/",
+  "score": 100
+ },
+ "KTM|KTM RC 160": {
+  "brand": "KTM",
+  "model": "KTM RC 160",
+  "bwName": "RC 160",
+  "url": "https://www.bikewale.com/ktm-bikes/rc-160/",
+  "score": 100
+ },
+ "Moto Guzzi|Moto Guzzi V85": {
+  "brand": "Moto Guzzi",
+  "model": "Moto Guzzi V85",
+  "bwName": "V85",
+  "url": "https://www.bikewale.com/motoguzzi-bikes/v85/",
+  "score": 97
+ },
+ "Moto Morini|Moto Morini X-CAPE": {
+  "brand": "Moto Morini",
+  "model": "Moto Morini X-CAPE",
+  "bwName": "X-Cape",
+  "url": "https://www.bikewale.com/motomorini-bikes/x-cape/",
+  "score": 100
+ },
+ "Moto Morini|Moto Morini SEIEMMEZZO STR": {
+  "brand": "Moto Morini",
+  "model": "Moto Morini SEIEMMEZZO STR",
+  "bwName": "Seiemmezzo",
+  "url": "https://www.bikewale.com/motomorini-bikes/seiemmezzo/",
+  "score": 66
+ },
+ "Oben Electric|Oben Rorr Evo": {
+  "brand": "Oben Electric",
+  "model": "Oben Rorr Evo",
+  "bwName": "Rorr EVO",
+  "url": "https://www.bikewale.com/oben-bikes/rorr-evo/",
+  "score": 100
+ },
+ "Oben Electric|Oben Rorr": {
+  "brand": "Oben Electric",
+  "model": "Oben Rorr",
+  "bwName": "Rorr",
+  "url": "https://www.bikewale.com/oben-bikes/rorr/",
+  "score": 97
+ },
+ "Oben Electric|Oben Rorr EZ": {
+  "brand": "Oben Electric",
+  "model": "Oben Rorr EZ",
+  "bwName": "Rorr EZ",
+  "url": "https://www.bikewale.com/oben-bikes/rorr-ez/",
+  "score": 97
+ },
+ "Oben Electric|Oben Rorr EZ Sigma": {
+  "brand": "Oben Electric",
+  "model": "Oben Rorr EZ Sigma",
+  "bwName": "Rorr EZ Sigma",
+  "url": "https://www.bikewale.com/oben-bikes/rorr-ez-sigma/",
+  "score": 100
+ },
+ "Okaya EV|FAAST F4": {
+  "brand": "Okaya EV",
+  "model": "FAAST F4",
+  "bwName": "Faast F4",
+  "url": "https://www.bikewale.com/opg-mobility-bikes/faast/",
+  "score": 100
+ },
+ "Okaya EV|Freedum": {
+  "brand": "Okaya EV",
+  "model": "Freedum",
+  "bwName": "Freedum",
+  "url": "https://www.bikewale.com/opg-mobility-bikes/freedum/",
+  "score": 100
+ },
+ "Okaya EV|FAAST-F2F": {
+  "brand": "Okaya EV",
+  "model": "FAAST-F2F",
+  "bwName": "Faast F2F",
+  "url": "https://www.bikewale.com/opg-mobility-bikes/faast-f2f/",
+  "score": 100
+ },
+ "Okaya EV|FAAST-F2B": {
+  "brand": "Okaya EV",
+  "model": "FAAST-F2B",
+  "bwName": "Faast F2B",
+  "url": "https://www.bikewale.com/opg-mobility-bikes/faast-f2b/",
+  "score": 100
+ },
+ "Ola Electric|Ola S1 X": {
+  "brand": "Ola Electric",
+  "model": "Ola S1 X",
+  "bwName": "S1 X",
+  "url": "https://www.bikewale.com/ola-bikes/s1-x/",
+  "score": 100
+ },
+ "Ola Electric|Ola S1 Z": {
+  "brand": "Ola Electric",
+  "model": "Ola S1 Z",
+  "bwName": "S1 Z",
+  "url": "https://www.bikewale.com/ola-bikes/s1-z/",
+  "score": 100
+ },
+ "Ola Electric|Ola S1 Pro": {
+  "brand": "Ola Electric",
+  "model": "Ola S1 Pro",
+  "bwName": "S1 Pro",
+  "url": "https://www.bikewale.com/ola-bikes/s1-pro/",
+  "score": 100
+ },
+ "Ola Electric|Ola S1 X Plus": {
+  "brand": "Ola Electric",
+  "model": "Ola S1 X Plus",
+  "bwName": "S1 X",
+  "url": "https://www.bikewale.com/ola-bikes/s1-x/",
+  "score": 53
+ },
+ "Ola Electric|Ola S1 Pro Sport": {
+  "brand": "Ola Electric",
+  "model": "Ola S1 Pro Sport",
+  "bwName": "S1 Pro",
+  "url": "https://www.bikewale.com/ola-bikes/s1-pro/",
+  "score": 53
+ },
+ "Ola Electric|Ola S1 Pro Plus": {
+  "brand": "Ola Electric",
+  "model": "Ola S1 Pro Plus",
+  "bwName": "S1 Pro",
+  "url": "https://www.bikewale.com/ola-bikes/s1-pro/",
+  "score": 53
+ },
+ "Ola Electric|Ola Roadster": {
+  "brand": "Ola Electric",
+  "model": "Ola Roadster",
+  "bwName": "Roadster",
+  "url": "https://www.bikewale.com/ola-bikes/roadster/",
+  "score": 100
+ },
+ "Ola Electric|Ola Roadster X": {
+  "brand": "Ola Electric",
+  "model": "Ola Roadster X",
+  "bwName": "Roadster X",
+  "url": "https://www.bikewale.com/ola-bikes/roadster-x/",
+  "score": 100
+ },
+ "Ola Electric|Ola Roadster Pro": {
+  "brand": "Ola Electric",
+  "model": "Ola Roadster Pro",
+  "bwName": "Roadster Pro",
+  "url": "https://www.bikewale.com/ola-bikes/roadster-pro/",
+  "score": 100
+ },
+ "PURE EV|ecoDryft 350": {
+  "brand": "PURE EV",
+  "model": "ecoDryft 350",
+  "bwName": "EcoDryft",
+  "url": "https://www.bikewale.com/pureev-bikes/ecodryft/",
+  "score": 64
+ },
+ "PURE EV|ePluto 7G MAX": {
+  "brand": "PURE EV",
+  "model": "ePluto 7G MAX",
+  "bwName": "EPluto 7G",
+  "url": "https://www.bikewale.com/pureev-bikes/epluto-7g/",
+  "score": 64
+ },
+ "PURE EV|ETRANCE Neo Plus": {
+  "brand": "PURE EV",
+  "model": "ETRANCE Neo Plus",
+  "bwName": "ETrance Neo",
+  "url": "https://www.bikewale.com/pureev-bikes/etrance-neo/",
+  "score": 63
+ },
+ "PURE EV|PURE EV eTryst 350": {
+  "brand": "PURE EV",
+  "model": "PURE EV eTryst 350",
+  "bwName": "Etryst 350",
+  "url": "https://www.bikewale.com/pureev-bikes/etryst-350/",
+  "score": 100
+ },
+ "PURE EV|ePluto 7G": {
+  "brand": "PURE EV",
+  "model": "ePluto 7G",
+  "bwName": "EPluto 7G",
+  "url": "https://www.bikewale.com/pureev-bikes/epluto-7g/",
+  "score": 100
+ },
+ "QJ Motor|QJ Motor SRV 300": {
+  "brand": "QJ Motor",
+  "model": "QJ Motor SRV 300",
+  "bwName": "SRV 300",
+  "url": "https://www.bikewale.com/qjmotor-bikes/srv-300/",
+  "score": 100
+ },
+ "QJ Motor|QJ Motor SRC 250": {
+  "brand": "QJ Motor",
+  "model": "QJ Motor SRC 250",
+  "bwName": "SRC 250",
+  "url": "https://www.bikewale.com/qjmotor-bikes/src-250/",
+  "score": 100
+ },
+ "QJ Motor|QJ Motor SRC 500": {
+  "brand": "QJ Motor",
+  "model": "QJ Motor SRC 500",
+  "bwName": "SRC 500",
+  "url": "https://www.bikewale.com/qjmotor-bikes/src-500/",
+  "score": 100
+ },
+ "QJ Motor|QJ Motor SRK 400": {
+  "brand": "QJ Motor",
+  "model": "QJ Motor SRK 400",
+  "bwName": "SRK 400",
+  "url": "https://www.bikewale.com/qjmotor-bikes/srk-400/",
+  "score": 100
+ },
+ "Revolt Motors|Revolt RV400": {
+  "brand": "Revolt Motors",
+  "model": "Revolt RV400",
+  "bwName": "RV400",
+  "url": "https://www.bikewale.com/revolt-bikes/rv400/",
+  "score": 100
+ },
+ "Revolt Motors|Revolt RVX": {
+  "brand": "Revolt Motors",
+  "model": "Revolt RVX",
+  "bwName": "RVX",
+  "url": "https://www.bikewale.com/revolt-bikes/rvx/",
+  "score": 100
+ },
+ "Revolt Motors|Revolt RV1 STD": {
+  "brand": "Revolt Motors",
+  "model": "Revolt RV1 STD",
+  "bwName": "RV1",
+  "url": "https://www.bikewale.com/revolt-bikes/rv1/",
+  "score": 50
+ },
+ "Revolt Motors|Revolt RV1 Plus": {
+  "brand": "Revolt Motors",
+  "model": "Revolt RV1 Plus",
+  "bwName": "RV1",
+  "url": "https://www.bikewale.com/revolt-bikes/rv1/",
+  "score": 46
+ },
+ "Revolt Motors|Revolt RV400 BRZ": {
+  "brand": "Revolt Motors",
+  "model": "Revolt RV400 BRZ",
+  "bwName": "RV400",
+  "url": "https://www.bikewale.com/revolt-bikes/rv400/",
+  "score": 58
+ },
+ "Revolt Motors|Revolt RV BlazeX": {
+  "brand": "Revolt Motors",
+  "model": "Revolt RV BlazeX",
+  "bwName": "RV BlazeX",
+  "url": "https://www.bikewale.com/revolt-bikes/rv-blazex/",
+  "score": 100
+ },
+ "Royal Enfield|Royal Enfield Hunter 350": {
+  "brand": "Royal Enfield",
+  "model": "Royal Enfield Hunter 350",
+  "bwName": "Hunter 350",
+  "url": "https://www.bikewale.com/royalenfield-bikes/hunter-350/",
+  "score": 100
+ },
+ "Royal Enfield|Royal Enfield Classic 350": {
+  "brand": "Royal Enfield",
+  "model": "Royal Enfield Classic 350",
+  "bwName": "Classic 350",
+  "url": "https://www.bikewale.com/royalenfield-bikes/classic-350/",
+  "score": 100
+ },
+ "Royal Enfield|Royal Enfield Bullet 350": {
+  "brand": "Royal Enfield",
+  "model": "Royal Enfield Bullet 350",
+  "bwName": "Bullet 350",
+  "url": "https://www.bikewale.com/royalenfield-bikes/bullet/",
+  "score": 100
+ },
+ "Royal Enfield|Royal Enfield Continental GT 650": {
+  "brand": "Royal Enfield",
+  "model": "Royal Enfield Continental GT 650",
+  "bwName": "Continental GT 650",
+  "url": "https://www.bikewale.com/royalenfield-bikes/continental-gt-650/",
+  "score": 100
+ },
+ "Royal Enfield|Royal Enfield Himalyan": {
+  "brand": "Royal Enfield",
+  "model": "Royal Enfield Himalyan",
+  "bwName": null,
+  "url": null,
+  "score": 0,
+  "bestGuess": "Hunter 350 hunter-350"
+ },
+ "Royal Enfield|Royal Enfield Himalayan 440": {
+  "brand": "Royal Enfield",
+  "model": "Royal Enfield Himalayan 440",
+  "bwName": "Himalayan 440",
+  "url": "https://www.bikewale.com/royalenfield-bikes/himalayan-440/",
+  "score": 100
+ },
+ "Royal Enfield|Royal Enfield Guerrilla 450": {
+  "brand": "Royal Enfield",
+  "model": "Royal Enfield Guerrilla 450",
+  "bwName": "Guerrilla 450",
+  "url": "https://www.bikewale.com/royalenfield-bikes/guerrilla-450/",
+  "score": 100
+ },
+ "Royal Enfield|Royal Enfield Meteor 350": {
+  "brand": "Royal Enfield",
+  "model": "Royal Enfield Meteor 350",
+  "bwName": "Meteor 350",
+  "url": "https://www.bikewale.com/royalenfield-bikes/meteor-350/",
+  "score": 100
+ },
+ "Royal Enfield|Royal Enfield Interceptor 650": {
+  "brand": "Royal Enfield",
+  "model": "Royal Enfield Interceptor 650",
+  "bwName": "Interceptor 650",
+  "url": "https://www.bikewale.com/royalenfield-bikes/interceptor/",
+  "score": 100
+ },
+ "Royal Enfield|Royal Enfield Super Meteor 650": {
+  "brand": "Royal Enfield",
+  "model": "Royal Enfield Super Meteor 650",
+  "bwName": "Super Meteor 650",
+  "url": "https://www.bikewale.com/royalenfield-bikes/super-meteor-650/",
+  "score": 100
+ },
+ "Royal Enfield|Royal Enfield Shotgun 650": {
+  "brand": "Royal Enfield",
+  "model": "Royal Enfield Shotgun 650",
+  "bwName": "Shotgun 650",
+  "url": "https://www.bikewale.com/royalenfield-bikes/shotgun-650/",
+  "score": 100
+ },
+ "Royal Enfield|Royal Enfield Bullet 650": {
+  "brand": "Royal Enfield",
+  "model": "Royal Enfield Bullet 650",
+  "bwName": "Bullet 650",
+  "url": "https://www.bikewale.com/royalenfield-bikes/bullet-650/",
+  "score": 100
+ },
+ "Royal Enfield|Royal Enfield Classic 650": {
+  "brand": "Royal Enfield",
+  "model": "Royal Enfield Classic 650",
+  "bwName": "Classic 650",
+  "url": "https://www.bikewale.com/royalenfield-bikes/classic-650/",
+  "score": 100
+ },
+ "Royal Enfield|Royal Enfield Scram 440": {
+  "brand": "Royal Enfield",
+  "model": "Royal Enfield Scram 440",
+  "bwName": "Scram 440",
+  "url": "https://www.bikewale.com/royalenfield-bikes/scram-440/",
+  "score": 100
+ },
+ "Royal Enfield|Royal Enfield Goan Classic 350": {
+  "brand": "Royal Enfield",
+  "model": "Royal Enfield Goan Classic 350",
+  "bwName": "Goan Classic 350",
+  "url": "https://www.bikewale.com/royalenfield-bikes/goan-classic-350/",
+  "score": 100
+ },
+ "Royal Enfield|Royal Enfield Bear 650": {
+  "brand": "Royal Enfield",
+  "model": "Royal Enfield Bear 650",
+  "bwName": "Bear 650",
+  "url": "https://www.bikewale.com/royalenfield-bikes/bear-650/",
+  "score": 100
+ },
+ "Royal Enfield|Flying Flea": {
+  "brand": "Royal Enfield",
+  "model": "Flying Flea",
+  "bwName": "Flying Flea C6",
+  "url": "https://www.bikewale.com/royalenfield-bikes/flying-flea/",
+  "score": 70
+ },
+ "Simple Energy|Simple One": {
+  "brand": "Simple Energy",
+  "model": "Simple One",
+  "bwName": "One",
+  "url": "https://www.bikewale.com/simple-bikes/one/",
+  "score": 100
+ },
+ "Simple Energy|Simple Wave": {
+  "brand": "Simple Energy",
+  "model": "Simple Wave",
+  "bwName": "Wave",
+  "url": "https://www.bikewale.com/simple-bikes/wave/",
+  "score": 100
+ },
+ "Simple Energy|Simple Ultra": {
+  "brand": "Simple Energy",
+  "model": "Simple Ultra",
+  "bwName": "Ultra",
+  "url": "https://www.bikewale.com/simple-bikes/ultra/",
+  "score": 100
+ },
+ "Suzuki|Suzuki Access 125": {
+  "brand": "Suzuki",
+  "model": "Suzuki Access 125",
+  "bwName": "Access 125",
+  "url": "https://www.bikewale.com/suzuki-bikes/access-125/",
+  "score": 100
+ },
+ "Suzuki|Suzuki Gixxer SF": {
+  "brand": "Suzuki",
+  "model": "Suzuki Gixxer SF",
+  "bwName": "Gixxer SF",
+  "url": "https://www.bikewale.com/suzuki-bikes/gixxer-sf/",
+  "score": 100
+ },
+ "Suzuki|Suzuki V-Strom SX": {
+  "brand": "Suzuki",
+  "model": "Suzuki V-Strom SX",
+  "bwName": "V-Strom SX",
+  "url": "https://www.bikewale.com/suzuki-bikes/v-strom-sx/",
+  "score": 100
+ },
+ "Suzuki|Suzuki Hayabusa": {
+  "brand": "Suzuki",
+  "model": "Suzuki Hayabusa",
+  "bwName": "Hayabusa",
+  "url": "https://www.bikewale.com/suzuki-bikes/hayabusa/",
+  "score": 100
+ },
+ "Suzuki|Suzuki Avenis 125": {
+  "brand": "Suzuki",
+  "model": "Suzuki Avenis 125",
+  "bwName": "Avenis 125",
+  "url": "https://www.bikewale.com/suzuki-bikes/avenis/",
+  "score": 100
+ },
+ "Suzuki|Suzuki Gixxer SF 250": {
+  "brand": "Suzuki",
+  "model": "Suzuki Gixxer SF 250",
+  "bwName": "Gixxer SF 250",
+  "url": "https://www.bikewale.com/suzuki-bikes/gixxer-sf-250/",
+  "score": 100
+ },
+ "Suzuki|Suzuki e Access": {
+  "brand": "Suzuki",
+  "model": "Suzuki e Access",
+  "bwName": "E Access",
+  "url": "https://www.bikewale.com/suzuki-bikes/e-access/",
+  "score": 100
+ },
+ "Suzuki|Suzuki Gixxer": {
+  "brand": "Suzuki",
+  "model": "Suzuki Gixxer",
+  "bwName": "Gixxer",
+  "url": "https://www.bikewale.com/suzuki-bikes/gixxer/",
+  "score": 100
+ },
+ "Suzuki|Suzuki Gixxer 250": {
+  "brand": "Suzuki",
+  "model": "Suzuki Gixxer 250",
+  "bwName": "Gixxer 250",
+  "url": "https://www.bikewale.com/suzuki-bikes/gixxer-250/",
+  "score": 100
+ },
+ "Suzuki|Suzuki V-STROM 800DE": {
+  "brand": "Suzuki",
+  "model": "Suzuki V-STROM 800DE",
+  "bwName": "V-Strom 800 DE",
+  "url": "https://www.bikewale.com/suzuki-bikes/v-strom-800-de/",
+  "score": 100
+ },
+ "Suzuki|Suzuki GSX-8R": {
+  "brand": "Suzuki",
+  "model": "Suzuki GSX-8R",
+  "bwName": "GSX-8R",
+  "url": "https://www.bikewale.com/suzuki-bikes/gsx-8r/",
+  "score": 100
+ },
+ "Suzuki|Suzuki Gixxer SF 250 Flex Fuel": {
+  "brand": "Suzuki",
+  "model": "Suzuki Gixxer SF 250 Flex Fuel",
+  "bwName": "Gixxer SF 250 Flex Fuel",
+  "url": "https://www.bikewale.com/suzuki-bikes/gixxer-sf-250-flex-fuel/",
+  "score": 100
+ },
+ "Triumph|Triumph NEW SPEED T4": {
+  "brand": "Triumph",
+  "model": "Triumph NEW SPEED T4",
+  "bwName": "Speed T4",
+  "url": "https://www.bikewale.com/triumph-bikes/speed-t4/",
+  "score": 62
+ },
+ "Triumph|Triumph SCRAMBLER 400 X": {
+  "brand": "Triumph",
+  "model": "Triumph SCRAMBLER 400 X",
+  "bwName": "Scrambler 400 X",
+  "url": "https://www.bikewale.com/triumph-bikes/scrambler-400-x/",
+  "score": 100
+ },
+ "Triumph|Triumph STREET TRIPLE 765": {
+  "brand": "Triumph",
+  "model": "Triumph STREET TRIPLE 765",
+  "bwName": "Street Triple 765",
+  "url": "https://www.bikewale.com/triumph-bikes/street-triple/",
+  "score": 97
+ },
+ "Triumph|Triumph Tracker 400": {
+  "brand": "Triumph",
+  "model": "Triumph Tracker 400",
+  "bwName": "Tracker 400",
+  "url": "https://www.bikewale.com/triumph-bikes/tracker-400/",
+  "score": 100
+ },
+ "Triumph|Triumph ALL-NEW DAYTONA 660": {
+  "brand": "Triumph",
+  "model": "Triumph ALL-NEW DAYTONA 660",
+  "bwName": "Daytona 660",
+  "url": "https://www.bikewale.com/triumph-bikes/daytona-660/",
+  "score": 58
+ },
+ "Triumph|Triumph BONNEVILLE T120": {
+  "brand": "Triumph",
+  "model": "Triumph BONNEVILLE T120",
+  "bwName": "Bonneville T120",
+  "url": "https://www.bikewale.com/triumph-bikes/bonneville-t120/",
+  "score": 100
+ },
+ "Triumph|Triumph Thruxton 400": {
+  "brand": "Triumph",
+  "model": "Triumph Thruxton 400",
+  "bwName": "Thruxton 400",
+  "url": "https://www.bikewale.com/triumph-bikes/thruxton-400/",
+  "score": 100
+ },
+ "Triumph|Triumph BONNEVILLE BOBBER": {
+  "brand": "Triumph",
+  "model": "Triumph BONNEVILLE BOBBER",
+  "bwName": "Bonneville Bobber",
+  "url": "https://www.bikewale.com/triumph-bikes/bonneville-bobber/",
+  "score": 100
+ },
+ "Triumph|Triumph NEW TIGER 900 RANGE": {
+  "brand": "Triumph",
+  "model": "Triumph NEW TIGER 900 RANGE",
+  "bwName": "New Tiger 900",
+  "url": "https://www.bikewale.com/triumph-bikes/new-tiger-900/",
+  "score": 61
+ },
+ "Triumph|Triumph Scrambler 400 XC": {
+  "brand": "Triumph",
+  "model": "Triumph Scrambler 400 XC",
+  "bwName": "Scrambler 400 XC",
+  "url": "https://www.bikewale.com/triumph-bikes/scrambler-400-xc/",
+  "score": 100
+ },
+ "Triumph|Triumph TRIDENT 660": {
+  "brand": "Triumph",
+  "model": "Triumph TRIDENT 660",
+  "bwName": "Trident 660",
+  "url": "https://www.bikewale.com/triumph-bikes/trident-660/",
+  "score": 100
+ },
+ "Triumph|Triumph SPEED TRIPLE 1200 RS": {
+  "brand": "Triumph",
+  "model": "Triumph SPEED TRIPLE 1200 RS",
+  "bwName": "Speed Triple 1200 RS",
+  "url": "https://www.bikewale.com/triumph-bikes/speed-triple-1200-rs/",
+  "score": 100
+ },
+ "Triumph|Triumph SPEED TWIN 900": {
+  "brand": "Triumph",
+  "model": "Triumph SPEED TWIN 900",
+  "bwName": "Speed Twin 900",
+  "url": "https://www.bikewale.com/triumph-bikes/speed-twin-900/",
+  "score": 100
+ },
+ "Triumph|Triumph SCRAMBLER 900": {
+  "brand": "Triumph",
+  "model": "Triumph SCRAMBLER 900",
+  "bwName": "Scrambler 900",
+  "url": "https://www.bikewale.com/triumph-bikes/scrambler-900/",
+  "score": 100
+ },
+ "Triumph|Triumph BONNEVILLE SPEEDMASTER": {
+  "brand": "Triumph",
+  "model": "Triumph BONNEVILLE SPEEDMASTER",
+  "bwName": "Bonneville Speedmaster",
+  "url": "https://www.bikewale.com/triumph-bikes/bonneville-speedmaster/",
+  "score": 100
+ },
+ "Triumph|Triumph SCRAMBLER 1200": {
+  "brand": "Triumph",
+  "model": "Triumph SCRAMBLER 1200",
+  "bwName": "Scrambler 1200",
+  "url": "https://www.bikewale.com/triumph-bikes/scrambler-1200/",
+  "score": 100
+ },
+ "Triumph|Triumph TIGER SPORT 660": {
+  "brand": "Triumph",
+  "model": "Triumph TIGER SPORT 660",
+  "bwName": "Tiger Sport 660",
+  "url": "https://www.bikewale.com/triumph-bikes/tiger-sport-660/",
+  "score": 100
+ },
+ "Triumph|Triumph NEW SPEED TWIN 1200": {
+  "brand": "Triumph",
+  "model": "Triumph NEW SPEED TWIN 1200",
+  "bwName": "Speed Twin 1200",
+  "url": "https://www.bikewale.com/triumph-bikes/speed-twin-1200/",
+  "score": 69
+ },
+ "Triumph|Triumph New Tiger 1200": {
+  "brand": "Triumph",
+  "model": "Triumph New Tiger 1200",
+  "bwName": "New Tiger 1200",
+  "url": "https://www.bikewale.com/triumph-bikes/new-tiger-1200/",
+  "score": 100
+ },
+ "Triumph|Triumph BONNEVILLE T100": {
+  "brand": "Triumph",
+  "model": "Triumph BONNEVILLE T100",
+  "bwName": "Bonneville T100",
+  "url": "https://www.bikewale.com/triumph-bikes/bonneville-t100/",
+  "score": 100
+ },
+ "TVS|TVS Raider 125": {
+  "brand": "TVS",
+  "model": "TVS Raider 125",
+  "bwName": "Raider 125",
+  "url": "https://www.bikewale.com/tvs-bikes/raider-125/",
+  "score": 100
+ },
+ "TVS|TVS Apache RTR 160": {
+  "brand": "TVS",
+  "model": "TVS Apache RTR 160",
+  "bwName": "Apache RTR 160",
+  "url": "https://www.bikewale.com/tvs-bikes/apache-160/",
+  "score": 100
+ },
+ "TVS|TVS Ronin": {
+  "brand": "TVS",
+  "model": "TVS Ronin",
+  "bwName": "Ronin",
+  "url": "https://www.bikewale.com/tvs-bikes/ronin/",
+  "score": 100
+ },
+ "TVS|TVS Apache RTR 160 4V": {
+  "brand": "TVS",
+  "model": "TVS Apache RTR 160 4V",
+  "bwName": "Apache RTR 160 4V",
+  "url": "https://www.bikewale.com/tvs-bikes/apache-rtr-160-4v/",
+  "score": 100
+ },
+ "TVS|TVS Apache RTX 300": {
+  "brand": "TVS",
+  "model": "TVS Apache RTX 300",
+  "bwName": "Apache RTX",
+  "url": "https://www.bikewale.com/tvs-bikes/apache-rtx/",
+  "score": 65
+ },
+ "TVS|TVS Apache RTR 200 4V": {
+  "brand": "TVS",
+  "model": "TVS Apache RTR 200 4V",
+  "bwName": "Apache RTR 200 4V",
+  "url": "https://www.bikewale.com/tvs-bikes/apache-200/",
+  "score": 100
+ },
+ "TVS|TVS Apache RR 310": {
+  "brand": "TVS",
+  "model": "TVS Apache RR 310",
+  "bwName": "Apache RR 310",
+  "url": "https://www.bikewale.com/tvs-bikes/apache-rr-310/",
+  "score": 100
+ },
+ "TVS|TVS Radeon": {
+  "brand": "TVS",
+  "model": "TVS Radeon",
+  "bwName": "Radeon",
+  "url": "https://www.bikewale.com/tvs-bikes/radeon/",
+  "score": 100
+ },
+ "TVS|TVS Apache RTR 310": {
+  "brand": "TVS",
+  "model": "TVS Apache RTR 310",
+  "bwName": "Apache RTR 310",
+  "url": "https://www.bikewale.com/tvs-bikes/apache-rtr-310/",
+  "score": 100
+ },
+ "TVS|TVS Apache RTR 180": {
+  "brand": "TVS",
+  "model": "TVS Apache RTR 180",
+  "bwName": "Apache RTR 180",
+  "url": "https://www.bikewale.com/tvs-bikes/apache-180/",
+  "score": 100
+ },
+ "TVS|TVS Star City Plus": {
+  "brand": "TVS",
+  "model": "TVS Star City Plus",
+  "bwName": "Star City Plus",
+  "url": "https://www.bikewale.com/tvs-bikes/star-city/",
+  "score": 100
+ },
+ "TVS|TVS Sport": {
+  "brand": "TVS",
+  "model": "TVS Sport",
+  "bwName": "Sport",
+  "url": "https://www.bikewale.com/tvs-bikes/sport/",
+  "score": 100
+ },
+ "TVS|TVS Ntorq 125": {
+  "brand": "TVS",
+  "model": "TVS Ntorq 125",
+  "bwName": "Ntorq 125",
+  "url": "https://www.bikewale.com/tvs-bikes/ntorq-125/",
+  "score": 100
+ },
+ "TVS|TVS Jupiter": {
+  "brand": "TVS",
+  "model": "TVS Jupiter",
+  "bwName": "Jupiter",
+  "url": "https://www.bikewale.com/tvs-bikes/jupiter/",
+  "score": 100
+ },
+ "TVS|TVS Jupiter 125": {
+  "brand": "TVS",
+  "model": "TVS Jupiter 125",
+  "bwName": "Jupiter 125",
+  "url": "https://www.bikewale.com/tvs-bikes/jupiter-125/",
+  "score": 100
+ },
+ "TVS|TVS Ntorq 150": {
+  "brand": "TVS",
+  "model": "TVS Ntorq 150",
+  "bwName": "Ntorq 150",
+  "url": "https://www.bikewale.com/tvs-bikes/ntorq-150/",
+  "score": 100
+ },
+ "TVS|TVS Zest 110": {
+  "brand": "TVS",
+  "model": "TVS Zest 110",
+  "bwName": "Zest 110",
+  "url": "https://www.bikewale.com/tvs-bikes/zest-110/",
+  "score": 100
+ },
+ "TVS|TVS XL 100": {
+  "brand": "TVS",
+  "model": "TVS XL 100",
+  "bwName": "XL 100",
+  "url": "https://www.bikewale.com/tvs-bikes/xl-comfort/",
+  "score": 97
+ },
+ "TVS|TVS iQube": {
+  "brand": "TVS",
+  "model": "TVS iQube",
+  "bwName": "iQube",
+  "url": "https://www.bikewale.com/tvs-bikes/iqube/",
+  "score": 100
+ },
+ "TVS|TVS iQube S": {
+  "brand": "TVS",
+  "model": "TVS iQube S",
+  "bwName": "iQube",
+  "url": "https://www.bikewale.com/tvs-bikes/iqube/",
+  "score": 70
+ },
+ "TVS|TVS iQube ST": {
+  "brand": "TVS",
+  "model": "TVS iQube ST",
+  "bwName": "iQube",
+  "url": "https://www.bikewale.com/tvs-bikes/iqube/",
+  "score": 63
+ },
+ "TVS|TVS Orbiter": {
+  "brand": "TVS",
+  "model": "TVS Orbiter",
+  "bwName": "Orbiter",
+  "url": "https://www.bikewale.com/tvs-bikes/orbiter/",
+  "score": 100
+ },
+ "TVS|TVS X": {
+  "brand": "TVS",
+  "model": "TVS X",
+  "bwName": "X",
+  "url": "https://www.bikewale.com/tvs-bikes/x/",
+  "score": 100
+ },
+ "Ultraviolette Automotive|F77": {
+  "brand": "Ultraviolette Automotive",
+  "model": "F77",
+  "bwName": "F77 Mach 2",
+  "url": "https://www.bikewale.com/ultraviolette-bikes/f77-mach-2/",
+  "score": 43
+ },
+ "Ultraviolette Automotive|Ultraviolette X47 Crossover": {
+  "brand": "Ultraviolette Automotive",
+  "model": "Ultraviolette X47 Crossover",
+  "bwName": "X47 Crossover",
+  "url": "https://www.bikewale.com/ultraviolette-bikes/x47-crossover/",
+  "score": 97
+ },
+ "Ultraviolette Automotive|Ultraviolette F77 SuperStreet": {
+  "brand": "Ultraviolette Automotive",
+  "model": "Ultraviolette F77 SuperStreet",
+  "bwName": "F77 SuperStreet",
+  "url": "https://www.bikewale.com/ultraviolette-bikes/f77-superstreet/",
+  "score": 100
+ },
+ "Yamaha|Yamaha R15V4": {
+  "brand": "Yamaha",
+  "model": "Yamaha R15V4",
+  "bwName": "R15 V4",
+  "url": "https://www.bikewale.com/yamaha-bikes/r15/",
+  "score": 100
+ },
+ "Yamaha|Yamaha R15M": {
+  "brand": "Yamaha",
+  "model": "Yamaha R15M",
+  "bwName": null,
+  "url": null,
+  "score": 0,
+  "bestGuess": "MT 15 V2 mt-15"
+ },
+ "Yamaha|Yamaha MT-15 Ver 2.0": {
+  "brand": "Yamaha",
+  "model": "Yamaha MT-15 Ver 2.0",
+  "bwName": null,
+  "url": null,
+  "score": 33,
+  "bestGuess": "R2 r2"
+ },
+ "Yamaha|Yamaha XSR 155": {
+  "brand": "Yamaha",
+  "model": "Yamaha XSR 155",
+  "bwName": "XSR 155",
+  "url": "https://www.bikewale.com/yamaha-bikes/xsr-155/",
+  "score": 100
+ },
+ "Yamaha|Yamaha RayZR 125 Fi": {
+  "brand": "Yamaha",
+  "model": "Yamaha RayZR 125 Fi",
+  "bwName": "Ray ZR 125",
+  "url": "https://www.bikewale.com/yamaha-bikes/ray-zr-125/",
+  "score": 68
+ },
+ "Yamaha|Yamaha RayZR 125 Fi Street Rally": {
+  "brand": "Yamaha",
+  "model": "Yamaha RayZR 125 Fi Street Rally",
+  "bwName": "Ray ZR 125",
+  "url": "https://www.bikewale.com/yamaha-bikes/ray-zr-125/",
+  "score": 43
+ },
+ "Yamaha|Yamaha FZ-S Fi": {
+  "brand": "Yamaha",
+  "model": "Yamaha FZ-S Fi",
+  "bwName": "FZ S FI",
+  "url": "https://www.bikewale.com/yamaha-bikes/fz-s/",
+  "score": 97
+ },
+ "Yamaha|Yamaha YZF-R2": {
+  "brand": "Yamaha",
+  "model": "Yamaha YZF-R2",
+  "bwName": "R2",
+  "url": "https://www.bikewale.com/yamaha-bikes/r2/",
+  "score": 44
+ },
+ "Yamaha|Yamaha Fascino 125 Fi": {
+  "brand": "Yamaha",
+  "model": "Yamaha Fascino 125 Fi",
+  "bwName": "Fascino 125",
+  "url": "https://www.bikewale.com/yamaha-bikes/fascino-125/",
+  "score": 70
+ },
+ "Yamaha|Yamaha FZ-X": {
+  "brand": "Yamaha",
+  "model": "Yamaha FZ-X",
+  "bwName": "FZ X",
+  "url": "https://www.bikewale.com/yamaha-bikes/fz-x/",
+  "score": 100
+ },
+ "Yamaha|Yamaha Aerox 155": {
+  "brand": "Yamaha",
+  "model": "Yamaha Aerox 155",
+  "bwName": "Aerox 155",
+  "url": "https://www.bikewale.com/yamaha-bikes/aerox-155/",
+  "score": 100
+ },
+ "Yamaha|Yamaha Aerox 155 Version S": {
+  "brand": "Yamaha",
+  "model": "Yamaha Aerox 155 Version S",
+  "bwName": "Aerox 155",
+  "url": "https://www.bikewale.com/yamaha-bikes/aerox-155/",
+  "score": 50
+ },
+ "Yamaha|Yamaha R15S": {
+  "brand": "Yamaha",
+  "model": "Yamaha R15S",
+  "bwName": "R15S",
+  "url": "https://www.bikewale.com/yamaha-bikes/r15-s/",
+  "score": 100
+ },
+ "Yamaha|Yamaha FZ-S Fi Ver 4.0": {
+  "brand": "Yamaha",
+  "model": "Yamaha FZ-S Fi Ver 4.0",
+  "bwName": "FZ S FI",
+  "url": "https://www.bikewale.com/yamaha-bikes/fz-s/",
+  "score": 47
+ },
+ "Yamaha|Yamaha FZ-S Fi Ver 4.0 DLX": {
+  "brand": "Yamaha",
+  "model": "Yamaha FZ-S Fi Ver 4.0 DLX",
+  "bwName": "FZ S FI",
+  "url": "https://www.bikewale.com/yamaha-bikes/fz-s/",
+  "score": 40
+ },
+ "Yamaha|Yamaha FZ-FI": {
+  "brand": "Yamaha",
+  "model": "Yamaha FZ-FI",
+  "bwName": "FZ FI",
+  "url": "https://www.bikewale.com/yamaha-bikes/fz-v3/",
+  "score": 100
+ },
+ "Yamaha|Yamaha FZ Blue Flex": {
+  "brand": "Yamaha",
+  "model": "Yamaha FZ Blue Flex",
+  "bwName": "FZ Blue Flex",
+  "url": "https://www.bikewale.com/yamaha-bikes/fz-flex/",
+  "score": 100
+ },
+ "Yamaha|Yamaha FZ X Hybrid": {
+  "brand": "Yamaha",
+  "model": "Yamaha FZ X Hybrid",
+  "bwName": "FZ X Hybrid",
+  "url": "https://www.bikewale.com/yamaha-bikes/fz-x-hybrid/",
+  "score": 100
+ },
+ "Yamaha|Yamaha FZ-RAVE": {
+  "brand": "Yamaha",
+  "model": "Yamaha FZ-RAVE",
+  "bwName": "FZ Rave",
+  "url": "https://www.bikewale.com/yamaha-bikes/fz-rave/",
+  "score": 100
+ },
+ "Yamaha|Yamaha Aerox-E": {
+  "brand": "Yamaha",
+  "model": "Yamaha Aerox-E",
+  "bwName": "Aerox E",
+  "url": "https://www.bikewale.com/yamaha-bikes/aerox-e/",
+  "score": 100
+ },
+ "Yamaha|Yamaha EC-06": {
+  "brand": "Yamaha",
+  "model": "Yamaha EC-06",
+  "bwName": "EC 06",
+  "url": "https://www.bikewale.com/yamaha-bikes/ec-06/",
+  "score": 100
+ },
+ "Yezdi|Yezdi Scrambler": {
+  "brand": "Yezdi",
+  "model": "Yezdi Scrambler",
+  "bwName": "Scrambler",
+  "url": "https://www.bikewale.com/yezdi-bikes/scrambler/",
+  "score": 100
+ },
+ "Zontes|Zontes GK 350": {
+  "brand": "Zontes",
+  "model": "Zontes GK 350",
+  "bwName": "GK350",
+  "url": "https://www.bikewale.com/zontes-bikes/gk350/",
+  "score": 100
+ },
+ "Zontes|Zontes 350 X": {
+  "brand": "Zontes",
+  "model": "Zontes 350 X",
+  "bwName": "350X",
+  "url": "https://www.bikewale.com/zontes-bikes/350x/",
+  "score": 100
+ },
+ "Zontes|Zontes 350 T": {
+  "brand": "Zontes",
+  "model": "Zontes 350 T",
+  "bwName": "350T",
+  "url": "https://www.bikewale.com/zontes-bikes/350t/",
+  "score": 100
+ },
+ "Zontes|Zontes 350 R": {
+  "brand": "Zontes",
+  "model": "Zontes 350 R",
+  "bwName": "350R",
+  "url": "https://www.bikewale.com/zontes-bikes/350r/",
+  "score": 100
+ }
+}

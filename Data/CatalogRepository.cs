@@ -42,6 +42,16 @@ public sealed class VariantRow
     public string? SEO_Description { get; set; }
 }
 
+public sealed class ColourRow
+{
+    public int TWVarientId { get; set; }
+    public string? Color { get; set; }
+    public string? ColorHexCode { get; set; }
+    public string? TopColorCode { get; set; }
+    public string? BottomColorCode { get; set; }
+    public string? ImageURL { get; set; }
+}
+
 public sealed class BikeFigureRow
 {
     public int TwoWheelerId { get; set; }
@@ -53,6 +63,7 @@ public interface ICatalogRepository
     Task<IReadOnlyList<BrandRow>> GetBrandsAsync();
     Task<IReadOnlyList<BikeRow>> GetBikesAsync();
     Task<IReadOnlyList<VariantRow>> GetVariantsAsync();
+    Task<IReadOnlyList<ColourRow>> GetColoursAsync();
     Task<IReadOnlyList<BikeFigureRow>> GetDisplacementsAsync();
     Task<IReadOnlyList<BikeFigureRow>> GetMileagesAsync();
     /// <summary>One result set per table in <paramref name="tables"/>, first row only, as column/value pairs.</summary>
@@ -95,6 +106,13 @@ public sealed class SqlCatalogRepository(IDbConnectionFactory db) : ICatalogRepo
         await using var conn = await db.OpenAsync();
         return (await conn.QueryAsync<VariantRow>(
             "SELECT TWVarientId, Varients, TwoWheelerId, CreatedDateTime, SEO_Title, SEO_Description FROM TWVarients ORDER BY TWVarientId")).AsList();
+    }
+
+    public async Task<IReadOnlyList<ColourRow>> GetColoursAsync()
+    {
+        await using var conn = await db.OpenAsync();
+        return (await conn.QueryAsync<ColourRow>(
+            "SELECT TWVarientId, Color, ColorHexCode, TopColorCode, BottomColorCode, ImageURL FROM TWImageColorPrices WHERE TWVarientId IS NOT NULL ORDER BY TWImageColorPriceId")).AsList();
     }
 
     public async Task<IReadOnlyList<BikeFigureRow>> GetDisplacementsAsync()

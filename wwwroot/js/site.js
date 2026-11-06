@@ -22,6 +22,36 @@
     }
   }, true);
 
+  // Bike detail: a colour swatch swaps the main photo.
+  var picker = document.querySelector('[data-colour-picker]');
+  var stage = document.querySelector('[data-colour-stage] img');
+  if (picker && stage) {
+    var colourName = picker.querySelector('[data-colour-name]');
+    var colourNote = picker.querySelector('[data-colour-note]');
+    var swatches = Array.prototype.slice.call(picker.querySelectorAll('[data-colour]'));
+    stage.addEventListener('load', function () { stage.classList.remove('is-loading'); });
+    stage.addEventListener('error', function () { stage.classList.remove('is-loading'); });
+    var choose = function (swatch) {
+      swatches.forEach(function (s) { s.setAttribute('aria-pressed', s === swatch ? 'true' : 'false'); });
+      colourName.textContent = swatch.dataset.colour;
+      colourNote.hidden = swatch.dataset.photo === '1';
+      stage.alt = picker.dataset.alt + (swatch.dataset.photo === '1' ? ' in ' + swatch.dataset.colour : '');
+      if (stage.getAttribute('src') === swatch.dataset.src) return;
+      delete stage.dataset.failed;
+      stage.classList.add('is-loading');
+      stage.src = swatch.dataset.src;
+    };
+    picker.addEventListener('click', function (event) {
+      var swatch = event.target.closest('[data-colour]');
+      if (swatch) choose(swatch);
+    });
+    // Warm the cache on hover so the switch is instant.
+    picker.addEventListener('pointerover', function (event) {
+      var swatch = event.target.closest('[data-colour]');
+      if (swatch && !swatch.dataset.warmed) { swatch.dataset.warmed = '1'; new Image().src = swatch.dataset.src; }
+    });
+  }
+
   // Brand select narrows the model select beside it.
   function wirePicker(scope) {
     var brand = scope.querySelector('[data-brand-select]');

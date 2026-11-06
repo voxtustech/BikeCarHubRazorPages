@@ -51,7 +51,16 @@ public sealed class Variant
     public DateTime? Created { get; init; }
     public string? SeoTitle { get; init; }
     public string? SeoDescription { get; init; }
+    /// <summary>Colours from TWImageColorPrices, in table order.</summary>
+    public List<BikeColour> Colours { get; } = new();
     public string Url => $"{Bike.Url}/{Slug}";
+}
+
+/// <summary>One paint option. <see cref="ImagePath"/> is null when the row only has the placeholder photo.</summary>
+public sealed record BikeColour(string Name, string? Hex, string? TopHex, string? BottomHex, string? ImagePath)
+{
+    /// <summary>Two-tone paint: the swatch is split top/bottom.</summary>
+    public bool IsDualTone => TopHex is not null && BottomHex is not null && !TopHex.Equals(BottomHex, StringComparison.OrdinalIgnoreCase);
 }
 
 public sealed record SpecItem(string Label, string Value);

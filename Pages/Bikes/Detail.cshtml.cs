@@ -16,6 +16,12 @@ public class DetailModel(ICatalogService catalogService, ISpecService specServic
     public IReadOnlyList<Bike> Similar { get; private set; } = [];
     /// <summary>Set for electric models that have a running cost calculator.</summary>
     public string? RunningCostUrl { get; private set; }
+    /// <summary>The variant's colours, or on the model page every colour across its variants.</summary>
+    public IReadOnlyList<BikeColour> Colours { get; private set; } = [];
+    /// <summary>The colour shown first: the first one with its own photo.</summary>
+    public BikeColour? FirstColour { get; private set; }
+    /// <summary>Main photo: the first colour's photo, else the model photo.</summary>
+    public string? HeroImagePath { get; private set; }
 
     public async Task<IActionResult> OnGetAsync(string brand, string model, string? variant)
     {
@@ -54,7 +60,16 @@ public class DetailModel(ICatalogService catalogService, ISpecService specServic
             .Take(4)
             .ToList();
 
-        var image = images.Resolve(bike.ImagePath);
+        Colours = IsVariantPage
+            ? Selected!.Colours
+            : bike.Variants.SelectMany(v => v.Colours)
+                .GroupBy(c => c.Name, StringComparer.OrdinalIgnoreCase)
+                .Select(g => g.FirstOrDefault(c => c.ImagePath is not null) ?? g.First())
+                .ToList();
+        FirstColour = Colours.FirstOrDefault(c => c.ImagePath is not null);
+        HeroImagePath = FirstColour?.ImagePath ?? bike.ImagePath;
+
+        var image = images.Resolve(HeroImagePath);
         var price = bike.MinPrice is null ? "" : $" Ex-showroom price {Formatting.PriceRange(bike.MinPrice, bike.MaxPrice)}.";
         if (IsVariantPage)
         {

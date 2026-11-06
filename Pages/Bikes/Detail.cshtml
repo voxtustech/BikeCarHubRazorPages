@@ -1,15 +1,53 @@
 @page "/new-bikes/{brand}/{model}/{variant?}"
 @model DetailModel
+@inject IImageUrlProvider Images
 @{
     var bike = Model.Bike;
     var heading = Model.IsVariantPage ? Model.Selected!.Name : bike.Name;
     var alt = Model.IsVariantPage ? $"{bike.Brand.Name} {bike.ShortName} {Model.Selected!.ShortName}" : bike.Name;
+    var first = Model.FirstColour;
+    var modelImage = Images.Resolve(bike.ImagePath);
 }
 
 <article class="container section">
     <div class="detail-head">
-        <div class="detail-media">
-            @Html.Img(bike.ImagePath, alt, 640, 427, eager: true)
+        <div>
+            <div class="detail-media" data-colour-stage>
+                @Html.Img(Model.HeroImagePath, first is null ? alt : $"{alt} in {first.Name}", 640, 427, eager: true)
+            </div>
+            @if (Model.Colours.Count > 0)
+            {
+                <div class="colours" data-colour-picker data-alt="@alt">
+                    <p class="colour-current" aria-live="polite">
+                        <span class="colour-label">Colour:</span> <strong data-colour-name>@(first?.Name ?? Model.Colours[0].Name)</strong>
+                        <span class="colour-note" data-colour-note hidden="@(first is not null)">Photo in this colour not available yet</span>
+                    </p>
+                    <ul class="colour-swatches" aria-label="Choose a colour">
+                        @foreach (var colour in Model.Colours)
+                        {
+                            var pressed = first is null ? colour == Model.Colours[0] : colour == first;
+                            <li>
+                                <button type="button" class="colour-swatch" title="@colour.Name" aria-label="@colour.Name" aria-pressed="@(pressed ? "true" : "false")"
+                                        data-colour="@colour.Name" data-src="@(colour.ImagePath is null ? modelImage : Images.Resolve(colour.ImagePath))" data-photo="@(colour.ImagePath is null ? "0" : "1")">
+                                    <svg viewBox="0 0 24 24" width="32" height="32" aria-hidden="true" focusable="false">
+                                        @if (colour.IsDualTone)
+                                        {
+                                            <path d="M1 12a11 11 0 0 1 22 0z" fill="@colour.TopHex" />
+                                            <path d="M1 12a11 11 0 0 0 22 0z" fill="@colour.BottomHex" />
+                                        }
+                                        else
+                                        {
+                                            <circle cx="12" cy="12" r="11" fill="@(colour.Hex ?? colour.TopHex ?? "#C9CED6")" />
+                                        }
+                                        <circle class="swatch-ring" cx="12" cy="12" r="11" />
+                                    </svg>
+                                </button>
+                            </li>
+                        }
+                    </ul>
+                    <p class="colour-list">Available in @Model.Colours.Count @(Model.Colours.Count == 1 ? "colour" : "colours"): @string.Join(", ", Model.Colours.Select(c => c.Name)).</p>
+                </div>
+            }
         </div>
         <div>
             <h1>@heading</h1>

@@ -183,6 +183,21 @@ input[type="checkbox"] { width: 20px; min-height: 20px; height: 20px; margin: 0;
 .detail-head { display: grid; gap: 20px; margin-bottom: 24px; }
 .detail-media { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
 .detail-media img { width: 100%; aspect-ratio: 3 / 2; object-fit: contain; }
+.detail-media img { transition: opacity .2s ease; }
+.detail-media img.is-loading { opacity: .35; }
+.colours { margin-top: 12px; }
+.colour-current { margin: 0 0 6px; }
+.colour-label { color: var(--ink-soft); }
+.colour-note { display: block; font-size: .85rem; color: var(--ink-soft); }
+.colour-note[hidden] { display: none; }
+.colour-swatches { display: none; list-style: none; flex-wrap: wrap; gap: 6px; margin: 0 0 8px; padding: 0; }
+.js .colour-swatches { display: flex; }
+.colour-swatch { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 2px solid transparent; border-radius: 50%; background: transparent; cursor: pointer; }
+.colour-swatch:hover { border-color: #8a93a3; }
+.colour-swatch[aria-pressed="true"] { border-color: var(--ink); }
+.swatch-ring { fill: none; stroke: rgba(20, 24, 31, .25); stroke-width: 1; }
+.colour-list { margin: 0; font-size: .9rem; color: var(--ink-soft); }
+.js .colour-list { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .key-facts { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin: 16px 0; }
 .key-facts div { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
 .key-facts dt { font-size: .8rem; color: var(--ink-soft); }
@@ -196,7 +211,12 @@ input[type="checkbox"] { width: 20px; min-height: 20px; height: 20px; margin: 0;
 table { width: 100%; border-collapse: collapse; }
 caption { text-align: left; font-weight: 700; padding: 12px 14px; background: #eceff3; }
 th, td { text-align: left; vertical-align: top; padding: 10px 14px; border-top: 1px solid var(--line); }
-.spec th { width: 45%; font-weight: 500; color: var(--ink-soft); }
+/* Bike spec tables: same accent and cream striping as the Word article template. */
+.table-wrap:has(> .spec) { border-color: #e2d6c6; }
+.spec caption { background: #c4501b; color: #fff; }
+.spec th, .spec td { border-top-color: #e2d6c6; }
+.spec tbody tr:nth-child(odd) { background: #f6efe6; }
+.spec th { width: 45%; font-weight: 700; color: var(--ink); }
 .spec-grid { display: grid; gap: 16px; }
 @media (min-width: 860px) { .spec-grid { grid-template-columns: 1fr 1fr; align-items: start; } }
 

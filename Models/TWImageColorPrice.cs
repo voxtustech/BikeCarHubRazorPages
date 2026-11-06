@@ -26,6 +26,8 @@ namespace BikeCarHub.Models
         public string? TopColorCode { get; set; }
         [MaxLength(50)]
         public string? BottomColorCode { get; set; }
+        [MaxLength(50)]
+        public string? ColorHexCode { get; set; }
         public string? ImageAltTag { get; set; }
     }
 }

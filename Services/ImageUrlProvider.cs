@@ -27,6 +27,7 @@ public sealed class ImageUrlProvider : IImageUrlProvider
     [
         ("/images/twowheeler/brand logo/", "brands"),
         ("/images/twowheeler/twowheelerimages/", "bikes"),
+        ("/images/two-wheeler/", "two-wheeler"),
         ("/images/blogs/", "blogs"),
         ("/images/latestnews/", "news"),
         ("/images/valueformoney/", "value-for-money"),
@@ -36,6 +37,8 @@ public sealed class ImageUrlProvider : IImageUrlProvider
         ("/images/upcoming/", "upcoming"),
         ("/images/compare/", "compare"),
         ("/images/bchlogo/", "site"),
+        // Listed after bchlogo so ToVirtualPath keeps giving logo files their existing URLs.
+        ("/images/site/", "site"),
         ("/images/default.webp", Path.Combine("site", "default.webp")),
         ("/images/twowheeler/default.webp", Path.Combine("site", "default.webp"))
     ];
